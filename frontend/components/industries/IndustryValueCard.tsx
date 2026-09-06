@@ -5,6 +5,7 @@ import { MagicCard } from "@/components/magic/magic-card";
 import { CardSpotlight } from "@/components/magic/card-spotlight";
 import { ShineBorder } from "@/components/magic/shine-border";
 import { BorderBeam } from "@/components/magic/border-beam";
+import { Reveal } from "@/components/magic/reveal";
 
 const iconMap = {
   users: Users,
@@ -56,9 +57,16 @@ export function IndustryValueCard({
                 {number}
               </span>
             </div>
-            <h3 className="text-3xl font-medium leading-[1.15] text-heading-inverse lg:text-[2.15rem]">
+            <Reveal
+              as="h3"
+              direction="left"
+              delay={0.12}
+              duration={0.7}
+              distance={28}
+              className="text-3xl font-medium leading-[1.15] text-heading-inverse lg:text-[2.15rem]"
+            >
               {title}
-            </h3>
+            </Reveal>
           </div>
 
           <div>
@@ -66,9 +74,16 @@ export function IndustryValueCard({
               className="mb-5 block h-px w-12 bg-gradient-to-r from-gold to-transparent"
               aria-hidden="true"
             />
-            <p className="max-w-md text-sm leading-relaxed text-paragraph-inverse md:text-[0.95rem]">
+            <Reveal
+              as="p"
+              direction="left"
+              delay={0.22}
+              duration={0.7}
+              distance={24}
+              className="max-w-md text-sm leading-relaxed text-paragraph-inverse md:text-[0.95rem]"
+            >
               {description}
-            </p>
+            </Reveal>
           </div>
         </div>
       </CardSpotlight>
@@ -88,12 +103,26 @@ export function IndustryValueCard({
               <span className="font-display text-sm text-gold">{number}</span>
               <span className="h-px w-8 bg-gold/50" aria-hidden="true" />
             </div>
-            <h3 className="mb-2 text-xl font-medium leading-snug text-heading">
+            <Reveal
+              as="h3"
+              direction="left"
+              delay={0.12}
+              duration={0.7}
+              distance={24}
+              className="mb-2 text-xl font-medium leading-snug text-heading"
+            >
               {title}
-            </h3>
-            <p className="max-w-xl text-sm leading-relaxed text-paragraph">
+            </Reveal>
+            <Reveal
+              as="p"
+              direction="left"
+              delay={0.22}
+              duration={0.7}
+              distance={20}
+              className="max-w-xl text-sm leading-relaxed text-paragraph"
+            >
               {description}
-            </p>
+            </Reveal>
           </div>
         </div>
       </MagicCard>
@@ -110,14 +139,30 @@ export function IndustryValueCard({
           {number}
         </span>
       </div>
-      <h3 className="mb-2 text-lg font-medium leading-snug text-heading">
+      <Reveal
+        as="h3"
+        direction="left"
+        delay={0.12}
+        duration={0.7}
+        distance={24}
+        className="mb-2 text-lg font-medium leading-snug text-heading"
+      >
         {title}
-      </h3>
+      </Reveal>
       <span
         className="mb-3 block h-px w-8 bg-gradient-to-r from-gold to-transparent"
         aria-hidden="true"
       />
-      <p className="text-sm leading-relaxed text-paragraph">{description}</p>
+      <Reveal
+        as="p"
+        direction="left"
+        delay={0.22}
+        duration={0.7}
+        distance={20}
+        className="text-sm leading-relaxed text-paragraph"
+      >
+        {description}
+      </Reveal>
     </MagicCard>
   );
 }

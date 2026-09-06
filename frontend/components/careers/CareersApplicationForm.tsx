@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { ArrowRight, Upload, FileText, X } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/cn";
+import { Reveal } from "@/components/magic/reveal";
 import type { CareersNetworkContent } from "@/lib/careers-content";
 
 interface FormDataState {
@@ -40,9 +41,15 @@ const initialForm: FormDataState = {
 export function CareersApplicationForm({
   network,
   className,
+  idPrefix = "",
+  animated = true,
+  compact = false,
 }: {
   network: CareersNetworkContent;
   className?: string;
+  idPrefix?: string;
+  animated?: boolean;
+  compact?: boolean;
 }) {
   const [formState, setFormState] = useState<FormDataState>(initialForm);
   const [resume, setResume] = useState<File | null>(null);
@@ -52,6 +59,9 @@ export function CareersApplicationForm({
   const [successMessage, setSuccessMessage] = useState("");
   const successTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const id = (name: string) => `${idPrefix}${name}`;
+  const fieldClass = compact ? `${inputClass} py-2` : inputClass;
+  const selectFieldClass = compact ? `${selectClass} py-2` : selectClass;
 
   useEffect(() => {
     return () => {
@@ -120,70 +130,70 @@ export function CareersApplicationForm({
   };
 
   return (
-    <form onSubmit={handleSubmit} className={cn("flex flex-col gap-5", className)}>
-      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-        <Field label="Full Name" htmlFor="name" required>
+    <form onSubmit={handleSubmit} className={cn("flex flex-col", compact ? "gap-3" : "gap-5", className)}>
+      <div className={cn("grid grid-cols-1 sm:grid-cols-2", compact ? "gap-3" : "gap-5")}>
+        <Field label="Full Name" htmlFor={id("name")} required>
           <input
-            id="name"
+            id={id("name")}
             name="name"
             type="text"
             required
             value={formState.name}
             onChange={handleChange}
-            className={inputClass}
+            className={fieldClass}
             placeholder="Enter your full name"
           />
         </Field>
-        <Field label="Email Address" htmlFor="email" required>
+        <Field label="Email Address" htmlFor={id("email")} required>
           <input
-            id="email"
+            id={id("email")}
             name="email"
             type="email"
             required
             value={formState.email}
             onChange={handleChange}
-            className={inputClass}
+            className={fieldClass}
             placeholder="Enter your email address"
           />
         </Field>
       </div>
 
-      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-        <Field label="Phone Number" htmlFor="phone" required>
+      <div className={cn("grid grid-cols-1 sm:grid-cols-2", compact ? "gap-3" : "gap-5")}>
+        <Field label="Phone Number" htmlFor={id("phone")} required>
           <input
-            id="phone"
+            id={id("phone")}
             name="phone"
             type="tel"
             required
             value={formState.phone}
             onChange={handleChange}
-            className={inputClass}
+            className={fieldClass}
             placeholder="Enter your contact number"
           />
         </Field>
-        <Field label="Current Location" htmlFor="location" required>
+        <Field label="Current Location" htmlFor={id("location")} required>
           <input
-            id="location"
+            id={id("location")}
             name="location"
             type="text"
             required
             value={formState.location}
             onChange={handleChange}
-            className={inputClass}
+            className={fieldClass}
             placeholder="City / Location"
           />
         </Field>
       </div>
 
-      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-        <Field label="Area of Interest" htmlFor="interest" required>
+      <div className={cn("grid grid-cols-1 sm:grid-cols-2", compact ? "gap-3" : "gap-5")}>
+        <Field label="Area of Interest" htmlFor={id("interest")} required>
           <select
-            id="interest"
+            id={id("interest")}
             name="interest"
             required
             value={formState.interest}
             onChange={handleChange}
-            className={selectClass}
+            className={selectFieldClass}
           >
             <option value="">Select your preferred area</option>
             {network.interestOptions.map((option) => (
@@ -193,14 +203,14 @@ export function CareersApplicationForm({
             ))}
           </select>
         </Field>
-        <Field label="Years of Experience" htmlFor="experience" required>
+        <Field label="Years of Experience" htmlFor={id("experience")} required>
           <select
-            id="experience"
+            id={id("experience")}
             name="experience"
             required
             value={formState.experience}
             onChange={handleChange}
-            className={selectClass}
+            className={selectFieldClass}
           >
             <option value="">Select experience</option>
             {network.experienceOptions.map((option) => (
@@ -212,51 +222,51 @@ export function CareersApplicationForm({
         </Field>
       </div>
 
-      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-        <Field label="Current / Most Recent Organization" htmlFor="organization">
+      <div className={cn("grid grid-cols-1 sm:grid-cols-2", compact ? "gap-3" : "gap-5")}>
+        <Field label="Current / Most Recent Organization" htmlFor={id("organization")}>
           <input
-            id="organization"
+            id={id("organization")}
             name="organization"
             type="text"
             value={formState.organization}
             onChange={handleChange}
-            className={inputClass}
+            className={fieldClass}
             placeholder="Enter your current or most recent organization"
           />
         </Field>
-        <Field label="Current / Most Recent Designation" htmlFor="designation">
+        <Field label="Current / Most Recent Designation" htmlFor={id("designation")}>
           <input
-            id="designation"
+            id={id("designation")}
             name="designation"
             type="text"
             value={formState.designation}
             onChange={handleChange}
-            className={inputClass}
+            className={fieldClass}
             placeholder="Enter your designation"
           />
         </Field>
       </div>
 
-      <Field label="LinkedIn Profile" htmlFor="linkedin">
+      <Field label="LinkedIn Profile" htmlFor={id("linkedin")}>
         <input
-          id="linkedin"
+          id={id("linkedin")}
           name="linkedin"
           type="url"
           inputMode="url"
           value={formState.linkedin}
           onChange={handleChange}
-          className={inputClass}
+          className={fieldClass}
           placeholder="Paste your LinkedIn profile URL"
         />
       </Field>
 
       <div>
-        <label htmlFor="resume" className="mb-1.5 block text-sm font-medium text-heading">
+        <label htmlFor={id("resume")} className="mb-1 block text-sm font-medium text-heading">
           Upload Your Resume <span className="text-gold">*</span>
         </label>
         <input
           ref={fileInputRef}
-          id="resume"
+          id={id("resume")}
           name="resume"
           type="file"
           accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
@@ -264,10 +274,10 @@ export function CareersApplicationForm({
           onChange={(e) => handleFile(e.target.files?.[0])}
         />
         {resume ? (
-          <div className="flex items-center justify-between gap-3 rounded-xl border border-border bg-white px-4 py-3">
+          <div className="flex items-center justify-between gap-3 rounded-xl border border-border bg-white px-3 py-2">
             <div className="flex min-w-0 items-center gap-3">
-              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-gold/12 text-gold">
-                <FileText size={18} />
+              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-gold/12 text-gold">
+                <FileText size={16} />
               </span>
               <div className="min-w-0">
                 <p className="truncate text-sm font-medium text-heading">{resume.name}</p>
@@ -301,26 +311,29 @@ export function CareersApplicationForm({
               handleFile(e.dataTransfer.files?.[0]);
             }}
             className={cn(
-              "flex w-full flex-col items-center justify-center gap-2 rounded-xl border border-dashed bg-white px-4 py-8 text-center transition-colors hover:border-gold/50 hover:bg-gold/[0.04]",
-              dragging ? "border-gold bg-gold/[0.06]" : "border-border"
+              "flex w-full items-center justify-center gap-3 rounded-xl border border-dashed bg-white px-4 text-left transition-colors hover:border-gold/50 hover:bg-gold/4",
+              compact ? "py-2" : "py-3",
+              dragging ? "border-gold bg-gold/6" : "border-border"
             )}
           >
-            <span className="flex h-10 w-10 items-center justify-center rounded-full bg-gold/12 text-gold">
-              <Upload size={18} />
+            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gold/12 text-gold">
+              <Upload size={16} />
             </span>
-            <span className="text-sm font-medium text-heading">Upload your latest resume</span>
-            <span className="text-xs text-paragraph-muted">PDF or Word · up to 5 MB</span>
+            <span className="min-w-0">
+              <span className="block text-sm font-medium text-heading">Upload your latest resume</span>
+              <span className="block text-xs text-paragraph-muted">PDF or Word · up to 5 MB</span>
+            </span>
           </button>
         )}
       </div>
 
-      <Field label="Tell Us About Yourself" htmlFor="about">
+      <Field label="Tell Us About Yourself" htmlFor={id("about")}>
         <textarea
-          id="about"
+          id={id("about")}
           name="about"
           value={formState.about}
           onChange={handleChange}
-          className={`${inputClass} min-h-[120px] resize-none`}
+          className={cn(fieldClass, "resize-none", compact ? "min-h-18" : "min-h-30")}
           placeholder="Briefly tell us about your experience, skills, and how you believe you could contribute to Inveris."
         />
       </Field>
@@ -339,10 +352,19 @@ export function CareersApplicationForm({
         </div>
       )}
 
-      <Button type="submit" variant="primary" disabled={status === "loading"} className="shrink-0">
-        {status === "loading" ? "Submitting..." : network.submitLabel}
-        <ArrowRight size={18} />
-      </Button>
+      {animated ? (
+        <Reveal direction="up" delay={0.12} className="w-fit">
+          <Button type="submit" variant="primary" disabled={status === "loading"} className="shrink-0">
+            {status === "loading" ? "Submitting..." : network.submitLabel}
+            <ArrowRight size={18} />
+          </Button>
+        </Reveal>
+      ) : (
+        <Button type="submit" variant="primary" disabled={status === "loading"} className="shrink-0">
+          {status === "loading" ? "Submitting..." : network.submitLabel}
+          <ArrowRight size={18} />
+        </Button>
+      )}
     </form>
   );
 }
@@ -360,7 +382,7 @@ function Field({
 }) {
   return (
     <div>
-      <label htmlFor={htmlFor} className="mb-1.5 block text-sm font-medium text-heading">
+      <label htmlFor={htmlFor} className="mb-1 block text-sm font-medium text-heading">
         {label}
         {required ? <span className="text-gold"> *</span> : null}
       </label>

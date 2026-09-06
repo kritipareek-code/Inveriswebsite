@@ -3,6 +3,7 @@ import { CmsImage } from "@/components/ui/CmsImage";
 import { MissionVisionCard } from "@/components/about/MissionVisionCard";
 import { GridPattern } from "@/components/magic/grid-pattern";
 import { Spotlight } from "@/components/magic/spotlight";
+import { Reveal } from "@/components/magic/reveal";
 import type { AboutMissionVisionContent } from "@/lib/about-content";
 
 export function MissionVisionSection({
@@ -29,31 +30,39 @@ export function MissionVisionSection({
 
       <Container className="relative z-10">
         <div className="mb-12 max-w-2xl space-y-4 lg:mb-16">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-gold">
-            Mission & Vision
-          </p>
-          <h2 className="text-3xl font-medium leading-tight text-heading-inverse md:text-5xl">
-            What we stand for, and where we&apos;re going.
-          </h2>
+          <Reveal direction="down">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-gold">
+              Mission & Vision
+            </p>
+          </Reveal>
+          <Reveal direction="left" delay={0.08}>
+            <h2 className="text-3xl font-medium leading-tight text-heading-inverse md:text-5xl">
+              What we stand for, and where we&apos;re going.
+            </h2>
+          </Reveal>
         </div>
 
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:gap-8">
-          <MissionVisionCard
-            tag={content.mission.tag}
-            title={content.mission.title}
-            icon={content.mission.icon}
-            items={content.mission.items}
-            footer={content.mission.footer}
-            index={1}
-          />
-          <MissionVisionCard
-            tag={content.vision.tag}
-            title={content.vision.title}
-            icon={content.vision.icon}
-            items={content.vision.items}
-            footer={content.vision.footer}
-            index={2}
-          />
+          <Reveal direction="left" delay={0.12} className="h-full">
+            <MissionVisionCard
+              tag={content.mission.tag}
+              title={content.mission.title}
+              icon={content.mission.icon}
+              items={content.mission.items}
+              footer={content.mission.footer}
+              index={1}
+            />
+          </Reveal>
+          <Reveal direction="right" delay={0.2} className="h-full">
+            <MissionVisionCard
+              tag={content.vision.tag}
+              title={content.vision.title}
+              icon={content.vision.icon}
+              items={content.vision.items}
+              footer={content.vision.footer}
+              index={2}
+            />
+          </Reveal>
         </div>
       </Container>
     </section>

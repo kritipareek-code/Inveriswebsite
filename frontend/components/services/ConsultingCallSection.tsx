@@ -8,6 +8,7 @@ import { Container } from "@/components/ui/Container";
 import { CmsImage } from "@/components/ui/CmsImage";
 import { SectionTag } from "@/components/ui/SectionTag";
 import { getApiBaseUrl } from "@/lib/home-content";
+import { Reveal } from "@/components/magic/reveal";
 import type { ServicesConsultingCallContent } from "@/lib/services-content";
 
 const inputClass =
@@ -106,143 +107,153 @@ export function ConsultingCallSection({
   }
 
   return (
-    <section id="book-a-call" className="scroll-mt-28 bg-surface-muted py-20 lg:py-28">
+    <section id="book-a-call" className="scroll-mt-28 overflow-hidden bg-surface-muted py-20 lg:py-28">
       <Container>
         <div className="mx-auto mb-10 max-w-3xl space-y-4 text-center lg:mb-14">
-          <SectionTag withLine className="justify-center">
-            {content.tag}
-          </SectionTag>
-          <h2 className="text-3xl font-bold leading-tight text-heading md:text-5xl">
-            {content.title}
-          </h2>
-          <p className="text-paragraph leading-relaxed">{content.description}</p>
+          <Reveal direction="down">
+            <SectionTag withLine className="justify-center">
+              {content.tag}
+            </SectionTag>
+          </Reveal>
+          <Reveal direction="left" delay={0.08}>
+            <h2 className="text-3xl font-bold leading-tight text-heading md:text-5xl">
+              {content.title}
+            </h2>
+          </Reveal>
+          <Reveal direction="left" delay={0.18}>
+            <p className="text-paragraph leading-relaxed">{content.description}</p>
+          </Reveal>
         </div>
 
         <div className="grid grid-cols-1 items-stretch gap-8 lg:grid-cols-2 lg:gap-12">
-          <Card className="border-0 p-6 lg:p-8">
-            <form onSubmit={(event) => void handleSubmit(event)} className="flex flex-col gap-5">
-              <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+          <Reveal direction="left" delay={0.12} className="h-full">
+            <Card className="border-0 p-6 lg:p-8">
+              <form onSubmit={(event) => void handleSubmit(event)} className="flex flex-col gap-5">
+                <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+                  <div>
+                    <label htmlFor="consult-name" className="mb-1.5 block text-sm font-medium text-heading">
+                      Full Name *
+                    </label>
+                    <input
+                      id="consult-name"
+                      name="name"
+                      type="text"
+                      required
+                      minLength={2}
+                      value={form.name}
+                      onChange={handleChange}
+                      className={inputClass}
+                      placeholder="Your full name"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="consult-email" className="mb-1.5 block text-sm font-medium text-heading">
+                      Work Email *
+                    </label>
+                    <input
+                      id="consult-email"
+                      name="email"
+                      type="email"
+                      required
+                      value={form.email}
+                      onChange={handleChange}
+                      className={inputClass}
+                      placeholder="you@company.com"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+                  <div>
+                    <label htmlFor="consult-phone" className="mb-1.5 block text-sm font-medium text-heading">
+                      Phone Number *
+                    </label>
+                    <input
+                      id="consult-phone"
+                      name="phone"
+                      type="tel"
+                      required
+                      value={form.phone}
+                      onChange={handleChange}
+                      className={inputClass}
+                      placeholder="+91 00000 00000"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="consult-company" className="mb-1.5 block text-sm font-medium text-heading">
+                      Company
+                    </label>
+                    <input
+                      id="consult-company"
+                      name="company"
+                      type="text"
+                      value={form.company}
+                      onChange={handleChange}
+                      className={inputClass}
+                      placeholder="Your company"
+                    />
+                  </div>
+                </div>
+
                 <div>
-                  <label htmlFor="consult-name" className="mb-1.5 block text-sm font-medium text-heading">
-                    Full Name *
+                  <label htmlFor="consult-time" className="mb-1.5 block text-sm font-medium text-heading">
+                    Preferred date / time
                   </label>
                   <input
-                    id="consult-name"
-                    name="name"
+                    id="consult-time"
+                    name="preferredTime"
                     type="text"
-                    required
-                    minLength={2}
-                    value={form.name}
+                    value={form.preferredTime}
                     onChange={handleChange}
                     className={inputClass}
-                    placeholder="Your full name"
+                    placeholder="e.g. Tue 10:00 AM IST"
                   />
                 </div>
+
                 <div>
-                  <label htmlFor="consult-email" className="mb-1.5 block text-sm font-medium text-heading">
-                    Work Email *
+                  <label htmlFor="consult-message" className="mb-1.5 block text-sm font-medium text-heading">
+                    How can we help? *
                   </label>
-                  <input
-                    id="consult-email"
-                    name="email"
-                    type="email"
+                  <textarea
+                    id="consult-message"
+                    name="message"
                     required
-                    value={form.email}
+                    minLength={10}
+                    rows={5}
+                    value={form.message}
                     onChange={handleChange}
-                    className={inputClass}
-                    placeholder="you@company.com"
+                    className={`${inputClass} resize-y`}
+                    placeholder="Tell us about your goals or the challenge you'd like to discuss..."
                   />
                 </div>
-              </div>
 
-              <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-                <div>
-                  <label htmlFor="consult-phone" className="mb-1.5 block text-sm font-medium text-heading">
-                    Phone Number *
-                  </label>
-                  <input
-                    id="consult-phone"
-                    name="phone"
-                    type="tel"
-                    required
-                    value={form.phone}
-                    onChange={handleChange}
-                    className={inputClass}
-                    placeholder="+91 00000 00000"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="consult-company" className="mb-1.5 block text-sm font-medium text-heading">
-                    Company
-                  </label>
-                  <input
-                    id="consult-company"
-                    name="company"
-                    type="text"
-                    value={form.company}
-                    onChange={handleChange}
-                    className={inputClass}
-                    placeholder="Your company"
-                  />
-                </div>
-              </div>
+                {status === "success" && successMessage ? (
+                  <div className="rounded-xl border border-green-200 bg-green-50 p-4 text-sm text-green-800">
+                    {successMessage}
+                  </div>
+                ) : null}
 
-              <div>
-                <label htmlFor="consult-time" className="mb-1.5 block text-sm font-medium text-heading">
-                  Preferred date / time
-                </label>
-                <input
-                  id="consult-time"
-                  name="preferredTime"
-                  type="text"
-                  value={form.preferredTime}
-                  onChange={handleChange}
-                  className={inputClass}
-                  placeholder="e.g. Tue 10:00 AM IST"
-                />
-              </div>
+                {status === "error" && errors.length > 0 ? (
+                  <div className="space-y-1 rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-800">
+                    {errors.map((err) => (
+                      <p key={err}>{err}</p>
+                    ))}
+                  </div>
+                ) : null}
 
-              <div>
-                <label htmlFor="consult-message" className="mb-1.5 block text-sm font-medium text-heading">
-                  How can we help? *
-                </label>
-                <textarea
-                  id="consult-message"
-                  name="message"
-                  required
-                  minLength={10}
-                  rows={5}
-                  value={form.message}
-                  onChange={handleChange}
-                  className={`${inputClass} resize-y`}
-                  placeholder="Tell us about your goals or the challenge you'd like to discuss..."
-                />
-              </div>
-
-              {status === "success" && successMessage ? (
-                <div className="rounded-xl border border-green-200 bg-green-50 p-4 text-sm text-green-800">
-                  {successMessage}
-                </div>
-              ) : null}
-
-              {status === "error" && errors.length > 0 ? (
-                <div className="space-y-1 rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-800">
-                  {errors.map((err) => (
-                    <p key={err}>{err}</p>
-                  ))}
-                </div>
-              ) : null}
-
-              <Button type="submit" variant="gold" disabled={status === "loading"} className="self-start">
-                {status === "loading" ? "Sending..." : content.submitLabel || "Request a call"}
-                <ArrowRight size={18} />
-              </Button>
-            </form>
-          </Card>
+                <Reveal direction="up" delay={0.2} className="w-fit">
+                  <Button type="submit" variant="gold" disabled={status === "loading"} className="self-start">
+                    {status === "loading" ? "Sending..." : content.submitLabel || "Request a call"}
+                    <ArrowRight size={18} />
+                  </Button>
+                </Reveal>
+              </form>
+            </Card>
+          </Reveal>
 
           <div className="grid min-h-95 grid-cols-2 grid-rows-2 gap-4 lg:min-h-full">
             {images[0] ? (
-              <div className="relative col-span-2 overflow-hidden rounded-2xl">
+              <Reveal direction="right" delay={0.1} className="relative col-span-2 overflow-hidden rounded-2xl">
                 <CmsImage
                   src={images[0].src}
                   alt={images[0].alt}
@@ -250,10 +261,10 @@ export function ConsultingCallSection({
                   className="object-cover"
                   sizes="(min-width: 1024px) 40vw, 100vw"
                 />
-              </div>
+              </Reveal>
             ) : null}
             {images[1] ? (
-              <div className="relative overflow-hidden rounded-2xl">
+              <Reveal direction="up" delay={0.18} className="relative overflow-hidden rounded-2xl">
                 <CmsImage
                   src={images[1].src}
                   alt={images[1].alt}
@@ -261,10 +272,10 @@ export function ConsultingCallSection({
                   className="object-cover"
                   sizes="(min-width: 1024px) 20vw, 50vw"
                 />
-              </div>
+              </Reveal>
             ) : null}
             {images[2] ? (
-              <div className="relative overflow-hidden rounded-2xl">
+              <Reveal direction="down" delay={0.26} className="relative overflow-hidden rounded-2xl">
                 <CmsImage
                   src={images[2].src}
                   alt={images[2].alt}
@@ -272,9 +283,9 @@ export function ConsultingCallSection({
                   className="object-cover"
                   sizes="(min-width: 1024px) 20vw, 50vw"
                 />
-              </div>
+              </Reveal>
             ) : images[1] ? (
-              <div className="relative overflow-hidden rounded-2xl bg-navy">
+              <Reveal direction="down" delay={0.26} className="relative overflow-hidden rounded-2xl bg-navy">
                 {images[0] ? (
                   <CmsImage
                     src={images[0].src}
@@ -284,7 +295,7 @@ export function ConsultingCallSection({
                     sizes="(min-width: 1024px) 20vw, 50vw"
                   />
                 ) : null}
-              </div>
+              </Reveal>
             ) : null}
           </div>
         </div>

@@ -7,11 +7,12 @@ import { cn } from "@/lib/cn";
 const ease = [0.22, 1, 0.36, 1] as const;
 
 export type RevealDirection = "left" | "right" | "up" | "down";
-type RevealTag = "div" | "p" | "h3" | "li" | "span";
+type RevealTag = "div" | "p" | "h2" | "h3" | "li" | "span";
 
 const components = {
   div: motion.div,
   p: motion.p,
+  h2: motion.h2,
   h3: motion.h3,
   li: motion.li,
   span: motion.span,

@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/cn";
+import { Reveal } from "@/components/magic/reveal";
 import type { ContactFormContent } from "@/lib/contact-content";
 
 interface FormData {
@@ -221,10 +222,12 @@ export function ContactForm({
         </div>
       )}
 
-      <Button type="submit" variant="primary" disabled={status === "loading"} className="shrink-0">
-        {status === "loading" ? "Sending..." : "Send Message"}
-        <ArrowRight size={18} />
-      </Button>
+      <Reveal direction="up" delay={0.12} className="w-fit">
+        <Button type="submit" variant="primary" disabled={status === "loading"} className="shrink-0">
+          {status === "loading" ? "Sending..." : "Send Message"}
+          <ArrowRight size={18} />
+        </Button>
+      </Reveal>
     </form>
   );
 }

@@ -1,7 +1,7 @@
 import { Container } from "@/components/ui/Container";
 import { CmsImage } from "@/components/ui/CmsImage";
 import { SectionTag } from "@/components/ui/SectionTag";
-import { PAGE_HERO_HEIGHT, PAGE_HERO_PADDING } from "@/components/shared/PageHero";
+import { PAGE_HERO_HEIGHT, PAGE_HERO_PADDING } from "@/components/shared/page-hero-layout";
 import { Spotlight } from "@/components/magic/spotlight";
 import { GridPattern } from "@/components/magic/grid-pattern";
 import type { LeadershipHeroContent } from "@/lib/leadership-content";

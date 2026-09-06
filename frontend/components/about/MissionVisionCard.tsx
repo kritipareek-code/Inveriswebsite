@@ -8,6 +8,7 @@ import { CardSpotlight } from "@/components/magic/card-spotlight";
 import { Card3D } from "@/components/magic/card-3d";
 import { ShineBorder } from "@/components/magic/shine-border";
 import { BorderBeam } from "@/components/magic/border-beam";
+import { Reveal } from "@/components/magic/reveal";
 import { cn } from "@/lib/cn";
 
 type CardIcon = "target" | "eye";
@@ -75,40 +76,57 @@ export function MissionVisionCard({
             </span>
           </div>
 
-          <SectionTag light className="mb-4 w-fit">
-            {tag}
-          </SectionTag>
+          <Reveal direction="down" delay={0.08} className="mb-4 w-fit">
+            <SectionTag light>{tag}</SectionTag>
+          </Reveal>
 
-          <h3 className="mb-6 text-2xl font-medium leading-snug text-heading-inverse md:text-[1.7rem]">
+          <Reveal
+            as="h3"
+            direction="left"
+            delay={0.16}
+            duration={0.7}
+            distance={28}
+            className="mb-6 text-2xl font-medium leading-snug text-heading-inverse md:text-[1.7rem]"
+          >
             {title}
-          </h3>
+          </Reveal>
 
           <span className="mb-6 block h-px w-14 bg-gradient-to-r from-gold to-transparent" aria-hidden="true" />
 
-          <ul className="mb-8 flex-1 space-y-4">
-            {items.map((item) => (
-              <li key={item} className="flex gap-3 text-sm leading-relaxed text-paragraph-inverse">
+          <ul className="mb-8 flex-1 space-y-4 overflow-hidden">
+            {items.map((item, itemIndex) => (
+              <Reveal
+                key={item}
+                as="li"
+                direction="left"
+                delay={0.24 + itemIndex * 0.08}
+                duration={0.55}
+                distance={24}
+                className="flex gap-3 text-sm leading-relaxed text-paragraph-inverse"
+              >
                 <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border border-gold/35 bg-gold/15">
                   <Check size={11} className="text-gold" strokeWidth={3} />
                 </span>
                 <span>{item}</span>
-              </li>
+              </Reveal>
             ))}
           </ul>
 
-          <div className="flex items-start gap-3 rounded-2xl border border-gold/25 bg-gradient-to-br from-gold/12 to-white/5 p-4">
-            <FooterIcon size={18} className="mt-0.5 shrink-0 text-gold" strokeWidth={1.5} />
-            {"prefix" in footer ? (
-              <p className="text-sm leading-relaxed text-heading-inverse">
-                {footer.prefix}{" "}
-                <strong className="font-semibold text-gold-light">{footer.highlight}</strong>
-              </p>
-            ) : (
-              <p className="text-sm font-medium leading-relaxed text-heading-inverse">
-                {footer.text}
-              </p>
-            )}
-          </div>
+          <Reveal direction="up" delay={0.52} duration={0.65} distance={20}>
+            <div className="flex items-start gap-3 rounded-2xl border border-gold/25 bg-gradient-to-br from-gold/12 to-white/5 p-4">
+              <FooterIcon size={18} className="mt-0.5 shrink-0 text-gold" strokeWidth={1.5} />
+              {"prefix" in footer ? (
+                <p className="text-sm leading-relaxed text-heading-inverse">
+                  {footer.prefix}{" "}
+                  <strong className="font-semibold text-gold-light">{footer.highlight}</strong>
+                </p>
+              ) : (
+                <p className="text-sm font-medium leading-relaxed text-heading-inverse">
+                  {footer.text}
+                </p>
+              )}
+            </div>
+          </Reveal>
         </div>
       </CardSpotlight>
     </Card3D>

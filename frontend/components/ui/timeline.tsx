@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { motion, useScroll, useTransform } from "motion/react";
+import { Reveal } from "@/components/magic/reveal";
 
 export type TimelineEntry = {
   title: string;
@@ -45,15 +46,29 @@ export function Timeline({ data }: { data: TimelineEntry[] }) {
               <div className="absolute left-3 flex h-10 w-10 items-center justify-center rounded-full bg-surface shadow-[0_0_0_6px_rgba(196,164,132,0.12)] md:left-3">
                 <div className="h-3 w-3 rounded-full bg-gold" />
               </div>
-              <h3 className="hidden text-xl font-bold text-heading md:block md:pl-20 md:text-2xl lg:text-4xl">
+              <Reveal
+                as="h3"
+                direction="left"
+                delay={0.06}
+                duration={0.7}
+                distance={28}
+                className="hidden text-xl font-bold text-heading md:block md:pl-20 md:text-2xl lg:text-4xl"
+              >
                 {item.title}
-              </h3>
+              </Reveal>
             </div>
 
             <div className="relative w-full max-w-md pl-20 pr-4 md:max-w-lg md:flex-1 md:pl-0">
-              <h3 className="mb-4 block text-left text-xl font-bold text-heading md:hidden">
+              <Reveal
+                as="h3"
+                direction="left"
+                delay={0.06}
+                duration={0.7}
+                distance={24}
+                className="mb-4 block text-left text-xl font-bold text-heading md:hidden"
+              >
                 {item.title}
-              </h3>
+              </Reveal>
               {item.content}
             </div>
           </div>

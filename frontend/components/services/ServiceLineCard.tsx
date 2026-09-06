@@ -5,6 +5,7 @@ import { IconCircle } from "@/components/ui/IconCircle";
 import { CmsImage } from "@/components/ui/CmsImage";
 import { MagicCard } from "@/components/magic/magic-card";
 import { BorderBeam } from "@/components/magic/border-beam";
+import { Reveal, type RevealDirection } from "@/components/magic/reveal";
 
 type ServiceIcon = "consulting" | "recruitment" | "compliance" | "audit";
 
@@ -15,6 +16,7 @@ interface ServiceLineCardProps {
   image: string;
   icon: string;
   onEnquire: (service: string) => void;
+  imageFrom?: RevealDirection;
 }
 
 const iconMap = {
@@ -31,6 +33,7 @@ export function ServiceLineCard({
   image,
   icon,
   onEnquire,
+  imageFrom = "left",
 }: ServiceLineCardProps) {
   const Icon = iconMap[icon as ServiceIcon] ?? Crown;
 
@@ -73,28 +76,54 @@ export function ServiceLineCard({
                 <Icon size={22} strokeWidth={1.5} />
               </IconCircle>
               <div>
-                <h3 className="text-xl font-bold text-heading transition-colors duration-500 group-hover:text-white md:text-2xl">
+                <Reveal
+                  as="h3"
+                  direction={imageFrom}
+                  delay={0.12}
+                  duration={0.7}
+                  distance={28}
+                  className="text-xl font-bold text-heading transition-colors duration-500 group-hover:text-white md:text-2xl"
+                >
                   {title}
-                </h3>
-                <p className="mt-2 text-xs font-semibold tracking-wide text-gold">
+                </Reveal>
+                <Reveal
+                  as="p"
+                  direction="left"
+                  delay={0.2}
+                  duration={0.55}
+                  distance={20}
+                  className="mt-2 text-xs font-semibold tracking-wide text-gold"
+                >
                   Click to enquire
-                </p>
+                </Reveal>
               </div>
             </div>
-            <p className="mt-5 text-sm leading-relaxed text-paragraph transition-colors duration-500 group-hover:text-white/80 md:text-base">
+            <Reveal
+              as="p"
+              direction="left"
+              delay={0.26}
+              duration={0.7}
+              distance={28}
+              className="mt-5 text-sm leading-relaxed text-paragraph transition-colors duration-500 group-hover:text-white/80 md:text-base"
+            >
               {description}
-            </p>
+            </Reveal>
             <ul className="mt-6 space-y-3">
-              {items.map((item) => (
-                <li
+              {items.map((item, itemIndex) => (
+                <Reveal
                   key={item}
+                  as="li"
+                  direction="left"
+                  delay={0.34 + itemIndex * 0.08}
+                  duration={0.55}
+                  distance={24}
                   className="flex gap-2.5 text-sm text-paragraph transition-colors duration-500 group-hover:text-white/85 md:text-base"
                 >
                   <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2 border-gold">
                     <Check size={10} className="text-gold" strokeWidth={3} />
                   </span>
                   <span>{item}</span>
-                </li>
+                </Reveal>
               ))}
             </ul>
           </div>

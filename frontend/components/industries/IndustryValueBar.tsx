@@ -1,5 +1,5 @@
 import { Container } from "@/components/ui/Container";
-import { BlurFade } from "@/components/magic/blur-fade";
+import { Reveal } from "@/components/magic/reveal";
 import { GridPattern } from "@/components/magic/grid-pattern";
 import {
   IndustryValueCard,
@@ -46,13 +46,17 @@ export function IndustryValueBar({
       <GridPattern className="opacity-50" />
       <Container className="relative">
         <div className="mb-12 text-center lg:mb-16">
-          <span
-            className="mx-auto mb-5 block h-px w-12 bg-gold"
-            aria-hidden="true"
-          />
-          <h2 className="text-3xl font-bold tracking-tight text-heading md:text-4xl">
-            {title}
-          </h2>
+          <Reveal direction="down">
+            <span
+              className="mx-auto mb-5 block h-px w-12 bg-gold"
+              aria-hidden="true"
+            />
+          </Reveal>
+          <Reveal direction="left" delay={0.08}>
+            <h2 className="text-3xl font-bold tracking-tight text-heading md:text-4xl">
+              {title}
+            </h2>
+          </Reveal>
         </div>
 
         <div
@@ -64,9 +68,10 @@ export function IndustryValueBar({
           )}
         >
           {items.map((item, index) => (
-            <BlurFade
+            <Reveal
               key={item.id}
-              delay={index * 0.07}
+              direction={index % 2 === 0 ? "left" : "right"}
+              delay={index * 0.08}
               className={getValueCardSpan(index, items.length)}
             >
               <IndustryValueCard
@@ -76,7 +81,7 @@ export function IndustryValueBar({
                 index={index}
                 variant={getValueCardVariant(index, items.length)}
               />
-            </BlurFade>
+            </Reveal>
           ))}
         </div>
       </Container>

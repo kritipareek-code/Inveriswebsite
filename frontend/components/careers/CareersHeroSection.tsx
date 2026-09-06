@@ -1,16 +1,24 @@
+"use client";
+
+import { motion } from "motion/react";
 import { ArrowRight } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { CmsImage } from "@/components/ui/CmsImage";
 import { SectionTag } from "@/components/ui/SectionTag";
 import { Button } from "@/components/ui/Button";
-import { PAGE_HERO_HEIGHT, PAGE_HERO_PADDING } from "@/components/shared/PageHero";
+import { PAGE_HERO_HEIGHT, PAGE_HERO_PADDING } from "@/components/shared/page-hero-layout";
 import { Spotlight } from "@/components/magic/spotlight";
 import { GridPattern } from "@/components/magic/grid-pattern";
+import { TextGenerate } from "@/components/magic/text-generate";
+import { useCareersForm } from "@/components/careers/CareersFormProvider";
 import type { CareersHeroContent } from "@/lib/careers-content";
 import { cn } from "@/lib/cn";
 
+const ease = [0.22, 1, 0.36, 1] as const;
+
 export function CareersHeroSection({ content }: { content: CareersHeroContent }) {
   const hero = content;
+  const { openForm } = useCareersForm();
 
   return (
     <section className="relative overflow-hidden bg-navy">
@@ -35,19 +43,41 @@ export function CareersHeroSection({ content }: { content: CareersHeroContent })
         <div className={cn("flex flex-col lg:block", PAGE_HERO_HEIGHT)}>
           <div className={cn("flex flex-1 items-center lg:max-w-[48%]", PAGE_HERO_PADDING)}>
             <div className="max-w-xl space-y-6">
-              <SectionTag light>{hero.tag}</SectionTag>
+              <motion.div
+                initial={{ opacity: 0, y: -28 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, ease }}
+                className="inline-flex"
+              >
+                <SectionTag light>{hero.tag}</SectionTag>
+              </motion.div>
               <h1 className="text-3xl font-bold leading-[1.1] md:text-5xl lg:text-[3.1rem]">
-                <span className="text-heading-inverse">{hero.titleWhite}</span>
-                <br />
-                <span className="text-gold">{hero.titleAccent}</span>
+                <span className="block text-heading-inverse">
+                  <TextGenerate text={hero.titleWhite} duration={0.62} staggerDelay={0.07} />
+                </span>
+                <span className="block text-gold">
+                  <TextGenerate text={hero.titleAccent} delay={0.35} duration={0.62} staggerDelay={0.07} />
+                </span>
               </h1>
-              <p className="max-w-lg text-base leading-relaxed text-paragraph-inverse md:text-lg">
+              <motion.p
+                initial={{ opacity: 0, x: -56 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.95, delay: 0.45, ease }}
+                className="max-w-lg text-base leading-relaxed text-paragraph-inverse md:text-lg"
+              >
                 {hero.description}
-              </p>
-              <Button variant="gold" href={hero.cta.href}>
-                {hero.cta.label}
-                <ArrowRight size={18} />
-              </Button>
+              </motion.p>
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.75, delay: 0.7, ease }}
+                className="w-fit overflow-hidden"
+              >
+                <Button type="button" variant="gold" onClick={openForm}>
+                  {hero.cta.label}
+                  <ArrowRight size={18} />
+                </Button>
+              </motion.div>
             </div>
           </div>
           <div className="relative h-72 min-h-[300px] lg:hidden">

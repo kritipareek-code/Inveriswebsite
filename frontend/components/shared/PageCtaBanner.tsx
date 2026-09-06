@@ -4,14 +4,16 @@ import { Container } from "@/components/ui/Container";
 import { BorderBeam } from "@/components/magic/border-beam";
 import { Meteors } from "@/components/magic/meteors";
 import { GridPattern } from "@/components/magic/grid-pattern";
+import { Reveal } from "@/components/magic/reveal";
 
 interface PageCtaBannerProps {
   title: string;
   description: string;
   cta: { label: string; href: string };
+  onCtaClick?: () => void;
 }
 
-export function PageCtaBanner({ title, description, cta }: PageCtaBannerProps) {
+export function PageCtaBanner({ title, description, cta, onCtaClick }: PageCtaBannerProps) {
   return (
     <section className="relative overflow-hidden bg-navy">
       <GridPattern />
@@ -23,21 +25,32 @@ export function PageCtaBanner({ title, description, cta }: PageCtaBannerProps) {
           <BorderBeam size={110} duration={11} />
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
             <div className="max-w-2xl space-y-4">
-              <SectionLine />
-              <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold text-heading-inverse leading-tight">
-                {title}
-              </h2>
-              <p className="text-paragraph-inverse text-base md:text-lg leading-relaxed">
-                {description}
-              </p>
+              <Reveal direction="down">
+                <SectionLine />
+              </Reveal>
+              <Reveal direction="left" delay={0.08}>
+                <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold text-heading-inverse leading-tight">
+                  {title}
+                </h2>
+              </Reveal>
+              <Reveal direction="left" delay={0.18}>
+                <p className="text-paragraph-inverse text-base md:text-lg leading-relaxed">
+                  {description}
+                </p>
+              </Reveal>
             </div>
 
-            <div className="flex flex-col items-start lg:items-end gap-4 shrink-0">
-              <Button variant="gold" size="lg" href={cta.href}>
+            <Reveal direction="up" delay={0.28} className="flex flex-col items-start lg:items-end gap-4 shrink-0">
+              <Button
+                variant="gold"
+                size="lg"
+                href={onCtaClick ? undefined : cta.href}
+                onClick={onCtaClick}
+              >
                 {cta.label}
                 <ArrowRight size={18} />
               </Button>
-            </div>
+            </Reveal>
           </div>
         </div>
       </Container>

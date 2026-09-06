@@ -3,8 +3,11 @@ import { CareersIntroSection } from "@/components/careers/CareersIntroSection";
 import { CareersExpectSection } from "@/components/careers/CareersExpectSection";
 import { CareersOpportunitySection } from "@/components/careers/CareersOpportunitySection";
 import { CareersNetworkSection } from "@/components/careers/CareersNetworkSection";
-import { FaqSection } from "@/components/contact/FaqSection";
-import { PageCtaBanner } from "@/components/shared/PageCtaBanner";
+import {
+  CareersCtaBanner,
+  CareersFaqSection,
+  CareersFormProvider,
+} from "@/components/careers/CareersFormProvider";
 import { getCareersContent } from "@/lib/careers-content";
 
 export const metadata = {
@@ -17,18 +20,14 @@ export default function CareersPage() {
   const careers = getCareersContent();
 
   return (
-    <>
+    <CareersFormProvider network={careers.network}>
       <CareersHeroSection content={careers.hero} />
       <CareersIntroSection content={careers.intro} />
       <CareersExpectSection content={careers.expect} />
       <CareersOpportunitySection content={careers.opportunity} />
       <CareersNetworkSection network={careers.network} next={careers.next} />
-      <FaqSection content={careers.faq} ctaHref="#talent-network" />
-      <PageCtaBanner
-        title={careers.cta.title}
-        description={careers.cta.description}
-        cta={careers.cta.cta}
-      />
-    </>
+      <CareersFaqSection content={careers.faq} />
+      <CareersCtaBanner content={careers.cta} />
+    </CareersFormProvider>
   );
 }

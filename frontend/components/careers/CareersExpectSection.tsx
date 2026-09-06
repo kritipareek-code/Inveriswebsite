@@ -5,6 +5,8 @@ import { ArrowRight } from "lucide-react";
 import { motion } from "motion/react";
 import { Container } from "@/components/ui/Container";
 import { SectionTag } from "@/components/ui/SectionTag";
+import { Reveal } from "@/components/magic/reveal";
+import { useCareersForm } from "@/components/careers/CareersFormProvider";
 import type { CareersExpectContent } from "@/lib/careers-content";
 import { cn } from "@/lib/cn";
 
@@ -14,15 +16,20 @@ export function CareersExpectSection({
   content: CareersExpectContent;
 }) {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
+  const { openForm } = useCareersForm();
 
   return (
-    <section className="bg-surface py-20 lg:py-28">
+    <section className="overflow-hidden bg-surface py-20 lg:py-28">
       <Container>
         <div className="mb-10 max-w-xl lg:mb-14">
-          <SectionTag className="mb-5">{content.tag}</SectionTag>
-          <h2 className="text-3xl font-bold tracking-tight text-heading md:text-5xl">
-            {content.title}
-          </h2>
+          <Reveal direction="down">
+            <SectionTag className="mb-5">{content.tag}</SectionTag>
+          </Reveal>
+          <Reveal direction="left" delay={0.08}>
+            <h2 className="text-3xl font-bold tracking-tight text-heading md:text-5xl">
+              {content.title}
+            </h2>
+          </Reveal>
         </div>
 
         <div className="border-y border-border">
@@ -31,14 +38,19 @@ export function CareersExpectSection({
             const isActive = hoveredId === item.id;
 
             return (
-              <motion.a
+              <motion.button
                 key={item.id}
-                href="#talent-network"
+                type="button"
+                onClick={openForm}
+                initial={{ opacity: 0, x: -40 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, amount: 0.35 }}
+                transition={{ duration: 0.7, delay: index * 0.08, ease: [0.22, 1, 0.36, 1] }}
                 onMouseEnter={() => setHoveredId(item.id)}
                 onMouseLeave={() => setHoveredId(null)}
                 onFocus={() => setHoveredId(item.id)}
                 onBlur={() => setHoveredId(null)}
-                className="group relative grid cursor-pointer grid-cols-[auto_1fr_auto] items-start gap-x-4 gap-y-3 overflow-hidden border-b border-border px-3 py-6 last:border-b-0 sm:px-5 lg:grid-cols-[4.5rem_minmax(12rem,0.9fr)_minmax(0,1.4fr)_auto] lg:items-center lg:gap-8 lg:px-6 lg:py-8"
+                className="group relative grid w-full cursor-pointer grid-cols-[auto_1fr_auto] items-start gap-x-4 gap-y-3 overflow-hidden border-b border-border px-3 py-6 text-left last:border-b-0 sm:px-5 lg:grid-cols-[4.5rem_minmax(12rem,0.9fr)_minmax(0,1.4fr)_auto] lg:items-center lg:gap-8 lg:px-6 lg:py-8"
               >
                 {isActive ? (
                   <motion.span
@@ -57,23 +69,33 @@ export function CareersExpectSection({
                   {number}
                 </span>
 
-                <h3
+                <Reveal
+                  as="h3"
+                  direction="left"
+                  delay={0.08}
+                  duration={0.65}
+                  distance={24}
                   className={cn(
                     "relative z-10 text-xl font-bold leading-snug transition-colors duration-300 lg:text-2xl",
                     isActive ? "text-white" : "text-heading"
                   )}
                 >
                   {item.title}
-                </h3>
+                </Reveal>
 
-                <p
+                <Reveal
+                  as="p"
+                  direction="left"
+                  delay={0.16}
+                  duration={0.7}
+                  distance={28}
                   className={cn(
                     "relative z-10 col-span-3 max-w-xl text-sm leading-relaxed transition-colors duration-300 sm:col-span-1 sm:col-start-2 lg:col-span-1 lg:col-start-auto lg:max-w-none lg:text-base",
                     isActive ? "text-white/80" : "text-paragraph"
                   )}
                 >
                   {item.description}
-                </p>
+                </Reveal>
 
                 <span
                   className={cn(
@@ -87,7 +109,7 @@ export function CareersExpectSection({
                     className="transition-transform duration-300 group-hover:translate-x-1.5"
                   />
                 </span>
-              </motion.a>
+              </motion.button>
             );
           })}
         </div>
