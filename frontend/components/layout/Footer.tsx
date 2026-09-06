@@ -36,7 +36,13 @@ function SocialIcon({ icon }: { icon: FooterSocialIcon }) {
   );
 }
 
-export function Footer({ content }: { content: FooterContent }) {
+export function Footer({
+  content,
+  showCta = true,
+}: {
+  content: FooterContent;
+  showCta?: boolean;
+}) {
   const { contact } = content;
   const mobileHref = toTelHref(contact.mobile);
 
@@ -47,20 +53,22 @@ export function Footer({ content }: { content: FooterContent }) {
       <div className="pointer-events-none absolute bottom-0 right-0 h-72 w-72 rounded-full bg-gold/8 blur-3xl" />
 
       <Container className="relative">
-        <div className="flex flex-col gap-8 border-b border-white/10 py-12 lg:flex-row lg:items-end lg:justify-between lg:py-16">
-          <div className="max-w-xl space-y-3">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-gold">
-              Start a conversation
-            </p>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-normal text-heading-inverse leading-[1.15]">
-              Let&apos;s build what&apos;s next, together.
-            </h2>
+        {showCta ? (
+          <div className="flex flex-col gap-8 border-b border-white/10 py-12 lg:flex-row lg:items-end lg:justify-between lg:py-16">
+            <div className="max-w-xl space-y-3">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-gold">
+                Start a conversation
+              </p>
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-normal text-heading-inverse leading-[1.15]">
+                Let&apos;s build what&apos;s next, together.
+              </h2>
+            </div>
+            <Button variant="gold" size="lg" href="/contact">
+              Contact Us
+              <ArrowRight size={18} />
+            </Button>
           </div>
-          <Button variant="gold" size="lg" href="/contact">
-            Contact Us
-            <ArrowRight size={18} />
-          </Button>
-        </div>
+        ) : null}
 
         <div className="py-14 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8">
           <div className="space-y-5 lg:col-span-4">

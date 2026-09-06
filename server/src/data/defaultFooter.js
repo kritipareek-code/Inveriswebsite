@@ -11,6 +11,7 @@ const defaultFooter = {
         { id: "link-2", label: "Leadership", href: "/leadership" },
         { id: "link-3", label: "Our Approach", href: "/approach" },
         { id: "link-4", label: "Industries", href: "/industries" },
+        { id: "link-9", label: "Careers", href: "/careers" },
       ],
     },
     {

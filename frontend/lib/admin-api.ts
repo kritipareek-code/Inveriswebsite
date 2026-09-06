@@ -177,6 +177,45 @@ export async function deleteContactSubmission(id: string) {
   await adminFetch(`/api/contact/submissions/${id}`, { method: "DELETE" });
 }
 
+export type CareerApplication = {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  location: string;
+  interest: string;
+  experience: string;
+  organization: string;
+  designation: string;
+  linkedin: string;
+  about: string;
+  resumeUrl: string;
+  resumeName: string;
+  read: boolean;
+  emailSent: boolean;
+  createdAt: string;
+};
+
+export async function fetchCareerApplications() {
+  const data = await adminFetch("/api/careers/applications");
+  return {
+    applications: (data.applications || []) as CareerApplication[],
+    unread: Number(data.unread || 0),
+  };
+}
+
+export async function markCareerApplicationRead(id: string, read = true) {
+  const data = await adminFetch(`/api/careers/applications/${id}`, {
+    method: "PATCH",
+    body: JSON.stringify({ read }),
+  });
+  return data.application as CareerApplication;
+}
+
+export async function deleteCareerApplication(id: string) {
+  await adminFetch(`/api/careers/applications/${id}`, { method: "DELETE" });
+}
+
 export type NewsletterSubscriber = {
   id: string;
   email: string;

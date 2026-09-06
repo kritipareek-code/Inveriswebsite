@@ -116,7 +116,7 @@ const defaultApproach = {
       {
         id: "node-3",
         label: "COMPLIANCE",
-        description: "Governance, controls, and regulatory alignment",
+        description: "Governance and controls",
         icon: "compliance",
         position: "bottom-right",
         align: "right",

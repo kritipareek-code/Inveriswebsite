@@ -5,6 +5,7 @@ import { Minus, Plus } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { CmsImage } from "@/components/ui/CmsImage";
+import { SectionTag } from "@/components/ui/SectionTag";
 import { MagicCard } from "@/components/magic/magic-card";
 import type { ContactFaqContent } from "@/lib/contact-content";
 import { cn } from "@/lib/cn";
@@ -15,7 +16,13 @@ const defaultAvatars = [
   "https://i.pravatar.cc/120?img=47",
 ];
 
-export function FaqSection({ content }: { content: ContactFaqContent }) {
+export function FaqSection({
+  content,
+  ctaHref = "#contact-form",
+}: {
+  content: ContactFaqContent;
+  ctaHref?: string;
+}) {
   const faq = content;
   const [openIndex, setOpenIndex] = useState(0);
   const avatars =
@@ -26,6 +33,11 @@ export function FaqSection({ content }: { content: ContactFaqContent }) {
   return (
     <section className="bg-surface py-20 lg:py-28">
       <Container className="max-w-3xl">
+        {faq.tag ? (
+          <div className="mb-5 flex justify-center">
+            <SectionTag>{faq.tag}</SectionTag>
+          </div>
+        ) : null}
         <h2 className="mb-10 text-center text-3xl font-bold text-heading md:text-5xl lg:mb-12">
           {faq.title}
         </h2>
@@ -82,7 +94,7 @@ export function FaqSection({ content }: { content: ContactFaqContent }) {
             ))}
           </div>
           <p className="font-bold text-heading">{faq.stillHaveQuestions}</p>
-          <Button variant="gold" href="#contact-form" className="inline-flex">
+          <Button variant="gold" href={ctaHref} className="inline-flex">
             {faq.ctaLabel || "Get in Touch"}
           </Button>
         </div>

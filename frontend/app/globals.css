@@ -84,6 +84,7 @@
   --animate-shimmer: shimmer 2.2s linear infinite;
   --animate-border-beam: border-beam calc(var(--duration) * 1s) infinite linear;
   --animate-aurora: aurora 60s linear infinite;
+  --animate-shine: shine var(--duration, 14s) infinite linear;
 }
 
 * {
@@ -187,6 +188,18 @@ header nav a {
   }
 }
 
+@keyframes shine {
+  0% {
+    background-position: 0% 0%;
+  }
+  50% {
+    background-position: 100% 100%;
+  }
+  100% {
+    background-position: 0% 0%;
+  }
+}
+
 .animate-spotlight {
   animation: var(--animate-spotlight);
 }
@@ -213,4 +226,8 @@ header nav a {
 
 .animate-aurora {
   animation: var(--animate-aurora);
+}
+
+.animate-shine {
+  animation: var(--animate-shine);
 }

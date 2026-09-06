@@ -76,7 +76,7 @@ export function Header() {
                   key={link.href}
                   href={link.href}
                   className={cn(
-                    "group relative font-display text-[15px] lg:text-base px-3.5 py-2 transition-colors",
+                    "group relative font-display text-[14px] xl:text-[15px] px-2.5 xl:px-3.5 py-2 transition-colors",
                     onDarkHero
                       ? isActive
                         ? "text-white"
@@ -90,11 +90,11 @@ export function Header() {
                   {isActive ? (
                     <motion.span
                       layoutId="nav-underline"
-                      className="absolute left-3.5 right-3.5 -bottom-0.5 h-px bg-gold"
+                      className="absolute left-2.5 right-2.5 xl:left-3.5 xl:right-3.5 -bottom-0.5 h-px bg-gold"
                       transition={{ type: "spring", stiffness: 380, damping: 30 }}
                     />
                   ) : (
-                    <span className="absolute left-3.5 right-3.5 -bottom-0.5 h-px origin-left scale-x-0 bg-gold/70 transition-transform duration-300 group-hover:scale-x-100" />
+                    <span className="absolute left-2.5 right-2.5 xl:left-3.5 xl:right-3.5 -bottom-0.5 h-px origin-left scale-x-0 bg-gold/70 transition-transform duration-300 group-hover:scale-x-100" />
                   )}
                 </Link>
               );

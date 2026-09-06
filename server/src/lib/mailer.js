@@ -145,4 +145,94 @@ async function sendNewsletterNotification(email) {
   return true;
 }
 
-module.exports = { sendContactNotification, sendNewsletterNotification, DEFAULT_NOTIFY_EMAIL };
+async function sendCareerNotification(application, resumeFile) {
+  const resend = getResend();
+  const to =
+    process.env.CAREERS_NOTIFY_EMAIL ||
+    process.env.CONTACT_NOTIFY_EMAIL ||
+    "hr@inverissolutions.com";
+  const from = process.env.RESEND_FROM_EMAIL || DEFAULT_FROM;
+
+  if (!resend) {
+    console.warn(
+      "[Career email] RESEND_API_KEY is not set. Application was saved, but no email was sent."
+    );
+    return false;
+  }
+
+  const intro = "New talent network application from the Inveris careers page.";
+  const text = [
+    intro,
+    "",
+    `Name: ${application.name}`,
+    `Email: ${application.email}`,
+    `Phone: ${application.phone}`,
+    `Location: ${application.location}`,
+    `Area of interest: ${application.interest}`,
+    `Experience: ${application.experience}`,
+    application.organization ? `Organization: ${application.organization}` : null,
+    application.designation ? `Designation: ${application.designation}` : null,
+    application.linkedin ? `LinkedIn: ${application.linkedin}` : null,
+    application.resumeUrl ? `Resume: ${application.resumeUrl}` : null,
+    application.about ? `\nAbout:\n${application.about}` : null,
+  ]
+    .filter((line) => line !== null)
+    .join("\n");
+
+  const html = `
+    <div style="font-family:Arial,sans-serif;max-width:640px;margin:0 auto;padding:24px;background:#f8fafc;">
+      <div style="background:#0b1f3a;color:#fff;padding:20px 24px;border-radius:12px 12px 0 0;">
+        <p style="margin:0;letter-spacing:0.2em;font-size:11px;color:#c9a227;">INVERIS</p>
+        <h1 style="margin:8px 0 0;font-size:20px;">New career application</h1>
+      </div>
+      <div style="background:#fff;padding:24px;border:1px solid #e2e8f0;border-top:0;border-radius:0 0 12px 12px;">
+        <table style="width:100%;border-collapse:collapse;">
+          ${row("Name", application.name)}
+          ${row("Email", application.email)}
+          ${row("Phone", application.phone)}
+          ${row("Location", application.location)}
+          ${row("Interest", application.interest)}
+          ${row("Experience", application.experience)}
+          ${row("Organization", application.organization)}
+          ${row("Designation", application.designation)}
+          ${row("LinkedIn", application.linkedin)}
+          ${row("Resume", application.resumeUrl)}
+          ${row("About", application.about)}
+        </table>
+      </div>
+    </div>
+  `;
+
+  const payload = {
+    from,
+    to,
+    replyTo: application.email,
+    subject: `New career application from ${application.name}`,
+    text,
+    html,
+  };
+
+  if (resumeFile?.buffer) {
+    payload.attachments = [
+      {
+        filename: resumeFile.originalname || application.resumeName || "resume.pdf",
+        content: resumeFile.buffer,
+      },
+    ];
+  }
+
+  const { error } = await resend.emails.send(payload);
+
+  if (error) {
+    throw new Error(error.message || "Resend failed to send email");
+  }
+
+  return true;
+}
+
+module.exports = {
+  sendContactNotification,
+  sendNewsletterNotification,
+  sendCareerNotification,
+  DEFAULT_NOTIFY_EMAIL,
+};

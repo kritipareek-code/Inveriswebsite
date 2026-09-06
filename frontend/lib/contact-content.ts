@@ -53,6 +53,7 @@ export type ContactFaqItem = {
 };
 
 export type ContactFaqContent = {
+  tag?: string;
   title: string;
   stillHaveQuestions: string;
   ctaLabel: string;

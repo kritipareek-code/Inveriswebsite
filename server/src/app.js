@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const contactRouter = require("./routes/contact");
+const careersRouter = require("./routes/careers");
 const newsletterRouter = require("./routes/newsletter");
 const authRouter = require("./routes/auth");
 const contentRouter = require("./routes/content");
@@ -66,6 +67,7 @@ app.get("/health", (_req, res) => {
 });
 
 app.use("/api/contact", contactRouter);
+app.use("/api/careers", careersRouter);
 app.use("/api/newsletter", newsletterRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/content", contentRouter);
