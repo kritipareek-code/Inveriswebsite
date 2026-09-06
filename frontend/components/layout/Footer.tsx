@@ -2,7 +2,7 @@ import Link from "next/link";
 import { ArrowRight, Mail, MapPin, Phone } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
-import { Logo } from "@/components/layout/Logo";
+import PixelDrift from "@/components/originkit/ui/pixeldrift";
 import { NewsletterForm } from "@/components/layout/NewsletterForm";
 import { GridPattern } from "@/components/magic/grid-pattern";
 import { toTelHref, type FooterContent, type FooterSocialIcon } from "@/lib/footer-content";
@@ -72,7 +72,31 @@ export function Footer({
 
         <div className="py-14 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8">
           <div className="space-y-5 lg:col-span-4">
-            <Logo light />
+            <Link
+              href="/"
+              aria-label="Inveris Solutions LLP"
+              className="relative block h-24 w-full max-w-sm"
+            >
+              <span className="sr-only">Inveris</span>
+              <PixelDrift
+                text="Inveris"
+                colors={["#FFFFFF", "#FFFFFF"]}
+                mode="onEnter"
+                replay={false}
+                position="above"
+                particleSize={12}
+                particleCount={50}
+                mouseEnabled
+                mouseRadius={15}
+                mouseForce={30}
+                fontSize={120}
+                autoFit
+                fontFamily="var(--font-playfair)"
+                fontWeight={700}
+                transition={{ type: "tween", duration: 0.9, ease: "easeOut" }}
+                style={{ minWidth: 0, minHeight: 0 }}
+              />
+            </Link>
             {content.description ? (
               <p className="text-sm leading-relaxed max-w-xs text-paragraph-inverse">
                 {content.description}

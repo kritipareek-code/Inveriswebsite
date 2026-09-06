@@ -145,7 +145,11 @@ function withDefaultValues(content: LeadershipPageContent): LeadershipPageConten
       ...content.values,
       tag: content.values?.tag || fallback.tag,
       title: content.values?.title || fallback.title,
-      backgroundImage: content.values?.backgroundImage || fallback.backgroundImage,
+      backgroundImage:
+        !content.values?.backgroundImage ||
+        content.values.backgroundImage.includes("about-building.jpg")
+          ? fallback.backgroundImage
+          : content.values.backgroundImage,
       items: hasSixth ? items : [...items, fallback.items[5]],
     },
   };

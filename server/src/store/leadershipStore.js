@@ -19,7 +19,11 @@ function withSixthValue(content) {
     ...content,
     values: {
       ...content.values,
-      backgroundImage: content.values.backgroundImage || fallback.backgroundImage,
+      backgroundImage:
+        !content.values.backgroundImage ||
+        String(content.values.backgroundImage).includes("about-building.jpg")
+          ? fallback.backgroundImage
+          : content.values.backgroundImage,
       items: hasSixth ? items : [...items, fallback.items[5]],
     },
   };

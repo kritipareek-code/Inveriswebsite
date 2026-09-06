@@ -70,7 +70,7 @@ const defaultLeadership = {
   values: {
     tag: "WHAT DRIVES US",
     title: "Our Values. Our Compass.",
-    backgroundImage: "/images/about-building.jpg",
+    backgroundImage: "/images/bg-leadership.jpg",
     items: [
       {
         id: "value-1",
