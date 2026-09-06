@@ -7,10 +7,14 @@ export function TextGenerate({
   text,
   className,
   delay = 0,
+  duration = 0.62,
+  staggerDelay = 0.07,
 }: {
   text: string;
   className?: string;
   delay?: number;
+  duration?: number;
+  staggerDelay?: number;
 }) {
   const words = text.split(" ");
 
@@ -22,8 +26,8 @@ export function TextGenerate({
           initial={{ opacity: 0, filter: "blur(8px)", y: 8 }}
           animate={{ opacity: 1, filter: "blur(0px)", y: 0 }}
           transition={{
-            duration: 0.45,
-            delay: delay + index * 0.045,
+            duration,
+            delay: delay + index * staggerDelay,
             ease: [0.21, 0.47, 0.32, 0.98],
           }}
           className="mr-[0.28em] inline-block"

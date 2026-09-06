@@ -3,6 +3,7 @@ import { Container } from "@/components/ui/Container";
 import { CmsImage } from "@/components/ui/CmsImage";
 import { BorderBeam } from "@/components/magic/border-beam";
 import { Meteors } from "@/components/magic/meteors";
+import { Reveal } from "@/components/magic/reveal";
 import { HomeIcon } from "@/lib/home-icons";
 import { type HomeCtaContent } from "@/lib/home-content";
 
@@ -17,33 +18,41 @@ export function CtaSection({ content }: { content: HomeCtaContent }) {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center relative z-10">
             <div className="space-y-6">
               {content.title ? (
-                <h2 className="text-3xl md:text-5xl font-bold text-white leading-tight">
-                  {content.title}
-                </h2>
+                <Reveal direction="left">
+                  <h2 className="text-3xl md:text-5xl font-bold text-white leading-tight">
+                    {content.title}
+                  </h2>
+                </Reveal>
               ) : null}
               {content.description ? (
-                <p className="text-paragraph-inverse text-lg leading-relaxed">
-                  {content.description}
-                </p>
+                <Reveal direction="left" delay={0.12}>
+                  <p className="text-paragraph-inverse text-lg leading-relaxed">
+                    {content.description}
+                  </p>
+                </Reveal>
               ) : null}
               {content.cta?.label ? (
-                <Button variant="gold" href="/contact">
-                  {content.cta.label}
-                  <HomeIcon name="arrowRight" size={18} />
-                </Button>
+                <Reveal direction="up" delay={0.26} className="w-fit">
+                  <Button variant="gold" href="/contact">
+                    {content.cta.label}
+                    <HomeIcon name="arrowRight" size={18} />
+                  </Button>
+                </Reveal>
               ) : null}
             </div>
 
             {content.image ? (
-              <div className="relative h-64 lg:h-80 overflow-hidden rounded-3xl">
-                <CmsImage
-                  src={content.image}
-                  alt={content.imageAlt || ""}
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                />
-              </div>
+              <Reveal direction="right" delay={0.1}>
+                <div className="relative h-64 lg:h-80 overflow-hidden rounded-3xl">
+                  <CmsImage
+                    src={content.image}
+                    alt={content.imageAlt || ""}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                  />
+                </div>
+              </Reveal>
             ) : null}
           </div>
         </div>

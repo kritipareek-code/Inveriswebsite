@@ -4,7 +4,7 @@ import { SectionTag } from "@/components/ui/SectionTag";
 import { IconCircle } from "@/components/ui/IconCircle";
 import { CmsImage } from "@/components/ui/CmsImage";
 import { MagicCard } from "@/components/magic/magic-card";
-import { BlurFade } from "@/components/magic/blur-fade";
+import { Reveal } from "@/components/magic/reveal";
 import { HomeIcon, type HomeIconName } from "@/lib/home-icons";
 import { resolveMediaUrl, type HomeAboutContent } from "@/lib/home-content";
 
@@ -26,31 +26,46 @@ export function AboutSection({ content }: { content: HomeAboutContent }) {
 
       <Container className="relative z-10">
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:gap-6">
-          <BlurFade className="rounded-3xl border border-border/70 bg-white/75 p-8 lg:p-10 backdrop-blur-xl">
+          <div className="rounded-3xl border border-border/70 bg-white/75 p-8 lg:p-10 backdrop-blur-xl">
             <div className="space-y-6">
               <div className="space-y-4">
-                {content.tag ? <SectionTag>{content.tag}</SectionTag> : null}
+                {content.tag ? (
+                  <Reveal direction="down">
+                    <SectionTag>{content.tag}</SectionTag>
+                  </Reveal>
+                ) : null}
                 {content.title ? (
-                  <h2 className="text-3xl md:text-5xl font-bold leading-[1.12] text-heading">
-                    {content.title}
-                  </h2>
+                  <Reveal direction="left" delay={0.08}>
+                    <h2 className="text-3xl md:text-5xl font-bold leading-[1.12] text-heading">
+                      {content.title}
+                    </h2>
+                  </Reveal>
                 ) : null}
               </div>
               {content.description ? (
-                <p className="text-text-body leading-relaxed text-lg">{content.description}</p>
+                <Reveal direction="left" delay={0.18}>
+                  <p className="text-text-body leading-relaxed text-lg">{content.description}</p>
+                </Reveal>
               ) : null}
               {content.cta?.label ? (
-                <Button variant="primary" href="/about">
-                  {content.cta.label}
-                </Button>
+                <Reveal direction="up" delay={0.3} className="w-fit">
+                  <Button variant="primary" href="/about">
+                    {content.cta.label}
+                  </Button>
+                </Reveal>
               ) : null}
             </div>
-          </BlurFade>
+          </div>
 
           {content.features.length ? (
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               {content.features.map((feature, index) => (
-                <BlurFade key={feature.id} delay={0.08 * (index + 1)}>
+                <Reveal
+                  key={feature.id}
+                  direction={index % 2 === 0 ? "left" : "right"}
+                  delay={0.1 * index}
+                  className="h-full"
+                >
                   <MagicCard className="h-full">
                     <div className="relative h-36 overflow-hidden bg-navy/10">
                       {feature.image ? (
@@ -74,7 +89,7 @@ export function AboutSection({ content }: { content: HomeAboutContent }) {
                       <p className="text-xs leading-relaxed text-text-body">{feature.description}</p>
                     </div>
                   </MagicCard>
-                </BlurFade>
+                </Reveal>
               ))}
             </div>
           ) : null}

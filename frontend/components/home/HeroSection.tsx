@@ -1,5 +1,6 @@
 "use client";
 
+import { motion } from "motion/react";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { SectionTag } from "@/components/ui/SectionTag";
@@ -12,6 +13,8 @@ import { TextGenerate } from "@/components/magic/text-generate";
 import { BorderBeam } from "@/components/magic/border-beam";
 import { HomeIcon } from "@/lib/home-icons";
 import { resolveMediaUrl, type HomeHeroContent } from "@/lib/home-content";
+
+const ease = [0.22, 1, 0.36, 1] as const;
 
 export function HeroSection({ content }: { content: HomeHeroContent }) {
   const background = resolveMediaUrl(content.backgroundImage);
@@ -37,35 +40,57 @@ export function HeroSection({ content }: { content: HomeHeroContent }) {
       <Container className="relative z-10 pt-[calc(var(--header-height)+3.5rem)] pb-24">
         <div className="max-w-3xl space-y-7">
           {content.tag ? (
-            <div className="relative inline-flex">
+            <motion.div
+              initial={{ opacity: 0, y: -28 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, ease }}
+              className="relative inline-flex"
+            >
               <SectionTag light>{content.tag}</SectionTag>
               <BorderBeam size={48} duration={9} />
-            </div>
+            </motion.div>
           ) : null}
 
           {content.title ? (
             <h1 className="text-4xl md:text-6xl lg:text-[4.15rem] font-bold text-heading-inverse leading-[1.05] tracking-tight">
-              <TextGenerate text={content.title} />
+              <TextGenerate text={content.title} duration={0.62} staggerDelay={0.07} />
             </h1>
           ) : null}
 
           {content.description ? (
-            <p className="text-base md:text-lg text-paragraph-inverse leading-relaxed max-w-2xl">
+            <motion.p
+              initial={{ opacity: 0, x: -56 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.95, delay: 0.35, ease }}
+              className="text-base md:text-lg text-paragraph-inverse leading-relaxed max-w-2xl"
+            >
               {content.description}
-            </p>
+            </motion.p>
           ) : null}
 
-          <div className="flex flex-wrap gap-4 pt-2">
+          <div className="flex flex-wrap gap-4 overflow-hidden pt-2">
             {content.primaryCta?.label ? (
-              <Button variant="gold" size="lg" href="/about">
-                {content.primaryCta.label}
-                <HomeIcon name="arrowRight" size={18} />
-              </Button>
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.75, delay: 0.7, ease }}
+              >
+                <Button variant="gold" size="lg" href="/about">
+                  {content.primaryCta.label}
+                  <HomeIcon name="arrowRight" size={18} />
+                </Button>
+              </motion.div>
             ) : null}
             {content.secondaryCta?.label ? (
-              <Button variant="light" size="lg" href="/services">
-                {content.secondaryCta.label}
-              </Button>
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.75, delay: 0.84, ease }}
+              >
+                <Button variant="light" size="lg" href="/services">
+                  {content.secondaryCta.label}
+                </Button>
+              </motion.div>
             ) : null}
           </div>
         </div>

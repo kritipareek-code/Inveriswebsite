@@ -1,5 +1,6 @@
 import { Container } from "@/components/ui/Container";
 import { Marquee } from "@/components/magic/marquee";
+import { Reveal } from "@/components/magic/reveal";
 import { HomeIcon, type HomeIconName } from "@/lib/home-icons";
 import { type HomeValueItem } from "@/lib/home-content";
 
@@ -13,9 +14,11 @@ export function ValueBarSection({ items }: { items: HomeValueItem[] }) {
     <section className="relative overflow-hidden border-y border-border bg-surface py-10 lg:py-12">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-gold to-transparent" />
       <Container className="mb-6">
-        <p className="text-center text-xs font-semibold uppercase tracking-[0.22em] text-label">
-          Why businesses choose Inveris
-        </p>
+        <Reveal direction="down">
+          <p className="text-center text-xs font-semibold uppercase tracking-[0.22em] text-label">
+            Why businesses choose Inveris
+          </p>
+        </Reveal>
       </Container>
       <Marquee pauseOnHover duration="36s">
         {first.map((item) => (
