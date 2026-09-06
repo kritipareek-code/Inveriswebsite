@@ -76,7 +76,7 @@ function CareersApplicationModal({
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
-        className="flex max-h-[min(100dvh-2rem,52rem)] w-full max-w-3xl flex-col overflow-hidden rounded-2xl bg-white p-5 shadow-[var(--shadow-card)] sm:p-6"
+        className="flex max-h-[min(100dvh-2rem,52rem)] min-h-0 w-full max-w-3xl flex-col overflow-hidden rounded-2xl bg-white p-5 shadow-[var(--shadow-card)] sm:p-6"
         onClick={(event) => event.stopPropagation()}
       >
         <div className="mb-4 flex shrink-0 items-start justify-between gap-4">

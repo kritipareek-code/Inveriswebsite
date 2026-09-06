@@ -60,8 +60,9 @@ export function CareersApplicationForm({
   const successTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const id = (name: string) => `${idPrefix}${name}`;
-  const fieldClass = compact ? `${inputClass} py-2` : inputClass;
-  const selectFieldClass = compact ? `${selectClass} py-2` : selectClass;
+  const fieldClass = cn(inputClass, compact && "px-3 py-2 text-[13px]");
+  const selectFieldClass = cn(selectClass, compact && "px-3 py-2 pr-9 text-[13px]");
+  const compactGap = compact ? "gap-2.5" : "gap-5";
 
   useEffect(() => {
     return () => {
@@ -130,9 +131,12 @@ export function CareersApplicationForm({
   };
 
   return (
-    <form onSubmit={handleSubmit} className={cn("flex flex-col", compact ? "gap-3" : "gap-5", className)}>
-      <div className={cn("grid grid-cols-1 sm:grid-cols-2", compact ? "gap-3" : "gap-5")}>
-        <Field label="Full Name" htmlFor={id("name")} required>
+    <form
+      onSubmit={handleSubmit}
+      className={cn("flex flex-col", compactGap, compact && "min-h-0 flex-1 overflow-y-auto", className)}
+    >
+      <div className={cn("grid grid-cols-1 sm:grid-cols-2", compactGap)}>
+        <Field label="Full Name" htmlFor={id("name")} required compact={compact}>
           <input
             id={id("name")}
             name="name"
@@ -141,10 +145,10 @@ export function CareersApplicationForm({
             value={formState.name}
             onChange={handleChange}
             className={fieldClass}
-            placeholder="Enter your full name"
+            placeholder={compact ? "Full name" : "Enter your full name"}
           />
         </Field>
-        <Field label="Email Address" htmlFor={id("email")} required>
+        <Field label="Email Address" htmlFor={id("email")} required compact={compact}>
           <input
             id={id("email")}
             name="email"
@@ -153,13 +157,13 @@ export function CareersApplicationForm({
             value={formState.email}
             onChange={handleChange}
             className={fieldClass}
-            placeholder="Enter your email address"
+            placeholder={compact ? "Email address" : "Enter your email address"}
           />
         </Field>
       </div>
 
-      <div className={cn("grid grid-cols-1 sm:grid-cols-2", compact ? "gap-3" : "gap-5")}>
-        <Field label="Phone Number" htmlFor={id("phone")} required>
+      <div className={cn("grid grid-cols-1 sm:grid-cols-2", compactGap)}>
+        <Field label="Phone Number" htmlFor={id("phone")} required compact={compact}>
           <input
             id={id("phone")}
             name="phone"
@@ -168,10 +172,10 @@ export function CareersApplicationForm({
             value={formState.phone}
             onChange={handleChange}
             className={fieldClass}
-            placeholder="Enter your contact number"
+            placeholder={compact ? "Contact number" : "Enter your contact number"}
           />
         </Field>
-        <Field label="Current Location" htmlFor={id("location")} required>
+        <Field label="Current Location" htmlFor={id("location")} required compact={compact}>
           <input
             id={id("location")}
             name="location"
@@ -185,8 +189,8 @@ export function CareersApplicationForm({
         </Field>
       </div>
 
-      <div className={cn("grid grid-cols-1 sm:grid-cols-2", compact ? "gap-3" : "gap-5")}>
-        <Field label="Area of Interest" htmlFor={id("interest")} required>
+      <div className={cn("grid grid-cols-1 sm:grid-cols-2", compactGap)}>
+        <Field label="Area of Interest" htmlFor={id("interest")} required compact={compact}>
           <select
             id={id("interest")}
             name="interest"
@@ -195,7 +199,7 @@ export function CareersApplicationForm({
             onChange={handleChange}
             className={selectFieldClass}
           >
-            <option value="">Select your preferred area</option>
+            <option value="">{compact ? "Select area" : "Select your preferred area"}</option>
             {network.interestOptions.map((option) => (
               <option key={option} value={option}>
                 {option}
@@ -203,7 +207,7 @@ export function CareersApplicationForm({
             ))}
           </select>
         </Field>
-        <Field label="Years of Experience" htmlFor={id("experience")} required>
+        <Field label="Years of Experience" htmlFor={id("experience")} required compact={compact}>
           <select
             id={id("experience")}
             name="experience"
@@ -222,8 +226,8 @@ export function CareersApplicationForm({
         </Field>
       </div>
 
-      <div className={cn("grid grid-cols-1 sm:grid-cols-2", compact ? "gap-3" : "gap-5")}>
-        <Field label="Current / Most Recent Organization" htmlFor={id("organization")}>
+      <div className={cn("grid grid-cols-1 sm:grid-cols-2", compactGap)}>
+        <Field label="Current / Most Recent Organization" htmlFor={id("organization")} compact={compact}>
           <input
             id={id("organization")}
             name="organization"
@@ -231,10 +235,10 @@ export function CareersApplicationForm({
             value={formState.organization}
             onChange={handleChange}
             className={fieldClass}
-            placeholder="Enter your current or most recent organization"
+            placeholder={compact ? "Organization name" : "Enter your current or most recent organization"}
           />
         </Field>
-        <Field label="Current / Most Recent Designation" htmlFor={id("designation")}>
+        <Field label="Current / Most Recent Designation" htmlFor={id("designation")} compact={compact}>
           <input
             id={id("designation")}
             name="designation"
@@ -242,12 +246,12 @@ export function CareersApplicationForm({
             value={formState.designation}
             onChange={handleChange}
             className={fieldClass}
-            placeholder="Enter your designation"
+            placeholder={compact ? "Designation" : "Enter your designation"}
           />
         </Field>
       </div>
 
-      <Field label="LinkedIn Profile" htmlFor={id("linkedin")}>
+      <Field label="LinkedIn Profile" htmlFor={id("linkedin")} compact={compact}>
         <input
           id={id("linkedin")}
           name="linkedin"
@@ -256,12 +260,15 @@ export function CareersApplicationForm({
           value={formState.linkedin}
           onChange={handleChange}
           className={fieldClass}
-          placeholder="Paste your LinkedIn profile URL"
+          placeholder={compact ? "LinkedIn profile URL" : "Paste your LinkedIn profile URL"}
         />
       </Field>
 
-      <div>
-        <label htmlFor={id("resume")} className="mb-1 block text-sm font-medium text-heading">
+      <div className="min-w-0">
+        <label
+          htmlFor={id("resume")}
+          className={cn("mb-1 block font-medium text-heading", compact ? "text-xs" : "text-sm")}
+        >
           Upload Your Resume <span className="text-gold">*</span>
         </label>
         <input
@@ -274,13 +281,25 @@ export function CareersApplicationForm({
           onChange={(e) => handleFile(e.target.files?.[0])}
         />
         {resume ? (
-          <div className="flex items-center justify-between gap-3 rounded-xl border border-border bg-white px-3 py-2">
+          <div
+            className={cn(
+              "flex items-center justify-between gap-3 rounded-xl border border-border bg-white px-3",
+              compact ? "py-1.5" : "py-2"
+            )}
+          >
             <div className="flex min-w-0 items-center gap-3">
-              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-gold/12 text-gold">
-                <FileText size={16} />
+              <span
+                className={cn(
+                  "flex shrink-0 items-center justify-center rounded-lg bg-gold/12 text-gold",
+                  compact ? "h-7 w-7" : "h-8 w-8"
+                )}
+              >
+                <FileText size={compact ? 14 : 16} />
               </span>
               <div className="min-w-0">
-                <p className="truncate text-sm font-medium text-heading">{resume.name}</p>
+                <p className={cn("truncate font-medium text-heading", compact ? "text-[13px]" : "text-sm")}>
+                  {resume.name}
+                </p>
                 <p className="text-xs text-paragraph-muted">{formatFileSize(resume.size)}</p>
               </div>
             </div>
@@ -311,41 +330,57 @@ export function CareersApplicationForm({
               handleFile(e.dataTransfer.files?.[0]);
             }}
             className={cn(
-              "flex w-full items-center justify-center gap-3 rounded-xl border border-dashed bg-white px-4 text-left transition-colors hover:border-gold/50 hover:bg-gold/4",
-              compact ? "py-2" : "py-3",
+              "flex w-full items-center justify-center rounded-xl border border-dashed bg-white text-left transition-colors hover:border-gold/50 hover:bg-gold/4",
+              compact ? "gap-2 px-3 py-1.5" : "gap-3 px-4 py-3",
               dragging ? "border-gold bg-gold/6" : "border-border"
             )}
           >
-            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gold/12 text-gold">
-              <Upload size={16} />
+            <span
+              className={cn(
+                "flex shrink-0 items-center justify-center rounded-full bg-gold/12 text-gold",
+                compact ? "h-7 w-7" : "h-8 w-8"
+              )}
+            >
+              <Upload size={compact ? 14 : 16} />
             </span>
             <span className="min-w-0">
-              <span className="block text-sm font-medium text-heading">Upload your latest resume</span>
+              <span className={cn("block font-medium text-heading", compact ? "text-[13px]" : "text-sm")}>
+                Upload your latest resume
+              </span>
               <span className="block text-xs text-paragraph-muted">PDF or Word · up to 5 MB</span>
             </span>
           </button>
         )}
       </div>
 
-      <Field label="Tell Us About Yourself" htmlFor={id("about")}>
+      <Field
+        label="Tell Us About Yourself"
+        htmlFor={id("about")}
+        compact={compact}
+        className={compact ? "flex min-h-0 flex-1 flex-col" : undefined}
+      >
         <textarea
           id={id("about")}
           name="about"
           value={formState.about}
           onChange={handleChange}
-          className={cn(fieldClass, "resize-none", compact ? "min-h-18" : "min-h-30")}
-          placeholder="Briefly tell us about your experience, skills, and how you believe you could contribute to Inveris."
+          className={cn(fieldClass, "resize-none", compact ? "min-h-18 flex-1" : "min-h-30")}
+          placeholder={
+            compact
+              ? "Share your experience, skills, and how you could contribute to Inveris."
+              : "Briefly tell us about your experience, skills, and how you believe you could contribute to Inveris."
+          }
         />
       </Field>
 
       {status === "success" && (
-        <div className="rounded-xl border border-green-200 bg-green-50 p-4 text-sm text-green-800">
+        <div className="shrink-0 rounded-xl border border-green-200 bg-green-50 p-3 text-sm text-green-800">
           {successMessage}
         </div>
       )}
 
       {status === "error" && errors.length > 0 && (
-        <div className="space-y-1 rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-800">
+        <div className="shrink-0 space-y-1 rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-800">
           {errors.map((err) => (
             <p key={err}>{err}</p>
           ))}
@@ -353,16 +388,21 @@ export function CareersApplicationForm({
       )}
 
       {animated ? (
-        <Reveal direction="up" delay={0.12} className="w-fit">
+        <Reveal direction="up" delay={0.12} className="w-fit shrink-0">
           <Button type="submit" variant="primary" disabled={status === "loading"} className="shrink-0">
             {status === "loading" ? "Submitting..." : network.submitLabel}
             <ArrowRight size={18} />
           </Button>
         </Reveal>
       ) : (
-        <Button type="submit" variant="primary" disabled={status === "loading"} className="shrink-0">
+        <Button
+          type="submit"
+          variant="primary"
+          disabled={status === "loading"}
+          className={cn("shrink-0", compact && "w-full")}
+        >
           {status === "loading" ? "Submitting..." : network.submitLabel}
-          <ArrowRight size={18} />
+          <ArrowRight size={compact ? 16 : 18} />
         </Button>
       )}
     </form>
@@ -373,16 +413,23 @@ function Field({
   label,
   htmlFor,
   required,
+  compact,
+  className,
   children,
 }: {
   label: string;
   htmlFor: string;
   required?: boolean;
+  compact?: boolean;
+  className?: string;
   children: React.ReactNode;
 }) {
   return (
-    <div>
-      <label htmlFor={htmlFor} className="mb-1 block text-sm font-medium text-heading">
+    <div className={cn("min-w-0", className)}>
+      <label
+        htmlFor={htmlFor}
+        className={cn("mb-1 block font-medium text-heading", compact ? "text-xs" : "text-sm")}
+      >
         {label}
         {required ? <span className="text-gold"> *</span> : null}
       </label>
