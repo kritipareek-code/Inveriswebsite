@@ -4,7 +4,7 @@ import { IconCircle } from "@/components/ui/IconCircle";
 import { Spotlight } from "@/components/magic/spotlight";
 import { GridPattern } from "@/components/magic/grid-pattern";
 import { Reveal } from "@/components/magic/reveal";
-import { HomeIcon, type HomeIconName } from "@/lib/home-icons";
+import { HomeMediaIcon, type HomeIconName } from "@/lib/home-icons";
 import { type HomeApproachContent } from "@/lib/home-content";
 
 const stepDirections = ["left", "up", "down", "right"] as const;
@@ -39,8 +39,14 @@ export function ApproachSection({ content }: { content: HomeApproachContent }) {
                 className="text-center space-y-4 relative"
               >
                 <div className="flex justify-center">
-                  <IconCircle variant="gold" size="lg">
-                    <HomeIcon name={step.icon as HomeIconName} size={24} className="text-navy" />
+                  <IconCircle variant="gold" size="lg" className="overflow-hidden">
+                    <HomeMediaIcon
+                      name={step.icon as HomeIconName}
+                      image={step.image}
+                      alt={step.title}
+                      size={24}
+                      className={step.image ? "size-full object-cover" : "text-navy"}
+                    />
                   </IconCircle>
                 </div>
                 <div>

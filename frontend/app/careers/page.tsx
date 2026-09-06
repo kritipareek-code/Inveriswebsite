@@ -8,7 +8,7 @@ import {
   CareersFaqSection,
   CareersFormProvider,
 } from "@/components/careers/CareersFormProvider";
-import { getCareersContent } from "@/lib/careers-content";
+import { fetchCareersContent } from "@/lib/careers-content";
 
 export const metadata = {
   title: "Careers",
@@ -16,8 +16,10 @@ export const metadata = {
     "Join Inveris Solutions — work with people who think differently, take ownership, and turn ideas into action.",
 };
 
-export default function CareersPage() {
-  const careers = getCareersContent();
+export const dynamic = "force-dynamic";
+
+export default async function CareersPage() {
+  const careers = await fetchCareersContent();
 
   return (
     <CareersFormProvider network={careers.network}>

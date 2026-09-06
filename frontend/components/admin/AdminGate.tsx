@@ -113,7 +113,7 @@ export function AdminOverview() {
     <div className="space-y-4">
       <h1 className="text-2xl font-bold text-navy">Dashboard</h1>
       <p className="text-sm text-text-body">
-        This panel is the live editor for the website. Review contact form responses, then edit Home, About, Services, Industries, Approach, Leadership, Contact, and Footer.
+        This panel is the live editor for the website. Review contact form responses, then edit Home, About, Services, Industries, Approach, Leadership, Careers, Contact, and Footer.
       </p>
       <div className="flex flex-wrap gap-3">
         <Link
@@ -163,6 +163,12 @@ export function AdminOverview() {
           className="inline-flex rounded-md border border-border px-4 py-2 text-sm font-semibold text-navy"
         >
           Edit leadership page
+        </Link>
+        <Link
+          href="/admin/careers"
+          className="inline-flex rounded-md border border-border px-4 py-2 text-sm font-semibold text-navy"
+        >
+          Edit careers page
         </Link>
         <Link
           href="/admin/contact"

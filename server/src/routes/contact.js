@@ -20,7 +20,7 @@ function isValidId(id) {
 
 router.post("/", validateContact, async (req, res) => {
   try {
-    const { name, email, company, phone, enquiryType, subject, message } = req.body;
+    const { name, email, company, phone, enquiryType, subject, source, message } = req.body;
 
     const submission = await createSubmission({
       name: name.trim(),
@@ -29,6 +29,7 @@ router.post("/", validateContact, async (req, res) => {
       phone: typeof phone === "string" ? phone.trim() : "",
       enquiryType: typeof enquiryType === "string" ? enquiryType.trim() : "",
       subject: typeof subject === "string" ? subject.trim() : "",
+      source: typeof source === "string" && source.trim() ? source.trim() : "contact",
       message: message.trim(),
     });
 

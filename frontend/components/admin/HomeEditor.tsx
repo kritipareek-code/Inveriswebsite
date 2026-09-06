@@ -50,7 +50,7 @@ export function HomeEditor({ initialContent }: { initialContent: HomeContent }) 
         <div>
           <h1 className="text-2xl font-bold text-navy">Home page</h1>
           <p className="mt-1 text-sm text-text-body">
-            Edit, add, or delete every block on the homepage. Changes go live after you save.
+            Edit every section on Home, including images, links, icons, and SEO.
           </p>
         </div>
         <button
@@ -70,6 +70,24 @@ export function HomeEditor({ initialContent }: { initialContent: HomeContent }) 
         <p className="rounded-md bg-red-50 px-4 py-3 text-sm text-red-700">{error}</p>
       ) : null}
 
+      <AdminSection title="Page SEO">
+        <TextField
+          label="Browser title"
+          value={content.seo.title}
+          onChange={(v) =>
+            setContent((prev) => ({ ...prev, seo: { ...prev.seo, title: v } }))
+          }
+        />
+        <TextField
+          label="Meta description"
+          multiline
+          value={content.seo.description}
+          onChange={(v) =>
+            setContent((prev) => ({ ...prev, seo: { ...prev.seo, description: v } }))
+          }
+        />
+      </AdminSection>
+
       <AdminSection title="Hero">
         <TextField label="Tag" value={content.hero.tag} onChange={(v) => updateHero("tag", v)} />
         <TextField label="Title" value={content.hero.title} onChange={(v) => updateHero("title", v)} />
@@ -88,10 +106,24 @@ export function HomeEditor({ initialContent }: { initialContent: HomeContent }) 
             }
           />
           <TextField
+            label="Primary button link"
+            value={content.hero.primaryCta.href}
+            onChange={(v) =>
+              updateHero("primaryCta", { ...content.hero.primaryCta, href: v })
+            }
+          />
+          <TextField
             label="Secondary button"
             value={content.hero.secondaryCta.label}
             onChange={(v) =>
               updateHero("secondaryCta", { ...content.hero.secondaryCta, label: v })
+            }
+          />
+          <TextField
+            label="Secondary button link"
+            value={content.hero.secondaryCta.href}
+            onChange={(v) =>
+              updateHero("secondaryCta", { ...content.hero.secondaryCta, href: v })
             }
           />
         </div>
@@ -100,9 +132,19 @@ export function HomeEditor({ initialContent }: { initialContent: HomeContent }) 
           value={content.hero.backgroundImage}
           onChange={(v) => updateHero("backgroundImage", v)}
         />
+        <TextField
+          label="Background image alt text"
+          value={content.hero.backgroundImageAlt}
+          onChange={(v) => updateHero("backgroundImageAlt", v)}
+        />
       </AdminSection>
 
       <AdminSection title="Value propositions">
+        <TextField
+          label="Section heading"
+          value={content.valueBarTitle}
+          onChange={(v) => setContent((prev) => ({ ...prev, valueBarTitle: v }))}
+        />
         <div className="space-y-4">
           {content.valuePropositions.map((item, index) => (
             <Card key={item.id}>
@@ -129,6 +171,16 @@ export function HomeEditor({ initialContent }: { initialContent: HomeContent }) 
                 value={item.description}
                 onChange={(v) => updateValue(setContent, item.id, { description: v })}
               />
+              <TextField
+                label="Icon (user, network, layers, trending, clock, handshake)"
+                value={item.icon}
+                onChange={(v) => updateValue(setContent, item.id, { icon: v })}
+              />
+              <ImageField
+                label="Icon image (optional, overrides icon name)"
+                value={item.image}
+                onChange={(v) => updateValue(setContent, item.id, { image: v })}
+              />
             </Card>
           ))}
           <AddButton
@@ -143,6 +195,7 @@ export function HomeEditor({ initialContent }: { initialContent: HomeContent }) 
                     title: "New value",
                     description: "",
                     icon: "user",
+                    image: "",
                   } satisfies HomeValueItem,
                 ],
               }))
@@ -180,11 +233,31 @@ export function HomeEditor({ initialContent }: { initialContent: HomeContent }) 
             }))
           }
         />
+        <TextField
+          label="Button link"
+          value={content.about.cta.href}
+          onChange={(v) =>
+            setContent((prev) => ({
+              ...prev,
+              about: { ...prev.about, cta: { ...prev.about.cta, href: v } },
+            }))
+          }
+        />
         <ImageField
           label="Background image"
           value={content.about.backgroundImage}
           onChange={(v) =>
             setContent((prev) => ({ ...prev, about: { ...prev.about, backgroundImage: v } }))
+          }
+        />
+        <TextField
+          label="Background image alt text"
+          value={content.about.backgroundImageAlt}
+          onChange={(v) =>
+            setContent((prev) => ({
+              ...prev,
+              about: { ...prev.about, backgroundImageAlt: v },
+            }))
           }
         />
 
@@ -222,6 +295,16 @@ export function HomeEditor({ initialContent }: { initialContent: HomeContent }) 
               value={feature.image}
               onChange={(v) => updateFeature(setContent, feature.id, { image: v })}
             />
+            <TextField
+              label="Image alt text"
+              value={feature.imageAlt}
+              onChange={(v) => updateFeature(setContent, feature.id, { imageAlt: v })}
+            />
+            <TextField
+              label="Icon (puzzle, target, shield, growth)"
+              value={feature.icon}
+              onChange={(v) => updateFeature(setContent, feature.id, { icon: v })}
+            />
           </Card>
         ))}
         <AddButton
@@ -238,6 +321,7 @@ export function HomeEditor({ initialContent }: { initialContent: HomeContent }) 
                     title: "New feature",
                     description: "",
                     image: "",
+                    imageAlt: "",
                     icon: "puzzle",
                   } satisfies HomeAboutFeature,
                 ],
@@ -289,6 +373,26 @@ export function HomeEditor({ initialContent }: { initialContent: HomeContent }) 
               value={service.image}
               onChange={(v) => updateService(setContent, service.id, { image: v })}
             />
+            <TextField
+              label="Image alt text"
+              value={service.imageAlt}
+              onChange={(v) => updateService(setContent, service.id, { imageAlt: v })}
+            />
+            <TextField
+              label="Icon (briefcase, users, chart, search)"
+              value={service.icon}
+              onChange={(v) => updateService(setContent, service.id, { icon: v })}
+            />
+            <TextField
+              label="Link"
+              value={service.href}
+              onChange={(v) => updateService(setContent, service.id, { href: v })}
+            />
+            <TextField
+              label="Link label"
+              value={service.linkLabel}
+              onChange={(v) => updateService(setContent, service.id, { linkLabel: v })}
+            />
             <div className="space-y-2">
               <span className="text-xs font-semibold tracking-wide text-navy uppercase">
                 Bullet points
@@ -338,6 +442,7 @@ export function HomeEditor({ initialContent }: { initialContent: HomeContent }) 
                     title: "New service",
                     icon: "briefcase",
                     image: "",
+                    imageAlt: "",
                     items: [],
                     href: "/services",
                     linkLabel: "Learn More",
@@ -399,6 +504,16 @@ export function HomeEditor({ initialContent }: { initialContent: HomeContent }) 
               value={step.description}
               onChange={(v) => updateStep(setContent, step.id, { description: v })}
             />
+            <TextField
+              label="Icon (search, pen, play, chart)"
+              value={step.icon}
+              onChange={(v) => updateStep(setContent, step.id, { icon: v })}
+            />
+            <ImageField
+              label="Icon image (optional, overrides icon name)"
+              value={step.image}
+              onChange={(v) => updateStep(setContent, step.id, { image: v })}
+            />
           </Card>
         ))}
         <AddButton
@@ -416,6 +531,7 @@ export function HomeEditor({ initialContent }: { initialContent: HomeContent }) 
                     title: "New step",
                     description: "",
                     icon: "search",
+                    image: "",
                   } satisfies HomeApproachStep,
                 ],
               },
@@ -448,10 +564,27 @@ export function HomeEditor({ initialContent }: { initialContent: HomeContent }) 
             }))
           }
         />
+        <TextField
+          label="Button link"
+          value={content.cta.cta.href}
+          onChange={(v) =>
+            setContent((prev) => ({
+              ...prev,
+              cta: { ...prev.cta, cta: { ...prev.cta.cta, href: v } },
+            }))
+          }
+        />
         <ImageField
           label="Image"
           value={content.cta.image}
           onChange={(v) => setContent((prev) => ({ ...prev, cta: { ...prev.cta, image: v } }))}
+        />
+        <TextField
+          label="Image alt text"
+          value={content.cta.imageAlt}
+          onChange={(v) =>
+            setContent((prev) => ({ ...prev, cta: { ...prev.cta, imageAlt: v } }))
+          }
         />
       </AdminSection>
 

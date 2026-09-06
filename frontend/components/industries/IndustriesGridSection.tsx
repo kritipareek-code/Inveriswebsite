@@ -31,7 +31,7 @@ export function IndustriesGridSection({
             <div className="overflow-hidden rounded-2xl transition-transform duration-500 ease-out hover:scale-[1.03]">
               <CmsImage
                 src={industry.image}
-                alt={industry.title}
+                alt={industry.imageAlt || industry.title}
                 width={900}
                 height={560}
                 className="h-40 w-full object-cover shadow-[var(--shadow-card)] md:h-52 lg:h-60"

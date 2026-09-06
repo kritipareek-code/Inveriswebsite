@@ -3,26 +3,11 @@ const { defaultServices } = require("../data/defaultServices");
 
 const KEY = "services";
 
-function withConsultingCall(content) {
-  const fallback = defaultServices.consultingCall;
+function normalizeServices(content) {
   if (!content || typeof content !== "object") return defaultServices;
-
-  const incoming = content.consultingCall;
+  if (content.consultingCall) return content;
   const { whyItMatters: _removed, ...rest } = content;
-
-  return {
-    ...rest,
-    consultingCall: {
-      tag: incoming?.tag || fallback.tag,
-      title: incoming?.title || fallback.title,
-      description: incoming?.description || fallback.description,
-      submitLabel: incoming?.submitLabel || fallback.submitLabel,
-      images:
-        Array.isArray(incoming?.images) && incoming.images.length > 0
-          ? incoming.images
-          : fallback.images,
-    },
-  };
+  return { ...rest, consultingCall: defaultServices.consultingCall };
 }
 
 async function readServices() {
@@ -31,17 +16,17 @@ async function readServices() {
     { $setOnInsert: { content: defaultServices } },
     { new: true, upsert: true }
   ).lean();
-  return withConsultingCall(doc.content);
+  return normalizeServices(doc.content);
 }
 
 async function writeServices(content) {
-  const normalized = withConsultingCall(content);
+  const normalized = normalizeServices(content);
   const doc = await SiteContent.findOneAndUpdate(
     { key: KEY },
     { content: normalized },
     { new: true, upsert: true }
   ).lean();
-  return withConsultingCall(doc.content);
+  return doc.content;
 }
 
 async function resetServices() {

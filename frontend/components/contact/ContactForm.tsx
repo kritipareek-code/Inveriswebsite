@@ -66,7 +66,7 @@ export function ContactForm({
       const res = await fetch(`${apiUrl}/api/contact`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formState),
+        body: JSON.stringify({ ...formState, source: "contact" }),
       });
 
       const data = await res.json();

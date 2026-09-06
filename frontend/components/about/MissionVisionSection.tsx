@@ -32,12 +32,12 @@ export function MissionVisionSection({
         <div className="mb-12 max-w-2xl space-y-4 lg:mb-16">
           <Reveal direction="down">
             <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-gold">
-              Mission & Vision
+              {content.tag}
             </p>
           </Reveal>
           <Reveal direction="left" delay={0.08}>
             <h2 className="text-3xl font-medium leading-tight text-heading-inverse md:text-5xl">
-              What we stand for, and where we&apos;re going.
+              {content.title}
             </h2>
           </Reveal>
         </div>

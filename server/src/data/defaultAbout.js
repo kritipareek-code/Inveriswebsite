@@ -26,6 +26,8 @@ const defaultAbout = {
     },
   },
   missionVision: {
+    tag: "MISSION & VISION",
+    title: "What we stand for, and where we're going.",
     backgroundImage: "/images/about-building.jpg",
     mission: {
       tag: "OUR MISSION",

@@ -17,6 +17,7 @@ import {
   LiaUser,
   LiaUsersSolid,
 } from "react-icons/lia";
+import { CmsImage } from "@/components/ui/CmsImage";
 
 export type HomeIconName =
   | "user"
@@ -66,4 +67,25 @@ interface HomeIconProps {
 export function HomeIcon({ name, size = 24, className }: HomeIconProps) {
   const Icon = homeIcons[name] ?? homeIcons.user;
   return <Icon size={size} className={className} aria-hidden />;
+}
+
+export function HomeMediaIcon({
+  name,
+  image,
+  alt,
+  size = 24,
+  className,
+}: HomeIconProps & { image?: string; alt?: string }) {
+  if (image) {
+    return (
+      <CmsImage
+        src={image}
+        alt={alt || ""}
+        width={size}
+        height={size}
+        className={className ?? "size-full object-cover"}
+      />
+    );
+  }
+  return <HomeIcon name={name} size={size} className={className} />;
 }

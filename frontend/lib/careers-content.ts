@@ -1,5 +1,6 @@
 import { careersPageContent } from "@/lib/content";
 import type { ContactFaqContent } from "@/lib/contact-content";
+import { getApiBaseUrl } from "@/lib/home-content";
 
 export type CareersCtaLink = {
   label: string;
@@ -80,7 +81,7 @@ export type CareersPageContent = {
   cta: CareersCtaContent;
 };
 
-export function getCareersContent(): CareersPageContent {
+export function getFallbackCareersContent(): CareersPageContent {
   return {
     hero: { ...careersPageContent.hero, cta: { ...careersPageContent.hero.cta } },
     intro: { ...careersPageContent.intro },
@@ -125,4 +126,74 @@ export function getCareersContent(): CareersPageContent {
       cta: { ...careersPageContent.cta.cta },
     },
   };
+}
+
+export function getCareersContent(): CareersPageContent {
+  return getFallbackCareersContent();
+}
+
+function withIds<T extends { id?: string }>(
+  items: T[] | undefined,
+  prefix: string
+): (T & { id: string })[] {
+  return (items ?? []).map((item, index) => ({
+    ...item,
+    id: item.id || `${prefix}-${index + 1}`,
+  }));
+}
+
+function normalizeCareersContent(content: CareersPageContent): CareersPageContent {
+  const fallback = getFallbackCareersContent();
+  return {
+    ...fallback,
+    ...content,
+    hero: { ...fallback.hero, ...content.hero, cta: { ...fallback.hero.cta, ...content.hero?.cta } },
+    intro: { ...fallback.intro, ...content.intro },
+    expect: {
+      ...fallback.expect,
+      ...content.expect,
+      items: withIds(content.expect?.items ?? fallback.expect.items, "expect"),
+    },
+    opportunity: {
+      ...fallback.opportunity,
+      ...content.opportunity,
+      cta: { ...fallback.opportunity.cta, ...content.opportunity?.cta },
+    },
+    network: {
+      ...fallback.network,
+      ...content.network,
+      interestOptions: content.network?.interestOptions ?? fallback.network.interestOptions,
+      experienceOptions: content.network?.experienceOptions ?? fallback.network.experienceOptions,
+    },
+    next: {
+      ...fallback.next,
+      ...content.next,
+      steps: withIds(content.next?.steps ?? fallback.next.steps, "next"),
+    },
+    faq: {
+      ...fallback.faq,
+      ...content.faq,
+      avatars: content.faq?.avatars ?? fallback.faq.avatars,
+      items: withIds(content.faq?.items ?? fallback.faq.items, "careers-faq"),
+    },
+    cta: {
+      ...fallback.cta,
+      ...content.cta,
+      cta: { ...fallback.cta.cta, ...content.cta?.cta },
+    },
+  };
+}
+
+export async function fetchCareersContent(): Promise<CareersPageContent> {
+  try {
+    const res = await fetch(`${getApiBaseUrl()}/api/content/careers`, {
+      cache: "no-store",
+    });
+    if (!res.ok) throw new Error("Failed to load careers content");
+    const data = await res.json();
+    if (!data?.content) throw new Error("Missing careers content");
+    return normalizeCareersContent(data.content as CareersPageContent);
+  } catch {
+    return getFallbackCareersContent();
+  }
 }

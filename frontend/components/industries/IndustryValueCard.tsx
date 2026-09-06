@@ -6,6 +6,7 @@ import { CardSpotlight } from "@/components/magic/card-spotlight";
 import { ShineBorder } from "@/components/magic/shine-border";
 import { BorderBeam } from "@/components/magic/border-beam";
 import { Reveal } from "@/components/magic/reveal";
+import { CmsImage } from "@/components/ui/CmsImage";
 
 const iconMap = {
   users: Users,
@@ -17,16 +18,47 @@ const iconMap = {
 
 export type IndustryValueCardVariant = "featured" | "default" | "wide";
 
+function ValueIcon({
+  icon,
+  image,
+  title,
+  size,
+  className,
+}: {
+  icon: string;
+  image?: string;
+  title: string;
+  size: number;
+  className?: string;
+}) {
+  if (image) {
+    return (
+      <CmsImage
+        src={image}
+        alt={title}
+        width={size}
+        height={size}
+        className={className ?? "size-full object-cover"}
+      />
+    );
+  }
+
+  const Icon = iconMap[icon as keyof typeof iconMap] ?? Users;
+  return <Icon size={size} strokeWidth={1.4} />;
+}
+
 export function IndustryValueCard({
   title,
   description,
   icon,
+  image,
   index,
   variant = "default",
 }: {
   title: string;
   description: string;
   icon: string;
+  image?: string;
   index: number;
   variant?: IndustryValueCardVariant;
 }) {
@@ -47,8 +79,8 @@ export function IndustryValueCard({
         <div className="relative z-10 flex h-full flex-col justify-between gap-8">
           <div>
             <div className="mb-8 flex items-start justify-between gap-4">
-              <span className="flex h-14 w-14 items-center justify-center rounded-2xl border border-gold/35 bg-gold/15 text-gold shadow-[0_0_28px_rgba(196,164,132,0.28)]">
-                <Icon size={26} strokeWidth={1.4} />
+              <span className="flex h-14 w-14 items-center justify-center overflow-hidden rounded-2xl border border-gold/35 bg-gold/15 text-gold shadow-[0_0_28px_rgba(196,164,132,0.28)]">
+                <ValueIcon icon={icon} image={image} title={title} size={26} />
               </span>
               <span
                 className="font-display text-5xl leading-none text-white/[0.08]"
@@ -95,8 +127,8 @@ export function IndustryValueCard({
       <MagicCard className="h-full min-h-[12.5rem] rounded-3xl bg-gradient-to-br from-gold/[0.12] via-surface to-surface p-6 lg:flex lg:min-h-full lg:items-center lg:p-8">
         <BorderBeam size={90} duration={11} delay={3} />
         <div className="relative z-10 flex h-full flex-col gap-5 lg:flex-row lg:items-center lg:gap-8">
-          <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-gold/30 bg-gold/12 text-gold lg:h-16 lg:w-16">
-            <Icon size={28} strokeWidth={1.4} />
+          <span className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-gold/30 bg-gold/12 text-gold lg:h-16 lg:w-16">
+            <ValueIcon icon={icon} image={image} title={title} size={28} />
           </span>
           <div className="min-w-0">
             <div className="mb-2 flex items-center gap-3">
@@ -132,8 +164,8 @@ export function IndustryValueCard({
   return (
     <MagicCard className="flex h-full min-h-[12.5rem] flex-col rounded-3xl p-6 lg:p-7">
       <div className="mb-5 flex items-start justify-between gap-3">
-        <span className="flex h-11 w-11 items-center justify-center rounded-xl border border-gold/25 bg-gold/10 text-gold">
-          <Icon size={20} strokeWidth={1.4} />
+        <span className="flex h-11 w-11 items-center justify-center overflow-hidden rounded-xl border border-gold/25 bg-gold/10 text-gold">
+          <ValueIcon icon={icon} image={image} title={title} size={20} />
         </span>
         <span className="font-display text-2xl leading-none text-heading/10" aria-hidden="true">
           {number}

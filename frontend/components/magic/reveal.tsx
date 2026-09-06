@@ -33,6 +33,8 @@ export function Reveal({
   duration = 0.8,
   distance = 40,
   as = "div",
+  amount = 0.2,
+  margin = "0px 0px -40px 0px",
 }: {
   children: ReactNode;
   className?: string;
@@ -41,6 +43,8 @@ export function Reveal({
   duration?: number;
   distance?: number;
   as?: RevealTag;
+  amount?: number | "some" | "all";
+  margin?: string;
 }) {
   const reduce = useReducedMotion();
   const offset = offsetFor(direction, distance);
@@ -55,7 +59,7 @@ export function Reveal({
     <Component
       initial={{ opacity: 0, ...offset }}
       whileInView={{ opacity: 1, x: 0, y: 0 }}
-      viewport={{ once: true, amount: 0.2, margin: "0px 0px -40px 0px" }}
+      viewport={{ once: true, amount, margin }}
       transition={{ duration, delay, ease }}
       className={cn(className)}
     >

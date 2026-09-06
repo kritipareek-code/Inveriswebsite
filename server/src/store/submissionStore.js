@@ -10,6 +10,7 @@ function toSubmission(doc) {
     phone: doc.phone || "",
     enquiryType: doc.enquiryType || "",
     subject: doc.subject || "",
+    source: doc.source || "contact",
     message: doc.message,
     read: Boolean(doc.read),
     emailSent: Boolean(doc.emailSent),

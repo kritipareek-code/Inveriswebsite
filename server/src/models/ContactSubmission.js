@@ -8,6 +8,7 @@ const contactSubmissionSchema = new mongoose.Schema(
     phone: { type: String, default: "", trim: true },
     enquiryType: { type: String, default: "", trim: true },
     subject: { type: String, default: "", trim: true },
+    source: { type: String, default: "contact", trim: true },
     message: { type: String, required: true, trim: true },
     read: { type: Boolean, default: false },
     emailSent: { type: Boolean, default: false },

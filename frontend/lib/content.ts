@@ -25,6 +25,7 @@ export const heroContent = {
   primaryCta: { label: "Discover How We Help", href: "/about" },
   secondaryCta: { label: "Explore Our Services", href: "/services" },
   backgroundImage: "/images/hero.jpg",
+  backgroundImageAlt: "Modern corporate skyscrapers",
 };
 
 export const valuePropositions = [
@@ -32,31 +33,37 @@ export const valuePropositions = [
     title: "One Point of Accountability",
     description: "A single partner responsible for outcomes across your business needs.",
     icon: "user",
+    image: "",
   },
   {
     title: "Connected Thinking",
     description: "Strategy, finance, compliance, and talent aligned — not siloed.",
     icon: "network",
+    image: "",
   },
   {
     title: "Less Vendor Complexity",
     description: "Fewer handoffs, fewer gaps, and clearer ownership.",
     icon: "layers",
+    image: "",
   },
   {
     title: "Built to Scale",
     description: "Solutions designed to grow with your business, not just solve today's problem.",
     icon: "trending",
+    image: "",
   },
   {
     title: "Faster, Better Decisions",
     description: "Integrated insight means fewer delays and smarter choices.",
     icon: "clock",
+    image: "",
   },
   {
     title: "A Partner Beyond the Project",
     description: "We stay engaged as your business evolves — not just during the engagement.",
     icon: "handshake",
+    image: "",
   },
 ];
 
@@ -67,29 +74,34 @@ export const aboutContent = {
     "Inveris Solutions LLP helps businesses simplify complexity by bringing consulting, recruitment, compliance, and audit together under one roof. Instead of juggling multiple vendors, you get connected expertise and one accountable partner focused on practical results.",
   cta: { label: "Learn More About Us", href: "/about" },
   backgroundImage: "/images/about-building.jpg",
+  backgroundImageAlt: "Corporate office building",
   features: [
     {
       title: "Integrated Expertise",
       description: "Strategy, finance, compliance, and talent aligned under one partner.",
       image: "/images/about-1.jpg",
+      imageAlt: "Integrated expertise",
       icon: "puzzle",
     },
     {
       title: "Practical Approach",
       description: "Solutions designed for real-world execution — not just recommendations.",
       image: "/images/about-2.jpg",
+      imageAlt: "Practical approach",
       icon: "target",
     },
     {
       title: "Accountable Partnership",
       description: "One team responsible for outcomes across your business needs.",
       image: "/images/about-3.jpg",
+      imageAlt: "Accountable partnership",
       icon: "shield",
     },
     {
       title: "Built for Growth",
       description: "Support that scales with your business as priorities evolve.",
       image: "/images/about-4.jpg",
+      imageAlt: "Built for growth",
       icon: "growth",
     },
   ],
@@ -103,6 +115,7 @@ export const servicesContent = {
       title: "Management Consulting",
       icon: "briefcase",
       image: "/images/service-consulting.jpg",
+      imageAlt: "Management consulting",
       items: [
         "Business Growth Strategies",
         "Operational Efficiency",
@@ -110,11 +123,13 @@ export const servicesContent = {
         "Change Management",
       ],
       href: "/services",
+      linkLabel: "Learn More",
     },
     {
       title: "Recruitment",
       icon: "users",
       image: "/images/service-recruitment.jpg",
+      imageAlt: "Recruitment",
       items: [
         "Executive Search",
         "Specialized Talent Acquisition",
@@ -122,11 +137,13 @@ export const servicesContent = {
         "Retention Strategies",
       ],
       href: "/services",
+      linkLabel: "Learn More",
     },
     {
       title: "Compliance & Financial Services",
       icon: "chart",
       image: "/images/service-compliance.jpg",
+      imageAlt: "Compliance and financial services",
       items: [
         "Regulatory Compliance",
         "Financial Planning & Analysis",
@@ -134,11 +151,13 @@ export const servicesContent = {
         "Governance Support",
       ],
       href: "/services",
+      linkLabel: "Learn More",
     },
     {
       title: "Internal Audit",
       icon: "search",
       image: "/images/service-audit.jpg",
+      imageAlt: "Internal audit",
       items: [
         "Risk-Based Auditing",
         "Process Reviews",
@@ -146,6 +165,7 @@ export const servicesContent = {
         "Compliance Audits",
       ],
       href: "/services",
+      linkLabel: "Learn More",
     },
   ],
 };
@@ -255,6 +275,11 @@ export const servicesPageContent = {
 };
 
 export const industriesPageContent = {
+  seo: {
+    title: "Industries",
+    description:
+      "Inveris Solutions LLP serves manufacturing, healthcare, technology, financial services, and more with integrated industry expertise.",
+  },
   hero: {
     tag: "INDUSTRIES",
     title: "Industry Expertise. Business Impact.",
@@ -276,6 +301,7 @@ export const industriesPageContent = {
         icon: "manufacturing" as const,
         href: "/contact",
         image: "/images/about-building.jpg",
+        imageAlt: "Manufacturing operations",
       },
       {
         title: "Retail & E-commerce",
@@ -284,6 +310,7 @@ export const industriesPageContent = {
         icon: "retail" as const,
         href: "/contact",
         image: "/images/service-recruitment.jpg",
+        imageAlt: "Retail and e-commerce",
       },
       {
         title: "Healthcare",
@@ -292,6 +319,7 @@ export const industriesPageContent = {
         icon: "healthcare" as const,
         href: "/contact",
         image: "/images/about-3.jpg",
+        imageAlt: "Healthcare",
       },
       {
         title: "Technology",
@@ -300,6 +328,7 @@ export const industriesPageContent = {
         icon: "technology" as const,
         href: "/contact",
         image: "/images/about-4.jpg",
+        imageAlt: "Technology",
       },
       {
         title: "Banking & Financial Services",
@@ -308,6 +337,7 @@ export const industriesPageContent = {
         icon: "banking" as const,
         href: "/contact",
         image: "/images/service-compliance.jpg",
+        imageAlt: "Banking and financial services",
       },
       {
         title: "Education",
@@ -316,6 +346,7 @@ export const industriesPageContent = {
         icon: "education" as const,
         href: "/contact",
         image: "/images/about-1.jpg",
+        imageAlt: "Education",
       },
       {
         title: "Real Estate & Construction",
@@ -324,6 +355,7 @@ export const industriesPageContent = {
         icon: "realEstate" as const,
         href: "/contact",
         image: "/images/service-consulting.jpg",
+        imageAlt: "Real estate and construction",
       },
       {
         title: "Travel & Hospitality",
@@ -332,6 +364,7 @@ export const industriesPageContent = {
         icon: "travel" as const,
         href: "/contact",
         image: "/images/cta.jpg",
+        imageAlt: "Travel and hospitality",
       },
     ],
   },
@@ -343,30 +376,35 @@ export const industriesPageContent = {
         description:
           "We understand the unique challenges, regulations, and dynamics that shape your sector.",
         icon: "users",
+        image: "",
       },
       {
         title: "Tailored Solutions",
         description:
           "Our services are customized to address the specific needs of your industry and business stage.",
         icon: "target",
+        image: "",
       },
       {
         title: "Integrated Expertise",
         description:
           "Strategy, people, finance, compliance, and audit work together—not in silos.",
         icon: "network",
+        image: "",
       },
       {
         title: "Measurable Impact",
         description:
           "We focus on outcomes that drive efficiency, growth, and long-term value.",
         icon: "chart",
+        image: "",
       },
       {
         title: "Long-Term Partnership",
         description:
           "We stay engaged as your industry evolves and your business grows.",
         icon: "handshake",
+        image: "",
       },
     ],
   },
@@ -388,6 +426,7 @@ export const approachContent = {
       description:
         "We start by deeply understanding your business, challenges, and goals — not just the immediate problem.",
       icon: "search",
+      image: "",
     },
     {
       number: "02",
@@ -395,6 +434,7 @@ export const approachContent = {
       description:
         "We design integrated solutions that connect strategy, operations, finance, and talent.",
       icon: "pen",
+      image: "",
     },
     {
       number: "03",
@@ -402,6 +442,7 @@ export const approachContent = {
       description:
         "We work alongside your team to implement practical solutions with clear accountability.",
       icon: "play",
+      image: "",
     },
     {
       number: "04",
@@ -409,11 +450,17 @@ export const approachContent = {
       description:
         "We stay engaged as your business grows, adapting support as priorities change.",
       icon: "chart",
+      image: "",
     },
   ],
 };
 
 export const approachPageContent = {
+  seo: {
+    title: "Our Approach",
+    description:
+      "Discover Inveris Solutions LLP four-step approach — Understand, Architect, Execute, and Evolve — for integrated business impact.",
+  },
   hero: {
     tag: "OUR APPROACH",
     title: "A Simple, Proven Approach to Drive Meaningful Impact.",
@@ -439,6 +486,7 @@ export const approachPageContent = {
         title: "Understand",
         description: "We start with your business, not a predefined solution.",
         icon: "search" as const,
+        image: "",
         items: [
           "Structured discussions and diagnostics",
           "Identify what's working, what's not, and why",
@@ -451,6 +499,7 @@ export const approachPageContent = {
         description:
           "We design a solution around your business—spanning strategy, people, processes, finance, compliance, and controls.",
         icon: "pen" as const,
+        image: "",
         items: [
           "Prioritize what matters most",
           "Design practical, integrated solutions",
@@ -462,6 +511,7 @@ export const approachPageContent = {
         title: "Execute",
         description: "We work with your team to turn recommendations into action.",
         icon: "play" as const,
+        image: "",
         items: [
           "Translate strategy into actionable initiatives",
           "Define ownership, milestones, and KPIs",
@@ -473,6 +523,7 @@ export const approachPageContent = {
         title: "Evolve",
         description: "We continuously refine and strengthen to unlock long-term value.",
         icon: "chart" as const,
+        image: "",
         items: [
           "Monitor performance and results",
           "Refine processes and systems",
@@ -487,6 +538,8 @@ export const approachPageContent = {
     description:
       "We look at your business as an interconnected system—where strategy, people, finance, compliance, and risk influence and strengthen each other.",
     quote: "Better connections lead to better decisions and stronger business outcomes.",
+    image: "/images/logo.png",
+    imageAlt: "Inveris",
     nodes: [
       {
         label: "PEOPLE",
@@ -784,6 +837,7 @@ export const ctaContent = {
     "Whether you're scaling, restructuring, or strengthening compliance — we're ready to be your integrated partner.",
   cta: { label: "Start a Conversation", href: "/contact" },
   image: "/images/cta.jpg",
+  imageAlt: "Inveris branded workspace",
 };
 
 export const footerContent = {
@@ -820,7 +874,6 @@ export const footerContent = {
     social: [
       { label: "Instagram", href: "https://instagram.com", icon: "instagram" as const },
       { label: "LinkedIn", href: "https://www.linkedin.com/company/inveris-solutions-llp/ ", icon: "linkedin" as const },
-      { label: "YouTube", href: "https://youtube.com", icon: "youtube" as const },
     ],
   },
   copyright: `© ${new Date().getFullYear()} Inveris Solutions LLP. All rights reserved.`,
@@ -998,6 +1051,7 @@ export const aboutPageContent = {
     highlightPhrase: "Inveris brings these capabilities together",
     cta: { label: "Our Services", href: "/services" },
     image: "/images/about-building.jpg",
+    imageAlt: "Modern glass office building",
     card: {
       title: "One Partner. Total Business Coverage.",
       description:
@@ -1005,6 +1059,8 @@ export const aboutPageContent = {
     },
   },
   missionVision: {
+    tag: "MISSION & VISION",
+    title: "What we stand for, and where we're going.",
     backgroundImage: "/images/about-building.jpg",
     mission: {
       tag: "OUR MISSION",

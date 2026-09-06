@@ -38,7 +38,7 @@ export function IndustryValueBar({
   content: IndustriesValueBarContent;
 }) {
   const { items } = content;
-  const title = content.title || "Why Partner With Inveris?";
+  const title = content.title;
   const isBento = items.length === 5;
 
   return (
@@ -78,6 +78,7 @@ export function IndustryValueBar({
                 title={item.title}
                 description={item.description}
                 icon={item.icon}
+                image={item.image}
                 index={index}
                 variant={getValueCardVariant(index, items.length)}
               />

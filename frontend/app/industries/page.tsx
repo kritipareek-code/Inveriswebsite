@@ -3,14 +3,17 @@ import { IndustryValueBar } from "@/components/industries/IndustryValueBar";
 import { OverlayHero } from "@/components/shared/OverlayHero";
 import { PageCtaBanner } from "@/components/shared/PageCtaBanner";
 import { fetchIndustriesContent } from "@/lib/industries-content";
-
-export const metadata = {
-  title: "Industries",
-  description:
-    "Inveris Solutions LLP serves manufacturing, healthcare, technology, financial services, and more with integrated industry expertise.",
-};
+import type { Metadata } from "next";
 
 export const dynamic = "force-dynamic";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const industries = await fetchIndustriesContent();
+  return {
+    title: industries.seo.title,
+    description: industries.seo.description,
+  };
+}
 
 export default async function IndustriesPage() {
   const industries = await fetchIndustriesContent();

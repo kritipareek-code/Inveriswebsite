@@ -1,5 +1,6 @@
 import type { AboutPageContent } from "@/lib/about-content";
 import type { ApproachPageContent } from "@/lib/approach-content";
+import type { CareersPageContent } from "@/lib/careers-content";
 import type { ContactPageContent } from "@/lib/contact-content";
 import type { LeadershipPageContent } from "@/lib/leadership-content";
 import type { ServicesPageContent } from "@/lib/services-content";
@@ -112,6 +113,14 @@ export async function saveContactContent(content: ContactPageContent) {
   return data.content as ContactPageContent;
 }
 
+export async function saveCareersContent(content: CareersPageContent) {
+  const data = await adminFetch("/api/content/careers", {
+    method: "PUT",
+    body: JSON.stringify(content),
+  });
+  return data.content as CareersPageContent;
+}
+
 export async function saveFooterContent(content: FooterContent) {
   const data = await adminFetch("/api/content/footer", {
     method: "PUT",
@@ -146,6 +155,7 @@ export type ContactSubmission = {
   phone: string;
   enquiryType: string;
   subject: string;
+  source?: string;
   message: string;
   read: boolean;
   emailSent: boolean;
@@ -162,6 +172,11 @@ export async function fetchContactSubmissions() {
 
 export async function fetchContactUnreadCount() {
   const data = await adminFetch("/api/contact/submissions/unread-count");
+  return Number(data.unread || 0);
+}
+
+export async function fetchCareerUnreadCount() {
+  const data = await adminFetch("/api/careers/applications/unread-count");
   return Number(data.unread || 0);
 }
 

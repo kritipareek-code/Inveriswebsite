@@ -88,31 +88,60 @@ export function getFallbackServicesContent(): ServicesPageContent {
   };
 }
 
-function withConsultingCall(content: ServicesPageContent): ServicesPageContent {
-  const fallback = getFallbackServicesContent().consultingCall;
+function withIds<T extends { id?: string }>(
+  items: T[] | undefined,
+  prefix: string
+): (T & { id: string })[] {
+  return (items ?? []).map((item, index) => ({
+    ...item,
+    id: item.id || `${prefix}-${index + 1}`,
+  }));
+}
+
+function normalizeServicesContent(content: ServicesPageContent): ServicesPageContent {
+  const fallback = getFallbackServicesContent();
   const incoming = content.consultingCall;
   const { whyItMatters: _removed, ...rest } = content as ServicesPageContent & {
     whyItMatters?: unknown;
   };
 
   return {
+    ...fallback,
     ...rest,
+    hero: { ...fallback.hero, ...content.hero },
+    offer: {
+      ...fallback.offer,
+      ...content.offer,
+      serviceLines: withIds(
+        content.offer?.serviceLines ?? fallback.offer.serviceLines,
+        "line"
+      ).map((line) => ({
+        ...line,
+        items: Array.isArray(line.items) ? line.items : [],
+        imagePosition: line.imagePosition === "right" ? "right" : "left",
+      })),
+    },
     consultingCall: incoming
       ? {
-          tag: incoming.tag || fallback.tag,
-          title: incoming.title || fallback.title,
-          description: incoming.description || fallback.description,
-          submitLabel: incoming.submitLabel || fallback.submitLabel,
-          images:
-            Array.isArray(incoming.images) && incoming.images.length > 0
-              ? incoming.images.map((image, index) => ({
-                  id: image.id || `consult-img-${index + 1}`,
-                  src: image.src || "",
-                  alt: image.alt || "",
-                }))
-              : fallback.images,
+          tag: incoming.tag ?? fallback.consultingCall.tag,
+          title: incoming.title ?? fallback.consultingCall.title,
+          description: incoming.description ?? fallback.consultingCall.description,
+          submitLabel: incoming.submitLabel ?? fallback.consultingCall.submitLabel,
+          images: withIds(
+            Array.isArray(incoming.images) ? incoming.images : fallback.consultingCall.images,
+            "consult-img"
+          ).map((image) => ({
+            id: image.id,
+            src: image.src || "",
+            alt: image.alt || "",
+          })),
         }
-      : fallback,
+      : fallback.consultingCall,
+    cta: {
+      ...fallback.cta,
+      ...content.cta,
+      cta: { ...fallback.cta.cta, ...content.cta?.cta },
+    },
   };
 }
 
@@ -124,7 +153,7 @@ export async function fetchServicesContent(): Promise<ServicesPageContent> {
     if (!res.ok) throw new Error("Failed to load services content");
     const data = await res.json();
     if (!data?.content) throw new Error("Missing services content");
-    return withConsultingCall(data.content as ServicesPageContent);
+    return normalizeServicesContent(data.content as ServicesPageContent);
   } catch {
     return getFallbackServicesContent();
   }

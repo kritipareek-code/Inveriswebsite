@@ -81,7 +81,9 @@ function CareersApplicationModal({
       >
         <div className="mb-4 flex shrink-0 items-start justify-between gap-4">
           <div>
-            <p className="text-xs font-semibold tracking-[0.2em] text-gold">CAREERS</p>
+            <p className="text-xs font-semibold tracking-[0.2em] text-gold">
+              {network.tag || "CAREERS"}
+            </p>
             <h2 id={titleId} className="mt-1 text-xl font-bold text-navy md:text-2xl">
               {network.formTitle}
             </h2>

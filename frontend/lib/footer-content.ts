@@ -1,7 +1,7 @@
 import { footerContent } from "@/lib/content";
 import { getApiBaseUrl } from "@/lib/home-content";
 
-export type FooterSocialIcon = "instagram" | "linkedin" | "youtube";
+export type FooterSocialIcon = "instagram" | "linkedin";
 
 export type FooterLinkItem = {
   id: string;
@@ -72,6 +72,18 @@ export function toTelHref(mobile: string) {
   return digits ? `tel:${digits}` : undefined;
 }
 
+function withoutYouTube(content: FooterContent): FooterContent {
+  return {
+    ...content,
+    contact: {
+      ...content.contact,
+      social: content.contact.social.filter(
+        (item) => String(item.icon) !== "youtube" && item.label.toLowerCase() !== "youtube"
+      ),
+    },
+  };
+}
+
 export async function fetchFooterContent(): Promise<FooterContent> {
   try {
     const res = await fetch(`${getApiBaseUrl()}/api/content/footer`, {
@@ -80,8 +92,8 @@ export async function fetchFooterContent(): Promise<FooterContent> {
     if (!res.ok) throw new Error("Failed to load footer content");
     const data = await res.json();
     if (!data?.content) throw new Error("Missing footer content");
-    return data.content as FooterContent;
+    return withoutYouTube(data.content as FooterContent);
   } catch {
-    return getFallbackFooterContent();
+    return withoutYouTube(getFallbackFooterContent());
   }
 }

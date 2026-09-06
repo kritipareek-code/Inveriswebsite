@@ -1,4 +1,9 @@
 const defaultIndustries = {
+  seo: {
+    title: "Industries",
+    description:
+      "Inveris Solutions LLP serves manufacturing, healthcare, technology, financial services, and more with integrated industry expertise.",
+  },
   hero: {
     tag: "INDUSTRIES",
     title: "Industry Expertise. Business Impact.",
@@ -20,6 +25,7 @@ const defaultIndustries = {
           "Optimize operations, strengthen supply chain performance, and build workforce capabilities that support sustainable manufacturing growth.",
         icon: "manufacturing",
         image: "/images/about-building.jpg",
+        imageAlt: "Manufacturing operations",
       },
       {
         id: "industry-2",
@@ -28,6 +34,7 @@ const defaultIndustries = {
           "Scale operations across digital and physical channels with integrated support for talent, finance, compliance, and business strategy.",
         icon: "retail",
         image: "/images/service-recruitment.jpg",
+        imageAlt: "Retail and e-commerce",
       },
       {
         id: "industry-3",
@@ -36,6 +43,7 @@ const defaultIndustries = {
           "Navigate complex regulatory requirements, strengthen internal controls, and build high-performing teams in patient-focused environments.",
         icon: "healthcare",
         image: "/images/about-3.jpg",
+        imageAlt: "Healthcare",
       },
       {
         id: "industry-4",
@@ -44,6 +52,7 @@ const defaultIndustries = {
           "Support fast-growing tech companies with strategic consulting, specialized recruitment, financial governance, and risk management.",
         icon: "technology",
         image: "/images/about-4.jpg",
+        imageAlt: "Technology",
       },
       {
         id: "industry-5",
@@ -52,6 +61,7 @@ const defaultIndustries = {
           "Strengthen regulatory compliance, internal audit, and operational resilience in an evolving financial services landscape.",
         icon: "banking",
         image: "/images/service-compliance.jpg",
+        imageAlt: "Banking and financial services",
       },
       {
         id: "industry-6",
@@ -60,6 +70,7 @@ const defaultIndustries = {
           "Help educational institutions improve workforce planning, operational efficiency, compliance, and governance frameworks.",
         icon: "education",
         image: "/images/about-1.jpg",
+        imageAlt: "Education",
       },
       {
         id: "industry-7",
@@ -68,6 +79,7 @@ const defaultIndustries = {
           "Manage project complexity, financial controls, regulatory compliance, and talent needs across real estate and construction.",
         icon: "realEstate",
         image: "/images/service-consulting.jpg",
+        imageAlt: "Real estate and construction",
       },
       {
         id: "industry-8",
@@ -76,6 +88,7 @@ const defaultIndustries = {
           "Optimize operations, manage seasonal workforce needs, and strengthen financial and compliance practices in hospitality.",
         icon: "travel",
         image: "/images/cta.jpg",
+        imageAlt: "Travel and hospitality",
       },
     ],
   },
@@ -88,6 +101,7 @@ const defaultIndustries = {
         description:
           "We understand the unique challenges, regulations, and dynamics that shape your sector.",
         icon: "users",
+        image: "",
       },
       {
         id: "value-2",
@@ -95,6 +109,7 @@ const defaultIndustries = {
         description:
           "Our services are customized to address the specific needs of your industry and business stage.",
         icon: "target",
+        image: "",
       },
       {
         id: "value-3",
@@ -102,6 +117,7 @@ const defaultIndustries = {
         description:
           "Strategy, people, finance, compliance, and audit work together—not in silos.",
         icon: "network",
+        image: "",
       },
       {
         id: "value-4",
@@ -109,6 +125,7 @@ const defaultIndustries = {
         description:
           "We focus on outcomes that drive efficiency, growth, and long-term value.",
         icon: "chart",
+        image: "",
       },
       {
         id: "value-5",
@@ -116,6 +133,7 @@ const defaultIndustries = {
         description:
           "We stay engaged as your industry evolves and your business grows.",
         icon: "handshake",
+        image: "",
       },
     ],
   },

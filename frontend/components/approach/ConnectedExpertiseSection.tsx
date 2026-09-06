@@ -48,7 +48,11 @@ export function ConnectedExpertiseSection({
             </Reveal>
           </div>
           <Reveal direction="right" delay={0.16}>
-            <ExpertiseDiagram nodes={connectedExpertise.nodes} />
+            <ExpertiseDiagram
+              nodes={connectedExpertise.nodes}
+              image={connectedExpertise.image}
+              imageAlt={connectedExpertise.imageAlt}
+            />
           </Reveal>
         </div>
       </Container>

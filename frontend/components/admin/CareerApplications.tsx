@@ -92,8 +92,7 @@ export function CareerApplications() {
         <div>
           <h2 className="text-2xl font-bold text-navy">Career applications</h2>
           <p className="mt-1 text-sm text-text-body">
-            Profiles submitted through the careers talent network form. Notifications go to HR, and
-            resumes are attached when available.
+            Profiles submitted through the careers page form. Each one is saved here and emailed to the notification inbox.
           </p>
         </div>
         <div className="flex items-center gap-3">

@@ -3,8 +3,9 @@ const LIMITS = {
   email: 254,
   company: 120,
   phone: 40,
-  enquiryType: 80,
+  enquiryType: 120,
   subject: 160,
+  source: 40,
   message: 5000,
 };
 
@@ -13,7 +14,7 @@ function tooLong(value, max) {
 }
 
 function validateContact(req, res, next) {
-  const { name, email, company, phone, enquiryType, subject, message } = req.body;
+  const { name, email, company, phone, enquiryType, subject, source, message } = req.body;
 
   const errors = [];
 
@@ -39,6 +40,7 @@ function validateContact(req, res, next) {
   if (tooLong(phone, LIMITS.phone)) errors.push("Phone number is too long.");
   if (tooLong(enquiryType, LIMITS.enquiryType)) errors.push("Enquiry type is too long.");
   if (tooLong(subject, LIMITS.subject)) errors.push("Subject is too long.");
+  if (tooLong(source, LIMITS.source)) errors.push("Source is too long.");
 
   if (errors.length > 0) {
     return res.status(400).json({ success: false, errors });

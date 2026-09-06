@@ -49,7 +49,7 @@ export function AboutSection({ content }: { content: HomeAboutContent }) {
               ) : null}
               {content.cta?.label ? (
                 <Reveal direction="up" delay={0.3} className="w-fit">
-                  <Button variant="primary" href="/about">
+                  <Button variant="primary" href={content.cta.href || "/about"}>
                     {content.cta.label}
                   </Button>
                 </Reveal>
@@ -71,7 +71,7 @@ export function AboutSection({ content }: { content: HomeAboutContent }) {
                       {feature.image ? (
                         <CmsImage
                           src={feature.image}
-                          alt={feature.title}
+                          alt={feature.imageAlt || feature.title}
                           fill
                           className="object-cover transition-transform duration-700 group-hover:scale-110"
                           sizes="(max-width: 768px) 100vw, 300px"

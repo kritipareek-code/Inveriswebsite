@@ -2,6 +2,7 @@ import { BarChart3, PenLine, Play, Search } from "lucide-react";
 import { MagicCard } from "@/components/magic/magic-card";
 import { BorderBeam } from "@/components/magic/border-beam";
 import { Reveal, type RevealDirection } from "@/components/magic/reveal";
+import { CmsImage } from "@/components/ui/CmsImage";
 import { cn } from "@/lib/cn";
 
 type StepIcon = "search" | "pen" | "play" | "chart";
@@ -11,6 +12,7 @@ interface ApproachStepCardProps {
   title: string;
   description: string;
   icon: string;
+  image?: string;
   items: string[];
   className?: string;
   direction?: RevealDirection;
@@ -29,6 +31,7 @@ export function ApproachStepCard({
   title,
   description,
   icon,
+  image,
   items,
   className,
   direction = "up",
@@ -40,23 +43,29 @@ export function ApproachStepCard({
     <Reveal
       direction={direction}
       delay={delay}
-      className={cn("relative row-span-5 grid h-full grid-rows-subgrid pt-7", className)}
+      className={cn("relative flex h-full flex-col pt-7", className)}
     >
       <div className="absolute left-1/2 top-0 z-10 -translate-x-1/2">
-        <div className="flex size-14 items-center justify-center rounded-full bg-gold shadow-[0_10px_30px_rgba(196,164,132,0.4)]">
-          <Icon size={24} className="text-navy" strokeWidth={1.5} />
+        <div className="flex size-14 items-center justify-center overflow-hidden rounded-full bg-gold shadow-[0_10px_30px_rgba(196,164,132,0.4)]">
+          {image ? (
+            <CmsImage
+              src={image}
+              alt={title}
+              width={56}
+              height={56}
+              className="size-full object-cover"
+            />
+          ) : (
+            <Icon size={24} className="text-navy" strokeWidth={1.5} />
+          )}
         </div>
       </div>
 
       <MagicCard
-        className="row-span-5 grid h-full grid-rows-subgrid overflow-hidden border-white/10 bg-white/5 px-6 pb-6 pt-12 text-left backdrop-blur-xl"
+        className="flex h-full flex-col overflow-hidden border-white/10 bg-white/5 px-6 pb-6 pt-12 text-left backdrop-blur-xl"
         gradientColor="rgba(196,164,132,0.18)"
       >
-        <BorderBeam
-          size={70}
-          duration={10}
-          className="[grid-area:1/1/-1/-1]"
-        />
+        <BorderBeam size={70} duration={10} />
 
         <Reveal
           as="span"
@@ -64,9 +73,10 @@ export function ApproachStepCard({
           delay={delay + 0.08}
           duration={0.55}
           distance={16}
-          className="text-sm font-bold leading-none text-gold"
+          className="inline-flex items-center gap-3 text-sm font-bold leading-none text-gold"
         >
           {number}
+          <span className="h-px w-6 bg-gold/70" aria-hidden="true" />
         </Reveal>
         <Reveal
           as="h3"
@@ -88,7 +98,7 @@ export function ApproachStepCard({
         >
           {description}
         </Reveal>
-        <span className="mt-4 mb-4 block h-px w-8 bg-gold" aria-hidden="true" />
+        <span className="mt-4 mb-4 block h-px w-8 shrink-0 bg-gold" aria-hidden="true" />
         <ul className="flex flex-col gap-2.5">
           {items.map((item, itemIndex) => (
             <Reveal

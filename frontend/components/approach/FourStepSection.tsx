@@ -45,6 +45,7 @@ export function FourStepSection({
               title={step.title}
               description={step.description}
               icon={step.icon}
+              image={step.image}
               items={step.items}
               direction={cardDirections[index % cardDirections.length]}
               delay={index * 0.08}

@@ -44,12 +44,6 @@ const defaultFooter = {
         href: "https://www.linkedin.com/company/inveris-solutions-llp/",
         icon: "linkedin",
       },
-      {
-        id: "social-3",
-        label: "YouTube",
-        href: "https://youtube.com",
-        icon: "youtube",
-      },
     ],
   },
   copyright: "© 2026 Inveris Solutions LLP. All rights reserved.",

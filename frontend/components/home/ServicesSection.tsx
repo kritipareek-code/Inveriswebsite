@@ -42,14 +42,14 @@ export function ServicesSection({ content }: { content: HomeServicesContent }) {
                   delay={index * 0.08}
                   className="h-full"
                 >
-                  <Link href="/services" className="block h-full">
+                  <Link href={service.href || "/services"} className="block h-full">
                     <MagicCard className="flex h-full flex-col">
                       <BorderBeam size={70} duration={10} delay={index} />
                       <div className="relative h-36 overflow-hidden bg-navy/10">
                         {service.image ? (
                           <CmsImage
                             src={service.image}
-                            alt=""
+                            alt={service.imageAlt || service.title}
                             fill
                             className="object-cover transition-transform duration-700 group-hover:scale-110"
                             sizes="(max-width: 768px) 100vw, 300px"

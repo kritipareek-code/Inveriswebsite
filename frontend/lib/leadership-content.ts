@@ -115,6 +115,54 @@ export function getFallbackLeadershipContent(): LeadershipPageContent {
   };
 }
 
+function withIds<T extends { id?: string }>(
+  items: T[] | undefined,
+  prefix: string
+): (T & { id: string })[] {
+  return (items ?? []).map((item, index) => ({
+    ...item,
+    id: item.id || `${prefix}-${index + 1}`,
+  }));
+}
+
+function normalizeLeadershipContent(content: LeadershipPageContent): LeadershipPageContent {
+  const fallback = getFallbackLeadershipContent();
+  return {
+    ...fallback,
+    ...content,
+    hero: {
+      ...fallback.hero,
+      ...content.hero,
+      paragraphs: Array.isArray(content.hero?.paragraphs)
+        ? content.hero.paragraphs
+        : fallback.hero.paragraphs,
+    },
+    philosophy: {
+      ...fallback.philosophy,
+      ...content.philosophy,
+      items: withIds(
+        content.philosophy?.items ?? fallback.philosophy.items,
+        "philosophy"
+      ),
+    },
+    team: {
+      ...fallback.team,
+      ...content.team,
+      members: withIds(content.team?.members ?? fallback.team.members, "member"),
+    },
+    values: {
+      ...fallback.values,
+      ...content.values,
+      items: withIds(content.values?.items ?? fallback.values.items, "value"),
+    },
+    cta: {
+      ...fallback.cta,
+      ...content.cta,
+      cta: { ...fallback.cta.cta, ...content.cta?.cta },
+    },
+  };
+}
+
 export async function fetchLeadershipContent(): Promise<LeadershipPageContent> {
   try {
     const res = await fetch(`${getApiBaseUrl()}/api/content/leadership`, {
@@ -123,34 +171,8 @@ export async function fetchLeadershipContent(): Promise<LeadershipPageContent> {
     if (!res.ok) throw new Error("Failed to load leadership content");
     const data = await res.json();
     if (!data?.content) throw new Error("Missing leadership content");
-    return withDefaultValues(data.content as LeadershipPageContent);
+    return normalizeLeadershipContent(data.content as LeadershipPageContent);
   } catch {
     return getFallbackLeadershipContent();
   }
-}
-
-function withDefaultValues(content: LeadershipPageContent): LeadershipPageContent {
-  const fallback = getFallbackLeadershipContent().values;
-  const items = content.values?.items ?? [];
-  const hasSixth =
-    items.length >= 6 ||
-    items.some(
-      (item) =>
-        item.id === "value-6" || /client partnership/i.test(item.title || "")
-    );
-
-  return {
-    ...content,
-    values: {
-      ...content.values,
-      tag: content.values?.tag || fallback.tag,
-      title: content.values?.title || fallback.title,
-      backgroundImage:
-        !content.values?.backgroundImage ||
-        content.values.backgroundImage.includes("about-building.jpg")
-          ? fallback.backgroundImage
-          : content.values.backgroundImage,
-      items: hasSixth ? items : [...items, fallback.items[5]],
-    },
-  };
 }

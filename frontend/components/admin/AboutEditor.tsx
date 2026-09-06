@@ -53,7 +53,7 @@ export function AboutEditor({ initialContent }: { initialContent: AboutPageConte
         <p className="rounded-md bg-red-50 px-4 py-3 text-sm text-red-700">{error}</p>
       ) : null}
 
-      <AdminSection title="Hero">
+      <AdminSection title="Hero" defaultOpen>
         <TextField
           label="Tag"
           value={content.hero.tag}
@@ -73,9 +73,16 @@ export function AboutEditor({ initialContent }: { initialContent: AboutPageConte
           }
         />
         <ImageField
-          label="Image"
+          label="Hero image"
           value={content.hero.image}
           onChange={(v) => setContent((prev) => ({ ...prev, hero: { ...prev.hero, image: v } }))}
+        />
+        <TextField
+          label="Image alt text"
+          value={content.hero.imageAlt}
+          onChange={(v) =>
+            setContent((prev) => ({ ...prev, hero: { ...prev.hero, imageAlt: v } }))
+          }
         />
       </AdminSection>
 
@@ -159,11 +166,31 @@ export function AboutEditor({ initialContent }: { initialContent: AboutPageConte
             }))
           }
         />
+        <TextField
+          label="Button link"
+          value={content.whoWeAre.cta.href}
+          onChange={(v) =>
+            setContent((prev) => ({
+              ...prev,
+              whoWeAre: { ...prev.whoWeAre, cta: { ...prev.whoWeAre.cta, href: v } },
+            }))
+          }
+        />
         <ImageField
           label="Image"
           value={content.whoWeAre.image}
           onChange={(v) =>
             setContent((prev) => ({ ...prev, whoWeAre: { ...prev.whoWeAre, image: v } }))
+          }
+        />
+        <TextField
+          label="Image alt text"
+          value={content.whoWeAre.imageAlt || ""}
+          onChange={(v) =>
+            setContent((prev) => ({
+              ...prev,
+              whoWeAre: { ...prev.whoWeAre, imageAlt: v },
+            }))
           }
         />
         <TextField
@@ -192,7 +219,27 @@ export function AboutEditor({ initialContent }: { initialContent: AboutPageConte
         />
       </AdminSection>
 
-      <AdminSection title="Mission & vision background">
+      <AdminSection title="Mission & vision">
+        <TextField
+          label="Section tag"
+          value={content.missionVision.tag}
+          onChange={(v) =>
+            setContent((prev) => ({
+              ...prev,
+              missionVision: { ...prev.missionVision, tag: v },
+            }))
+          }
+        />
+        <TextField
+          label="Section title"
+          value={content.missionVision.title}
+          onChange={(v) =>
+            setContent((prev) => ({
+              ...prev,
+              missionVision: { ...prev.missionVision, title: v },
+            }))
+          }
+        />
         <ImageField
           label="Background image"
           value={content.missionVision.backgroundImage}
@@ -228,6 +275,19 @@ export function AboutEditor({ initialContent }: { initialContent: AboutPageConte
               missionVision: {
                 ...prev.missionVision,
                 mission: { ...prev.missionVision.mission, title: v },
+              },
+            }))
+          }
+        />
+        <TextField
+          label="Icon (target, eye)"
+          value={content.missionVision.mission.icon}
+          onChange={(v) =>
+            setContent((prev) => ({
+              ...prev,
+              missionVision: {
+                ...prev.missionVision,
+                mission: { ...prev.missionVision.mission, icon: v },
               },
             }))
           }
@@ -314,6 +374,22 @@ export function AboutEditor({ initialContent }: { initialContent: AboutPageConte
             }))
           }
         />
+        <TextField
+          label="Footer icon (diamond, chart)"
+          value={content.missionVision.mission.footer.icon}
+          onChange={(v) =>
+            setContent((prev) => ({
+              ...prev,
+              missionVision: {
+                ...prev.missionVision,
+                mission: {
+                  ...prev.missionVision.mission,
+                  footer: { ...prev.missionVision.mission.footer, icon: v },
+                },
+              },
+            }))
+          }
+        />
       </AdminSection>
 
       <AdminSection title="Vision">
@@ -339,6 +415,19 @@ export function AboutEditor({ initialContent }: { initialContent: AboutPageConte
               missionVision: {
                 ...prev.missionVision,
                 vision: { ...prev.missionVision.vision, title: v },
+              },
+            }))
+          }
+        />
+        <TextField
+          label="Icon (target, eye)"
+          value={content.missionVision.vision.icon}
+          onChange={(v) =>
+            setContent((prev) => ({
+              ...prev,
+              missionVision: {
+                ...prev.missionVision,
+                vision: { ...prev.missionVision.vision, icon: v },
               },
             }))
           }
@@ -409,6 +498,22 @@ export function AboutEditor({ initialContent }: { initialContent: AboutPageConte
             }))
           }
         />
+        <TextField
+          label="Footer icon (diamond, chart)"
+          value={content.missionVision.vision.footer.icon}
+          onChange={(v) =>
+            setContent((prev) => ({
+              ...prev,
+              missionVision: {
+                ...prev.missionVision,
+                vision: {
+                  ...prev.missionVision.vision,
+                  footer: { ...prev.missionVision.vision.footer, icon: v },
+                },
+              },
+            }))
+          }
+        />
       </AdminSection>
 
       <AdminSection title="Call to action">
@@ -432,6 +537,16 @@ export function AboutEditor({ initialContent }: { initialContent: AboutPageConte
             setContent((prev) => ({
               ...prev,
               cta: { ...prev.cta, cta: { ...prev.cta.cta, label: v } },
+            }))
+          }
+        />
+        <TextField
+          label="Button link"
+          value={content.cta.cta.href}
+          onChange={(v) =>
+            setContent((prev) => ({
+              ...prev,
+              cta: { ...prev.cta, cta: { ...prev.cta.cta, href: v } },
             }))
           }
         />

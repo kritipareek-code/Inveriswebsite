@@ -84,7 +84,7 @@ export function ServicesEditor({ initialContent }: { initialContent: ServicesPag
         <p className="rounded-md bg-red-50 px-4 py-3 text-sm text-red-700">{error}</p>
       ) : null}
 
-      <AdminSection title="Hero">
+      <AdminSection title="Hero" defaultOpen>
         <TextField
           label="Tag"
           value={content.hero.tag}
@@ -104,9 +104,16 @@ export function ServicesEditor({ initialContent }: { initialContent: ServicesPag
           }
         />
         <ImageField
-          label="Image"
+          label="Hero image"
           value={content.hero.image}
           onChange={(v) => setContent((prev) => ({ ...prev, hero: { ...prev.hero, image: v } }))}
+        />
+        <TextField
+          label="Image alt text"
+          value={content.hero.imageAlt}
+          onChange={(v) =>
+            setContent((prev) => ({ ...prev, hero: { ...prev.hero, imageAlt: v } }))
+          }
         />
       </AdminSection>
 
@@ -166,6 +173,20 @@ export function ServicesEditor({ initialContent }: { initialContent: ServicesPag
               label="Image"
               value={line.image}
               onChange={(v) => updateLine(line.id, { image: v })}
+            />
+            <TextField
+              label="Icon (consulting, recruitment, compliance, audit)"
+              value={line.icon}
+              onChange={(v) => updateLine(line.id, { icon: v })}
+            />
+            <TextField
+              label="Image position (left or right)"
+              value={line.imagePosition}
+              onChange={(v) =>
+                updateLine(line.id, {
+                  imagePosition: v === "right" ? "right" : "left",
+                })
+              }
             />
             <div className="space-y-2">
               <span className="text-xs font-semibold tracking-wide text-navy uppercase">
@@ -355,6 +376,16 @@ export function ServicesEditor({ initialContent }: { initialContent: ServicesPag
             setContent((prev) => ({
               ...prev,
               cta: { ...prev.cta, cta: { ...prev.cta.cta, label: v } },
+            }))
+          }
+        />
+        <TextField
+          label="Button link"
+          value={content.cta.cta.href}
+          onChange={(v) =>
+            setContent((prev) => ({
+              ...prev,
+              cta: { ...prev.cta, cta: { ...prev.cta.cta, href: v } },
             }))
           }
         />

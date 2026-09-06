@@ -10,7 +10,6 @@ import { BackgroundBeams } from "@/components/magic/background-beams";
 import { GridPattern } from "@/components/magic/grid-pattern";
 import { Meteors } from "@/components/magic/meteors";
 import { TextGenerate } from "@/components/magic/text-generate";
-import { BorderBeam } from "@/components/magic/border-beam";
 import { HomeIcon } from "@/lib/home-icons";
 import { resolveMediaUrl, type HomeHeroContent } from "@/lib/home-content";
 
@@ -47,7 +46,6 @@ export function HeroSection({ content }: { content: HomeHeroContent }) {
               className="relative inline-flex"
             >
               <SectionTag light>{content.tag}</SectionTag>
-              <BorderBeam size={48} duration={9} />
             </motion.div>
           ) : null}
 
@@ -75,7 +73,7 @@ export function HeroSection({ content }: { content: HomeHeroContent }) {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.75, delay: 0.7, ease }}
               >
-                <Button variant="gold" size="lg" href="/about">
+                <Button variant="gold" size="lg" href={content.primaryCta.href || "/about"}>
                   {content.primaryCta.label}
                   <HomeIcon name="arrowRight" size={18} />
                 </Button>
@@ -87,7 +85,7 @@ export function HeroSection({ content }: { content: HomeHeroContent }) {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.75, delay: 0.84, ease }}
               >
-                <Button variant="light" size="lg" href="/services">
+                <Button variant="light" size="lg" href={content.secondaryCta.href || "/services"}>
                   {content.secondaryCta.label}
                 </Button>
               </motion.div>

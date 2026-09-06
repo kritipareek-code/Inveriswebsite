@@ -24,6 +24,11 @@ const {
   writeContact,
   resetContact,
 } = require("../store/contactStore");
+const {
+  readCareersPage,
+  writeCareersPage,
+  resetCareersPage,
+} = require("../store/careersPageStore");
 const { cleanupRemovedImageKitUrls } = require("../lib/imagekitCleanup");
 
 const router = express.Router();
@@ -149,6 +154,27 @@ function isContactContent(body) {
     body.office &&
     body.faq &&
     Array.isArray(body.faq.items)
+  );
+}
+
+function isCareersContent(body) {
+  return (
+    body &&
+    typeof body === "object" &&
+    body.hero &&
+    body.intro &&
+    typeof body.intro.statement === "string" &&
+    body.expect &&
+    Array.isArray(body.expect.items) &&
+    body.opportunity &&
+    body.network &&
+    Array.isArray(body.network.interestOptions) &&
+    Array.isArray(body.network.experienceOptions) &&
+    body.next &&
+    Array.isArray(body.next.steps) &&
+    body.faq &&
+    Array.isArray(body.faq.items) &&
+    body.cta
   );
 }
 
@@ -426,6 +452,47 @@ router.post("/contact/reset", requireAuth, async (_req, res) => {
     return res
       .status(500)
       .json({ success: false, message: "Failed to reset contact content" });
+  }
+});
+
+router.get("/careers", async (_req, res) => {
+  try {
+    return res.json({ success: true, content: await readCareersPage() });
+  } catch (error) {
+    console.error("[Careers content read]", error);
+    return res
+      .status(500)
+      .json({ success: false, message: "Failed to load careers content" });
+  }
+});
+
+router.put("/careers", requireAuth, async (req, res) => {
+  if (!isCareersContent(req.body)) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Invalid careers content payload" });
+  }
+
+  try {
+    const content = await saveContent(readCareersPage, writeCareersPage, req.body);
+    return res.json({ success: true, content });
+  } catch (error) {
+    console.error("[Careers content write]", error);
+    return res
+      .status(500)
+      .json({ success: false, message: "Failed to save careers content" });
+  }
+});
+
+router.post("/careers/reset", requireAuth, async (_req, res) => {
+  try {
+    const content = await resetContent(readCareersPage, resetCareersPage);
+    return res.json({ success: true, content });
+  } catch (error) {
+    console.error("[Careers content reset]", error);
+    return res
+      .status(500)
+      .json({ success: false, message: "Failed to reset careers content" });
   }
 });
 

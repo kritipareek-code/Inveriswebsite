@@ -84,6 +84,7 @@ export function ServiceEnquiryModal({
           phone: form.phone,
           enquiryType: service,
           subject: `Service enquiry: ${service}`,
+          source: "service-enquiry",
           message: form.message,
         }),
       });

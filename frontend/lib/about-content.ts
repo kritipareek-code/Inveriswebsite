@@ -56,6 +56,8 @@ export type AboutVisionBlock = {
 };
 
 export type AboutMissionVisionContent = {
+  tag: string;
+  title: string;
   backgroundImage: string;
   mission: AboutMissionBlock;
   vision: AboutVisionBlock;
@@ -79,9 +81,14 @@ export function getFallbackAboutContent(): AboutPageContent {
     hero: { ...aboutPageContent.hero },
     whoWeAre: {
       ...aboutPageContent.whoWeAre,
-      imageAlt: "Modern glass office building",
+      imageAlt: aboutPageContent.whoWeAre.imageAlt || "Modern glass office building",
+      paragraphs: [...aboutPageContent.whoWeAre.paragraphs],
+      cta: { ...aboutPageContent.whoWeAre.cta },
+      card: { ...aboutPageContent.whoWeAre.card },
     },
     missionVision: {
+      tag: aboutPageContent.missionVision.tag,
+      title: aboutPageContent.missionVision.title,
       backgroundImage: aboutPageContent.missionVision.backgroundImage,
       mission: {
         ...aboutPageContent.missionVision.mission,
@@ -109,8 +116,57 @@ export async function fetchAboutContent(): Promise<AboutPageContent> {
     if (!res.ok) throw new Error("Failed to load about content");
     const data = await res.json();
     if (!data?.content) throw new Error("Missing about content");
-    return data.content as AboutPageContent;
+    return normalizeAboutContent(data.content as AboutPageContent);
   } catch {
     return getFallbackAboutContent();
   }
+}
+
+function normalizeAboutContent(content: AboutPageContent): AboutPageContent {
+  const fallback = getFallbackAboutContent();
+  return {
+    ...fallback,
+    ...content,
+    hero: { ...fallback.hero, ...content.hero },
+    whoWeAre: {
+      ...fallback.whoWeAre,
+      ...content.whoWeAre,
+      paragraphs: Array.isArray(content.whoWeAre?.paragraphs)
+        ? content.whoWeAre.paragraphs
+        : fallback.whoWeAre.paragraphs,
+      cta: { ...fallback.whoWeAre.cta, ...content.whoWeAre?.cta },
+      card: { ...fallback.whoWeAre.card, ...content.whoWeAre?.card },
+    },
+    missionVision: {
+      ...fallback.missionVision,
+      ...content.missionVision,
+      mission: {
+        ...fallback.missionVision.mission,
+        ...content.missionVision?.mission,
+        items: Array.isArray(content.missionVision?.mission?.items)
+          ? content.missionVision.mission.items
+          : fallback.missionVision.mission.items,
+        footer: {
+          ...fallback.missionVision.mission.footer,
+          ...content.missionVision?.mission?.footer,
+        },
+      },
+      vision: {
+        ...fallback.missionVision.vision,
+        ...content.missionVision?.vision,
+        items: Array.isArray(content.missionVision?.vision?.items)
+          ? content.missionVision.vision.items
+          : fallback.missionVision.vision.items,
+        footer: {
+          ...fallback.missionVision.vision.footer,
+          ...content.missionVision?.vision?.footer,
+        },
+      },
+    },
+    cta: {
+      ...fallback.cta,
+      ...content.cta,
+      cta: { ...fallback.cta.cta, ...content.cta?.cta },
+    },
+  };
 }

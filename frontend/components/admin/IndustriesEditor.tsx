@@ -58,8 +58,7 @@ export function IndustriesEditor({
         <div>
           <h1 className="text-2xl font-bold text-navy">Industries page</h1>
           <p className="mt-1 text-sm text-text-body">
-            Edit the hero, timeline industries, value bar, and CTA. Matches the
-            live Industries page UI.
+            Edit every section on Industries, including images, labels, and SEO.
           </p>
         </div>
         <button
@@ -80,6 +79,27 @@ export function IndustriesEditor({
       {error ? (
         <p className="rounded-md bg-red-50 px-4 py-3 text-sm text-red-700">{error}</p>
       ) : null}
+
+      <AdminSection title="Page SEO">
+        <TextField
+          label="Browser title"
+          value={content.seo.title}
+          onChange={(v) =>
+            setContent((prev) => ({ ...prev, seo: { ...prev.seo, title: v } }))
+          }
+        />
+        <TextField
+          label="Meta description"
+          multiline
+          value={content.seo.description}
+          onChange={(v) =>
+            setContent((prev) => ({
+              ...prev,
+              seo: { ...prev.seo, description: v },
+            }))
+          }
+        />
+      </AdminSection>
 
       <AdminSection title="Hero">
         <TextField
@@ -112,6 +132,16 @@ export function IndustriesEditor({
           value={content.hero.image}
           onChange={(v) =>
             setContent((prev) => ({ ...prev, hero: { ...prev.hero, image: v } }))
+          }
+        />
+        <TextField
+          label="Image alt text"
+          value={content.hero.imageAlt}
+          onChange={(v) =>
+            setContent((prev) => ({
+              ...prev,
+              hero: { ...prev.hero, imageAlt: v },
+            }))
           }
         />
       </AdminSection>
@@ -196,6 +226,16 @@ export function IndustriesEditor({
               value={industry.image}
               onChange={(v) => updateIndustry(industry.id, { image: v })}
             />
+            <TextField
+              label="Image alt text"
+              value={industry.imageAlt}
+              onChange={(v) => updateIndustry(industry.id, { imageAlt: v })}
+            />
+            <TextField
+              label="Icon (manufacturing, retail, healthcare, technology, banking, education, realEstate, travel)"
+              value={industry.icon}
+              onChange={(v) => updateIndustry(industry.id, { icon: v })}
+            />
           </div>
         ))}
         <AddButton
@@ -212,6 +252,7 @@ export function IndustriesEditor({
                     title: "New industry",
                     description: "",
                     image: "",
+                    imageAlt: "",
                     icon: "manufacturing",
                   } satisfies IndustryTimelineItem,
                 ],
@@ -287,6 +328,36 @@ export function IndustriesEditor({
                 }))
               }
             />
+            <TextField
+              label="Icon (users, target, network, chart, handshake)"
+              value={item.icon}
+              onChange={(v) =>
+                setContent((prev) => ({
+                  ...prev,
+                  valueBar: {
+                    ...prev.valueBar,
+                    items: prev.valueBar.items.map((entry) =>
+                      entry.id === item.id ? { ...entry, icon: v } : entry
+                    ),
+                  },
+                }))
+              }
+            />
+            <ImageField
+              label="Icon image (optional, overrides icon name)"
+              value={item.image}
+              onChange={(v) =>
+                setContent((prev) => ({
+                  ...prev,
+                  valueBar: {
+                    ...prev.valueBar,
+                    items: prev.valueBar.items.map((entry) =>
+                      entry.id === item.id ? { ...entry, image: v } : entry
+                    ),
+                  },
+                }))
+              }
+            />
           </div>
         ))}
         <AddButton
@@ -303,6 +374,7 @@ export function IndustriesEditor({
                     title: "New item",
                     description: "",
                     icon: "users",
+                    image: "",
                   },
                 ],
               },
@@ -337,6 +409,16 @@ export function IndustriesEditor({
             setContent((prev) => ({
               ...prev,
               cta: { ...prev.cta, cta: { ...prev.cta.cta, label: v } },
+            }))
+          }
+        />
+        <TextField
+          label="Button link"
+          value={content.cta.cta.href}
+          onChange={(v) =>
+            setContent((prev) => ({
+              ...prev,
+              cta: { ...prev.cta, cta: { ...prev.cta.cta, href: v } },
             }))
           }
         />

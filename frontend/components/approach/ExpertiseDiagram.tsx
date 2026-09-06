@@ -1,8 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import { useReducedMotion } from "motion/react";
 import { SpinningText } from "@/components/magic/spinning-text";
+import { CmsImage } from "@/components/ui/CmsImage";
 
 interface DiagramNode {
   id?: string;
@@ -19,7 +19,15 @@ function titleCase(value: string) {
     .replace(/\b\w/g, (char) => char.toUpperCase());
 }
 
-export function ExpertiseDiagram({ nodes }: { nodes: DiagramNode[] }) {
+export function ExpertiseDiagram({
+  nodes,
+  image,
+  imageAlt,
+}: {
+  nodes: DiagramNode[];
+  image: string;
+  imageAlt: string;
+}) {
   const reducedMotion = useReducedMotion();
   const spinningCopy =
     nodes.map((node) => titleCase(node.label)).join("  •  ") + "  •  ";
@@ -47,9 +55,9 @@ export function ExpertiseDiagram({ nodes }: { nodes: DiagramNode[] }) {
       </SpinningText>
 
       <div className="relative z-10 flex items-center justify-center">
-        <Image
-          src="/images/logo.png"
-          alt="Inveris"
+        <CmsImage
+          src={image || "/images/logo.png"}
+          alt={imageAlt || "Inveris"}
           width={330}
           height={150}
           className="h-16 w-auto object-contain sm:h-28"

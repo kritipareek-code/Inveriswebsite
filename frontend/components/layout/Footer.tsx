@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/Button";
 import PixelDrift from "@/components/originkit/ui/pixeldrift";
 import { NewsletterForm } from "@/components/layout/NewsletterForm";
 import { GridPattern } from "@/components/magic/grid-pattern";
+import { Reveal } from "@/components/magic/reveal";
 import { toTelHref, type FooterContent, type FooterSocialIcon } from "@/lib/footer-content";
 
 function SocialIcon({ icon }: { icon: FooterSocialIcon }) {
@@ -28,12 +29,7 @@ function SocialIcon({ icon }: { icon: FooterSocialIcon }) {
     );
   }
 
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-      <path d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2s10 4.477 10 10z" />
-      <path d="M10 9.5v5l4.5-2.5L10 9.5z" fill="currentColor" stroke="none" />
-    </svg>
-  );
+  return null;
 }
 
 export function Footer({
@@ -98,31 +94,41 @@ export function Footer({
               />
             </Link>
             {content.description ? (
-              <p className="text-sm leading-relaxed max-w-xs text-paragraph-inverse">
+              <Reveal as="p" direction="down" delay={0.08} className="text-sm leading-relaxed max-w-xs text-paragraph-inverse">
                 {content.description}
-              </p>
+              </Reveal>
             ) : null}
-            <NewsletterForm />
+            <Reveal direction="right" delay={0.16}>
+              <NewsletterForm />
+            </Reveal>
           </div>
 
-          {content.links.map((group) => (
+          {content.links.map((group, groupIndex) => (
             <div key={group.id} className="lg:col-span-2">
               {group.title ? (
-                <h4 className="text-heading-inverse font-display text-lg font-medium mb-5">
-                  {group.title}
-                </h4>
+                <Reveal direction="left" delay={0.08 + groupIndex * 0.06}>
+                  <h4 className="text-heading-inverse font-display text-lg font-medium mb-5">
+                    {group.title}
+                  </h4>
+                </Reveal>
               ) : null}
               {group.items.length ? (
                 <ul className="space-y-3">
-                  {group.items.map((item) => (
-                    <li key={item.id}>
+                  {group.items.map((item, itemIndex) => (
+                    <Reveal
+                      key={item.id}
+                      as="li"
+                      direction="left"
+                      delay={0.14 + groupIndex * 0.06 + itemIndex * 0.05}
+                      distance={28}
+                    >
                       <Link
                         href={item.href || "/"}
                         className="text-sm text-paragraph-inverse hover:text-gold transition-colors"
                       >
                         {item.label}
                       </Link>
-                    </li>
+                    </Reveal>
                   ))}
                 </ul>
               ) : null}
@@ -131,22 +137,24 @@ export function Footer({
 
           <div className="lg:col-span-4">
             {contact.title ? (
-              <h4 className="text-heading-inverse font-display text-lg font-medium mb-5">
-                {contact.title}
-              </h4>
+              <Reveal direction="left" delay={0.2}>
+                <h4 className="text-heading-inverse font-display text-lg font-medium mb-5">
+                  {contact.title}
+                </h4>
+              </Reveal>
             ) : null}
 
             <ul className="space-y-4">
               {contact.location ? (
-                <li className="flex gap-3">
+                <Reveal as="li" direction="left" delay={0.26} distance={28} className="flex gap-3">
                   <MapPin size={18} className="text-gold shrink-0 mt-0.5" strokeWidth={1.5} />
                   <span className="text-sm leading-relaxed text-paragraph-inverse">
                     {contact.location}
                   </span>
-                </li>
+                </Reveal>
               ) : null}
               {contact.mobile ? (
-                <li className="flex gap-3">
+                <Reveal as="li" direction="left" delay={0.32} distance={28} className="flex gap-3">
                   <Phone size={18} className="text-gold shrink-0 mt-0.5" strokeWidth={1.5} />
                   {mobileHref ? (
                     <a
@@ -158,10 +166,10 @@ export function Footer({
                   ) : (
                     <span className="text-sm text-paragraph-inverse">{contact.mobile}</span>
                   )}
-                </li>
+                </Reveal>
               ) : null}
               {contact.email ? (
-                <li className="flex gap-3">
+                <Reveal as="li" direction="left" delay={0.38} distance={28} className="flex gap-3">
                   <Mail size={18} className="text-gold shrink-0 mt-0.5" strokeWidth={1.5} />
                   <a
                     href={`mailto:${contact.email}`}
@@ -169,13 +177,20 @@ export function Footer({
                   >
                     {contact.email}
                   </a>
-                </li>
+                </Reveal>
               ) : null}
             </ul>
           </div>
         </div>
 
-        <div className="flex flex-col-reverse sm:flex-row sm:items-center sm:justify-between gap-4 border-t border-white/10 py-6">
+        <Reveal
+          direction="up"
+          delay={0.12}
+          distance={28}
+          amount={0.01}
+          margin="0px"
+          className="flex flex-col-reverse sm:flex-row sm:items-center sm:justify-between gap-4 border-t border-white/10 py-6"
+        >
           {content.copyright ? (
             <p className="text-xs sm:text-sm text-paragraph-inverse/80">
               {content.copyright}
@@ -197,7 +212,7 @@ export function Footer({
               ))}
             </div>
           ) : null}
-        </div>
+        </Reveal>
       </Container>
     </footer>
   );

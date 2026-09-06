@@ -1,4 +1,9 @@
 const defaultApproach = {
+  seo: {
+    title: "Our Approach",
+    description:
+      "Discover Inveris Solutions LLP four-step approach — Understand, Architect, Execute, and Evolve — for integrated business impact.",
+  },
   hero: {
     tag: "OUR APPROACH",
     title: "A Simple, Proven Approach to Drive Meaningful Impact.",
@@ -45,6 +50,7 @@ const defaultApproach = {
         title: "Understand",
         description: "We start with your business, not a predefined solution.",
         icon: "search",
+        image: "",
         items: [
           "Structured discussions and diagnostics",
           "Identify what's working, what's not, and why",
@@ -58,6 +64,7 @@ const defaultApproach = {
         description:
           "We design a solution around your business—spanning strategy, people, processes, finance, compliance, and controls.",
         icon: "pen",
+        image: "",
         items: [
           "Prioritize what matters most",
           "Design practical, integrated solutions",
@@ -70,6 +77,7 @@ const defaultApproach = {
         title: "Execute",
         description: "We work with your team to turn recommendations into action.",
         icon: "play",
+        image: "",
         items: [
           "Translate strategy into actionable initiatives",
           "Define ownership, milestones, and KPIs",
@@ -82,6 +90,7 @@ const defaultApproach = {
         title: "Evolve",
         description: "We continuously refine and strengthen to unlock long-term value.",
         icon: "chart",
+        image: "",
         items: [
           "Monitor performance and results",
           "Refine processes and systems",
@@ -96,6 +105,8 @@ const defaultApproach = {
     description:
       "We look at your business as an interconnected system—where strategy, people, finance, compliance, and risk influence and strengthen each other.",
     quote: "Better connections lead to better decisions and stronger business outcomes.",
+    image: "/images/logo.png",
+    imageAlt: "Inveris",
     nodes: [
       {
         id: "node-1",

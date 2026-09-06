@@ -9,6 +9,13 @@ import {
 } from "@/lib/admin-api";
 import { cn } from "@/lib/cn";
 
+function sourceLabel(source?: string) {
+  if (source === "consulting-call") return "Consulting call";
+  if (source === "service-enquiry") return "Service enquiry";
+  if (source === "contact") return "Contact form";
+  return source || "";
+}
+
 function formatDate(value: string) {
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) return value;
@@ -90,10 +97,10 @@ export function ContactResponses() {
     <div className="space-y-6">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-navy">Form responses</h1>
+          <h2 className="text-2xl font-bold text-navy">Contact & service enquiries</h2>
           <p className="mt-1 text-sm text-text-body">
-            Messages from the public contact form and consulting call requests. Each submission is also emailed to{" "}
-            <span className="font-medium text-navy">vanshagarwal0144@gmail.com</span>.
+            Messages from the contact page, service card enquiries, and consulting call requests.
+            Each submission is also emailed to the notification inbox.
           </p>
         </div>
         <div className="flex items-center gap-3">
@@ -121,7 +128,7 @@ export function ContactResponses() {
         <div className="rounded-xl border border-dashed border-border bg-white px-6 py-16 text-center">
           <p className="text-lg font-semibold text-navy">No responses yet</p>
           <p className="mt-1 text-sm text-text-body">
-            New messages from the contact page and consulting call form will show up here.
+            New messages from the contact page, services enquiry form, and consulting call form will show up here.
           </p>
         </div>
       ) : (
@@ -151,6 +158,11 @@ export function ContactResponses() {
                         <span className="h-2 w-2 rounded-full bg-gold" aria-label="Unread" />
                       ) : null}
                       <h2 className="truncate text-base font-bold text-navy">{item.name}</h2>
+                      {sourceLabel(item.source) ? (
+                        <span className="rounded-full bg-gold/15 px-2 py-0.5 text-[11px] font-semibold text-navy">
+                          {sourceLabel(item.source)}
+                        </span>
+                      ) : null}
                       {item.enquiryType ? (
                         <span className="rounded-full bg-surface-muted px-2 py-0.5 text-[11px] font-semibold text-navy">
                           {item.enquiryType}
@@ -175,6 +187,7 @@ export function ContactResponses() {
                       <Detail label="Phone" value={item.phone} />
                       <Detail label="Enquiry type" value={item.enquiryType} />
                       <Detail label="Subject" value={item.subject} />
+                      <Detail label="Source" value={sourceLabel(item.source)} />
                     </div>
                     <Detail label="Message" value={item.message} />
                     <p className="text-xs text-paragraph-muted">

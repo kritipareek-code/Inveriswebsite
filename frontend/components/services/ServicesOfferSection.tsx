@@ -45,8 +45,9 @@ export function ServicesOfferSection({ content }: { content: ServicesOfferConten
                 items={service.items}
                 image={service.image}
                 icon={service.icon}
+                imagePosition={service.imagePosition}
                 onEnquire={setSelectedService}
-                imageFrom={index % 2 === 0 ? "left" : "right"}
+                imageFrom={service.imagePosition === "right" ? "right" : "left"}
               />
             </Reveal>
           ))}

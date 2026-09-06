@@ -94,7 +94,7 @@ export function ApproachEditor({
         <div>
           <h1 className="text-2xl font-bold text-navy">Approach page</h1>
           <p className="mt-1 text-sm text-text-body">
-            Edit the hero, four-step approach, connected expertise, and CTA.
+            Edit every section on Approach, including images, labels, and SEO.
           </p>
         </div>
         <button
@@ -115,6 +115,27 @@ export function ApproachEditor({
       {error ? (
         <p className="rounded-md bg-red-50 px-4 py-3 text-sm text-red-700">{error}</p>
       ) : null}
+
+      <AdminSection title="Page SEO">
+        <TextField
+          label="Browser title"
+          value={content.seo.title}
+          onChange={(v) =>
+            setContent((prev) => ({ ...prev, seo: { ...prev.seo, title: v } }))
+          }
+        />
+        <TextField
+          label="Meta description"
+          multiline
+          value={content.seo.description}
+          onChange={(v) =>
+            setContent((prev) => ({
+              ...prev,
+              seo: { ...prev.seo, description: v },
+            }))
+          }
+        />
+      </AdminSection>
 
       <AdminSection title="Hero">
         <TextField
@@ -147,6 +168,16 @@ export function ApproachEditor({
           value={content.hero.image}
           onChange={(v) =>
             setContent((prev) => ({ ...prev, hero: { ...prev.hero, image: v } }))
+          }
+        />
+        <TextField
+          label="Image alt text"
+          value={content.hero.imageAlt}
+          onChange={(v) =>
+            setContent((prev) => ({
+              ...prev,
+              hero: { ...prev.hero, imageAlt: v },
+            }))
           }
         />
         <div className="space-y-4">
@@ -290,6 +321,11 @@ export function ApproachEditor({
               value={step.icon}
               onChange={(v) => updateStep(step.id, { icon: v })}
             />
+            <ImageField
+              label="Icon image (optional, overrides icon name)"
+              value={step.image}
+              onChange={(v) => updateStep(step.id, { image: v })}
+            />
             <div className="space-y-2">
               <span className="text-xs font-semibold tracking-wide text-navy uppercase">
                 Bullet points
@@ -340,6 +376,7 @@ export function ApproachEditor({
                       title: "New step",
                       description: "",
                       icon: stepIcons[nextIndex % stepIcons.length],
+                      image: "",
                       items: [],
                     } satisfies ApproachFourStepItem,
                   ],
@@ -405,6 +442,32 @@ export function ApproachEditor({
             }))
           }
         />
+        <ImageField
+          label="Diagram center image"
+          value={content.connectedExpertise.image}
+          onChange={(v) =>
+            setContent((prev) => ({
+              ...prev,
+              connectedExpertise: {
+                ...prev.connectedExpertise,
+                image: v,
+              },
+            }))
+          }
+        />
+        <TextField
+          label="Diagram image alt text"
+          value={content.connectedExpertise.imageAlt}
+          onChange={(v) =>
+            setContent((prev) => ({
+              ...prev,
+              connectedExpertise: {
+                ...prev.connectedExpertise,
+                imageAlt: v,
+              },
+            }))
+          }
+        />
         {content.connectedExpertise.nodes.map((node, index) => (
           <div
             key={node.id}
@@ -441,6 +504,16 @@ export function ApproachEditor({
               label="Icon (users, finance, compliance, risk, strategy)"
               value={node.icon}
               onChange={(v) => updateNode(node.id, { icon: v })}
+            />
+            <TextField
+              label="Position (top, top-right, bottom-right, bottom-left, top-left)"
+              value={node.position}
+              onChange={(v) => updateNode(node.id, { position: v })}
+            />
+            <TextField
+              label="Align (left, right)"
+              value={node.align}
+              onChange={(v) => updateNode(node.id, { align: v })}
             />
           </div>
         ))}
@@ -498,6 +571,16 @@ export function ApproachEditor({
             setContent((prev) => ({
               ...prev,
               cta: { ...prev.cta, cta: { ...prev.cta.cta, label: v } },
+            }))
+          }
+        />
+        <TextField
+          label="Button link"
+          value={content.cta.cta.href}
+          onChange={(v) =>
+            setContent((prev) => ({
+              ...prev,
+              cta: { ...prev.cta, cta: { ...prev.cta.cta, href: v } },
             }))
           }
         />

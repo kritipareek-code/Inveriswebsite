@@ -97,8 +97,8 @@ export function LeadershipEditor({
         <div>
           <h1 className="text-2xl font-bold text-navy">Leadership page</h1>
           <p className="mt-1 text-sm text-text-body">
-            Edit hero, philosophy, team members, values, and CTA. Add as many
-            people as you need.
+            Edit every section on Leadership, including hero and team images,
+            values background, and all copy.
           </p>
         </div>
         <button
@@ -120,7 +120,7 @@ export function LeadershipEditor({
         <p className="rounded-md bg-red-50 px-4 py-3 text-sm text-red-700">{error}</p>
       ) : null}
 
-      <AdminSection title="Hero">
+      <AdminSection title="Hero" defaultOpen>
         <TextField
           label="Tag"
           value={content.hero.tag}
@@ -149,10 +149,20 @@ export function LeadershipEditor({
           }
         />
         <ImageField
-          label="Image"
+          label="Hero image"
           value={content.hero.image}
           onChange={(v) =>
             setContent((prev) => ({ ...prev, hero: { ...prev.hero, image: v } }))
+          }
+        />
+        <TextField
+          label="Image alt text"
+          value={content.hero.imageAlt}
+          onChange={(v) =>
+            setContent((prev) => ({
+              ...prev,
+              hero: { ...prev.hero, imageAlt: v },
+            }))
           }
         />
         <div className="space-y-2">
@@ -521,6 +531,16 @@ export function LeadershipEditor({
             setContent((prev) => ({
               ...prev,
               cta: { ...prev.cta, cta: { ...prev.cta.cta, label: v } },
+            }))
+          }
+        />
+        <TextField
+          label="Button link"
+          value={content.cta.cta.href}
+          onChange={(v) =>
+            setContent((prev) => ({
+              ...prev,
+              cta: { ...prev.cta, cta: { ...prev.cta.cta, href: v } },
             }))
           }
         />

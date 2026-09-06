@@ -15,8 +15,20 @@ function nextId(prefix: string) {
   return `${prefix}-${crypto.randomUUID().slice(0, 8)}`;
 }
 
+function withoutYouTube(content: FooterContent): FooterContent {
+  return {
+    ...content,
+    contact: {
+      ...content.contact,
+      social: content.contact.social.filter(
+        (item) => String(item.icon) !== "youtube" && item.label.toLowerCase() !== "youtube"
+      ),
+    },
+  };
+}
+
 export function FooterEditor({ initialContent }: { initialContent: FooterContent }) {
-  const [content, setContent] = useState(initialContent);
+  const [content, setContent] = useState(() => withoutYouTube(initialContent));
   const [status, setStatus] = useState("");
   const [error, setError] = useState("");
   const [saving, setSaving] = useState(false);
@@ -26,8 +38,8 @@ export function FooterEditor({ initialContent }: { initialContent: FooterContent
     setError("");
     setStatus("");
     try {
-      const saved = await saveFooterContent(content);
-      setContent(saved);
+      const saved = await saveFooterContent(withoutYouTube(content));
+      setContent(withoutYouTube(saved));
       setStatus("Footer saved. Refresh any page to see changes.");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Save failed");

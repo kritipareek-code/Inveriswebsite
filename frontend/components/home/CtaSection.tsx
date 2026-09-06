@@ -33,7 +33,7 @@ export function CtaSection({ content }: { content: HomeCtaContent }) {
               ) : null}
               {content.cta?.label ? (
                 <Reveal direction="up" delay={0.26} className="w-fit">
-                  <Button variant="gold" href="/contact">
+                  <Button variant="gold" href={content.cta.href || "/contact"}>
                     {content.cta.label}
                     <HomeIcon name="arrowRight" size={18} />
                   </Button>

@@ -1,16 +1,3 @@
-const INTEREST_OPTIONS = [
-  "Management Consulting",
-  "Business Strategy & Growth",
-  "Recruitment & Talent Acquisition",
-  "Finance & Accounting",
-  "Compliance",
-  "Internal Audit & Risk",
-  "Business Operations",
-  "Other",
-];
-
-const EXPERIENCE_OPTIONS = ["Fresher", "0–2 Years", "2–5 Years", "5–10 Years", "10+ Years"];
-
 const LIMITS = {
   name: 100,
   email: 254,
@@ -73,13 +60,17 @@ function validateCareer(req, res, next) {
   }
 
   const interestValue = trim(interest);
-  if (!INTEREST_OPTIONS.includes(interestValue)) {
+  if (!interestValue) {
     errors.push("Please select a valid area of interest.");
+  } else if (tooLong(interestValue, LIMITS.interest)) {
+    errors.push("Area of interest is too long.");
   }
 
   const experienceValue = trim(experience);
-  if (!EXPERIENCE_OPTIONS.includes(experienceValue)) {
+  if (!experienceValue) {
     errors.push("Please select a valid years of experience option.");
+  } else if (tooLong(experienceValue, LIMITS.experience)) {
+    errors.push("Experience option is too long.");
   }
 
   if (tooLong(organization, LIMITS.organization)) errors.push("Organization name is too long.");

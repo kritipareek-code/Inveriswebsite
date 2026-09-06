@@ -6,6 +6,7 @@ import { CmsImage } from "@/components/ui/CmsImage";
 import { MagicCard } from "@/components/magic/magic-card";
 import { BorderBeam } from "@/components/magic/border-beam";
 import { Reveal, type RevealDirection } from "@/components/magic/reveal";
+import { cn } from "@/lib/cn";
 
 type ServiceIcon = "consulting" | "recruitment" | "compliance" | "audit";
 
@@ -16,6 +17,7 @@ interface ServiceLineCardProps {
   image: string;
   icon: string;
   onEnquire: (service: string) => void;
+  imagePosition?: "left" | "right";
   imageFrom?: RevealDirection;
 }
 
@@ -33,6 +35,7 @@ export function ServiceLineCard({
   image,
   icon,
   onEnquire,
+  imagePosition = "left",
   imageFrom = "left",
 }: ServiceLineCardProps) {
   const Icon = iconMap[icon as ServiceIcon] ?? Crown;
@@ -50,7 +53,10 @@ export function ServiceLineCard({
             onEnquire(title);
           }
         }}
-        className="grid w-full cursor-pointer grid-cols-1 text-left lg:grid-cols-[minmax(280px,38%)_1fr]"
+        className={cn(
+          "grid w-full cursor-pointer grid-cols-1 text-left lg:grid-cols-[minmax(280px,38%)_1fr]",
+          imagePosition === "right" && "lg:[&>div:first-child]:order-2"
+        )}
       >
         <div className="relative h-56 sm:h-64 lg:h-auto lg:min-h-[280px]">
           <CmsImage

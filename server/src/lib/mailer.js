@@ -17,6 +17,39 @@ function getResend() {
   return new Resend(apiKey);
 }
 
+function parseEmailList(...values) {
+  const emails = [];
+  const seen = new Set();
+  for (const value of values) {
+    for (const part of String(value || "").split(/[,;]+/)) {
+      const email = part.trim();
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) continue;
+      const key = email.toLowerCase();
+      if (seen.has(key)) continue;
+      seen.add(key);
+      emails.push(email);
+    }
+  }
+  return emails;
+}
+
+function getNotifyEmails(...extra) {
+  const emails = parseEmailList(
+    process.env.CONTACT_NOTIFY_EMAIL,
+    ...extra,
+    DEFAULT_NOTIFY_EMAIL
+  );
+  return emails.length ? emails : [DEFAULT_NOTIFY_EMAIL];
+}
+
+async function sendResendEmail(resend, payload) {
+  const { error } = await resend.emails.send(payload);
+  if (error) {
+    throw new Error(error.message || "Resend failed to send email");
+  }
+  return true;
+}
+
 function row(label, value) {
   if (!value) return "";
   return `<tr>
@@ -27,7 +60,7 @@ function row(label, value) {
 
 async function sendContactNotification(submission) {
   const resend = getResend();
-  const to = process.env.CONTACT_NOTIFY_EMAIL || DEFAULT_NOTIFY_EMAIL;
+  const to = getNotifyEmails();
   const from = process.env.RESEND_FROM_EMAIL || DEFAULT_FROM;
 
   if (!resend) {
@@ -37,21 +70,32 @@ async function sendContactNotification(submission) {
     return false;
   }
 
-  const isConsultingCall = /consulting call/i.test(
-    `${submission.enquiryType || ""} ${submission.subject || ""}`
-  );
+  const isConsultingCall =
+    submission.source === "consulting-call" ||
+    /consulting call/i.test(`${submission.enquiryType || ""} ${submission.subject || ""}`);
+  const isServiceEnquiry =
+    submission.source === "service-enquiry" ||
+    /^service enquiry/i.test(submission.subject || "");
 
   const heading = isConsultingCall
     ? "New consulting call request"
-    : "New contact form submission";
+    : isServiceEnquiry
+      ? "New service enquiry"
+      : "New contact form submission";
   const subject = isConsultingCall
     ? `New consulting call request from ${submission.name}`
-    : submission.subject
-      ? `New Inveris enquiry: ${submission.subject}`
-      : `New Inveris enquiry from ${submission.name}`;
+    : isServiceEnquiry
+      ? `New service enquiry from ${submission.name}${
+          submission.enquiryType ? ` (${submission.enquiryType})` : ""
+        }`
+      : submission.subject
+        ? `New Inveris enquiry: ${submission.subject}`
+        : `New Inveris enquiry from ${submission.name}`;
   const intro = isConsultingCall
     ? "Someone requested a consulting call from the Inveris services page."
-    : "New contact form submission from the Inveris website.";
+    : isServiceEnquiry
+      ? "Someone submitted a service enquiry from the Inveris services page."
+      : "New contact form submission from the Inveris website.";
 
   const text = [
     intro,
@@ -62,6 +106,7 @@ async function sendContactNotification(submission) {
     submission.phone ? `Phone: ${submission.phone}` : null,
     submission.enquiryType ? `Enquiry type: ${submission.enquiryType}` : null,
     submission.subject ? `Subject: ${submission.subject}` : null,
+    submission.source ? `Source: ${submission.source}` : null,
     "",
     "Message:",
     submission.message,
@@ -83,13 +128,14 @@ async function sendContactNotification(submission) {
           ${row("Phone", submission.phone)}
           ${row("Enquiry type", submission.enquiryType)}
           ${row("Subject", submission.subject)}
+          ${row("Source", submission.source)}
           ${row("Message", submission.message)}
         </table>
       </div>
     </div>
   `;
 
-  const { error } = await resend.emails.send({
+  return sendResendEmail(resend, {
     from,
     to,
     replyTo: submission.email,
@@ -97,17 +143,11 @@ async function sendContactNotification(submission) {
     text,
     html,
   });
-
-  if (error) {
-    throw new Error(error.message || "Resend failed to send email");
-  }
-
-  return true;
 }
 
 async function sendNewsletterNotification(email) {
   const resend = getResend();
-  const to = process.env.CONTACT_NOTIFY_EMAIL || DEFAULT_NOTIFY_EMAIL;
+  const to = getNotifyEmails();
   const from = process.env.RESEND_FROM_EMAIL || DEFAULT_FROM;
 
   if (!resend) {
@@ -117,7 +157,7 @@ async function sendNewsletterNotification(email) {
     return false;
   }
 
-  const { error } = await resend.emails.send({
+  return sendResendEmail(resend, {
     from,
     to,
     replyTo: email,
@@ -137,20 +177,11 @@ async function sendNewsletterNotification(email) {
       </div>
     `,
   });
-
-  if (error) {
-    throw new Error(error.message || "Resend failed to send email");
-  }
-
-  return true;
 }
 
 async function sendCareerNotification(application, resumeFile) {
   const resend = getResend();
-  const to =
-    process.env.CAREERS_NOTIFY_EMAIL ||
-    process.env.CONTACT_NOTIFY_EMAIL ||
-    "hr@inverissolutions.com";
+  const to = getNotifyEmails(process.env.CAREERS_NOTIFY_EMAIL);
   const from = process.env.RESEND_FROM_EMAIL || DEFAULT_FROM;
 
   if (!resend) {
@@ -221,13 +252,14 @@ async function sendCareerNotification(application, resumeFile) {
     ];
   }
 
-  const { error } = await resend.emails.send(payload);
-
-  if (error) {
-    throw new Error(error.message || "Resend failed to send email");
+  try {
+    return await sendResendEmail(resend, payload);
+  } catch (error) {
+    if (!payload.attachments) throw error;
+    console.error("[Career email] attachment send failed, retrying without file", error);
+    delete payload.attachments;
+    return sendResendEmail(resend, payload);
   }
-
-  return true;
 }
 
 module.exports = {

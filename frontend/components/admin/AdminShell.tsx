@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState, type ReactNode } from "react";
-import { clearAdminToken, fetchContactUnreadCount } from "@/lib/admin-api";
+import { clearAdminToken, fetchCareerUnreadCount, fetchContactUnreadCount } from "@/lib/admin-api";
 import { cn } from "@/lib/cn";
 
 const links = [
@@ -16,6 +16,7 @@ const links = [
   { href: "/admin/industries", label: "Industries page" },
   { href: "/admin/approach", label: "Approach page" },
   { href: "/admin/leadership", label: "Leadership page" },
+  { href: "/admin/careers", label: "Careers page" },
   { href: "/admin/contact", label: "Contact page" },
   { href: "/admin/footer", label: "Footer" },
 ];
@@ -33,7 +34,11 @@ export function AdminShell({
   useEffect(() => {
     async function loadUnread() {
       try {
-        setUnread(await fetchContactUnreadCount());
+        const [contactUnread, careerUnread] = await Promise.all([
+          fetchContactUnreadCount(),
+          fetchCareerUnreadCount(),
+        ]);
+        setUnread(contactUnread + careerUnread);
       } catch {
         setUnread(0);
       }
