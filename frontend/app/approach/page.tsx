@@ -3,13 +3,17 @@ import { ConnectedExpertiseSection } from "@/components/approach/ConnectedExpert
 import { FourStepSection } from "@/components/approach/FourStepSection";
 import { PageCtaBanner } from "@/components/shared/PageCtaBanner";
 import { fetchApproachContent } from "@/lib/approach-content";
+import { getPageMetadata } from "@/lib/seo";
 import type { Metadata } from "next";
 
 export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
   const approach = await fetchApproachContent();
+  const base = getPageMetadata("approach", { canonicalPath: "/approach" });
+
   return {
+    ...base,
     title: approach.seo.title,
     description: approach.seo.description,
   };

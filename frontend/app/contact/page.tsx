@@ -3,12 +3,9 @@ import { ContactMainSection } from "@/components/contact/ContactMainSection";
 import { FaqSection } from "@/components/contact/FaqSection";
 import { OfficeSection } from "@/components/contact/OfficeSection";
 import { fetchContactContent } from "@/lib/contact-content";
+import { getPageMetadata } from "@/lib/seo";
 
-export const metadata = {
-  title: "Contact Us",
-  description:
-    "Get in touch with Inveris Solutions LLP — integrated business consulting, recruitment, compliance, and audit.",
-};
+export const metadata = getPageMetadata("contact", { canonicalPath: "/contact" });
 
 export const dynamic = "force-dynamic";
 

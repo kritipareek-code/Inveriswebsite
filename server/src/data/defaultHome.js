@@ -1,8 +1,8 @@
 const defaultHome = {
   seo: {
-    title: "INVERIS SOLUTIONS LLP",
+    title: "Inveris Solutions — Integrated Business Consulting in Gurugram",
     description:
-      "Integrated business solutions across strategy, operations, finance, compliance, and talent — one accountable partner for your growth.",
+      "Inveris Solutions LLP provides integrated business consulting, recruitment, compliance, financial, and internal audit, solutions for growing businesses across Gurugram, Delhi NCR, and India.",
   },
   hero: {
     tag: "ONE PARTNER. CONNECTED EXPERTISE.",

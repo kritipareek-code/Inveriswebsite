@@ -27,15 +27,14 @@ const defaultFooter = {
   ],
   contact: {
     title: "Contact",
-    location:
-      "Bestech Park view Grand spa, Aster 1801, Sector: 81, Gurugram, Haryana  122004, India",
+    location: "Gurugram, Haryana, India",
     mobile: "+91 99695 34628",
     email: "kriti.pareek@inverissolutions.com",
     social: [
       {
         id: "social-1",
         label: "Instagram",
-        href: "https://instagram.com",
+        href: "https://www.instagram.com/inverissolutions",
         icon: "instagram",
       },
       {

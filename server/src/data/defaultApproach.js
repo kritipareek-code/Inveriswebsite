@@ -1,8 +1,8 @@
 const defaultApproach = {
   seo: {
-    title: "Our Approach",
+    title: "Our Approach — Inveris Solutions",
     description:
-      "Discover Inveris Solutions LLP four-step approach — Understand, Architect, Execute, and Evolve — for integrated business impact.",
+      "Discover how Inveris Solutions turns business questions into practical outcomes through an integrated, outcome-driven approach.",
   },
   hero: {
     tag: "OUR APPROACH",

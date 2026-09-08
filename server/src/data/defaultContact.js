@@ -47,7 +47,7 @@ const defaultContact = {
         value: companyContact.location,
       },
     ],
-    businessHours: "Monday – Friday, 9:30 AM – 6:30 PM IST\nSat–Sun closed.",
+    businessHours: "Monday – Friday, 11:00 AM – 7:00 PM IST\nSat–Sun closed.",
   },
   office: {
     title: "Our Office",

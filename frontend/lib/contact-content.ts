@@ -1,5 +1,6 @@
 import { contactPageContent, companyContact } from "@/lib/content";
 import { getApiBaseUrl } from "@/lib/home-content";
+import { businessHoursLabel } from "@/lib/seo";
 
 export type ContactHeroContent = {
   tag: string;
@@ -102,7 +103,7 @@ export function getFallbackContactContent(): ContactPageContent {
           value: companyContact.location,
         },
       ],
-      businessHours: "Monday – Friday, 9:30 AM – 6:30 PM IST\nSat–Sun closed.",
+      businessHours: businessHoursLabel,
     },
     office: { ...contactPageContent.office },
     faq: {

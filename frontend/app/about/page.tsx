@@ -3,12 +3,9 @@ import { MissionVisionSection } from "@/components/about/MissionVisionSection";
 import { WhoWeAreSection } from "@/components/about/WhoWeAreSection";
 import { PageCtaBanner } from "@/components/shared/PageCtaBanner";
 import { fetchAboutContent } from "@/lib/about-content";
+import { getPageMetadata } from "@/lib/seo";
 
-export const metadata = {
-  title: "About Us",
-  description:
-    "Learn how Inveris Solutions LLP brings integrated expertise across recruitment, consulting, compliance, and audit under one accountable partnership.",
-};
+export const metadata = getPageMetadata("about", { canonicalPath: "/about" });
 
 export const dynamic = "force-dynamic";
 

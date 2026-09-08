@@ -5,13 +5,16 @@ import { ServicesSection } from "@/components/home/ServicesSection";
 import { ApproachSection } from "@/components/home/ApproachSection";
 import { CtaSection } from "@/components/home/CtaSection";
 import { fetchHomeContent } from "@/lib/home-content";
+import { getHomeMetadata } from "@/lib/seo";
 import type { Metadata } from "next";
 
 export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
   const home = await fetchHomeContent();
+
   return {
+    ...getHomeMetadata(),
     title: { absolute: home.seo.title },
     description: home.seo.description,
   };

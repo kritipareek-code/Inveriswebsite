@@ -1,10 +1,11 @@
+import { businessHoursLabel, seoConfig } from "@/lib/seo";
+
 export const siteConfig = {
-  name: "INVERIS SOLUTIONS LLP",
-  shortName: "INVERIS",
-  url: "https://www.inverissolutions.com",
-  tagline: "One Partner. Connected Expertise.",
-  description:
-    "Integrated business solutions across strategy, operations, finance, compliance, and talent — one accountable partner for your growth.",
+  name: seoConfig.brand.legalName,
+  shortName: seoConfig.brand.shortName,
+  url: seoConfig.brand.url,
+  tagline: seoConfig.brand.tagline,
+  description: seoConfig.home.description,
 };
 
 export const navLinks = [
@@ -702,16 +703,13 @@ export const leadershipPageContent = {
 };
 
 export const companyContact = {
-  company: "Inveris Solutions LLP",
-  location:
-    "Bestech Park view Grand spa, Aster 1801, Sector: 81, Gurugram, Haryana  122004, India",
-  mobile: "+91 99695 34628",
-  mobileHref: "tel:+919969534628",
-  email: "kriti.pareek@inverissolutions.com",
-  directionsUrl:
-    "https://www.google.com/maps/search/?api=1&query=Bestech+Park+View+Grand+Spa,+Sector+81,+Gurugram,+122004",
-  mapEmbedUrl:
-    "https://maps.google.com/maps?q=Bestech+Park+View+Grand+Spa,+Sector+81,+Gurugram,+122004&t=&z=15&ie=UTF8&iwloc=&output=embed",
+  company: seoConfig.brand.legalName,
+  location: seoConfig.contact.address,
+  mobile: seoConfig.contact.phone,
+  mobileHref: seoConfig.contact.phoneHref,
+  email: seoConfig.contact.email,
+  directionsUrl: seoConfig.contact.directionsUrl,
+  mapEmbedUrl: seoConfig.contact.mapEmbedUrl,
 };
 
 export const contactPageContent = {
@@ -774,7 +772,7 @@ export const contactPageContent = {
       },
       {
         title: "Business Hours",
-        value: "Monday – Friday, 9:30 AM – 6:30 PM IST\nSat–Sun closed.",
+        value: businessHoursLabel,
         icon: "clock" as const,
       },
     ],
@@ -872,8 +870,8 @@ export const footerContent = {
     mobileHref: companyContact.mobileHref,
     email: companyContact.email,
     social: [
-      { label: "Instagram", href: "https://instagram.com", icon: "instagram" as const },
-      { label: "LinkedIn", href: "https://www.linkedin.com/company/inveris-solutions-llp/ ", icon: "linkedin" as const },
+      { label: "Instagram", href: seoConfig.social.instagram, icon: "instagram" as const },
+      { label: "LinkedIn", href: seoConfig.social.linkedin, icon: "linkedin" as const },
     ],
   },
   copyright: `© ${new Date().getFullYear()} Inveris Solutions LLP. All rights reserved.`,

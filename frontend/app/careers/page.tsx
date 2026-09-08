@@ -9,12 +9,9 @@ import {
   CareersFormProvider,
 } from "@/components/careers/CareersFormProvider";
 import { fetchCareersContent } from "@/lib/careers-content";
+import { getPageMetadata } from "@/lib/seo";
 
-export const metadata = {
-  title: "Careers",
-  description:
-    "Join Inveris Solutions — work with people who think differently, take ownership, and turn ideas into action.",
-};
+export const metadata = getPageMetadata("careers", { canonicalPath: "/careers" });
 
 export const dynamic = "force-dynamic";
 

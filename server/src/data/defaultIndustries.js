@@ -1,8 +1,8 @@
 const defaultIndustries = {
   seo: {
-    title: "Industries",
+    title: "Industries We Serve — Inveris Solutions",
     description:
-      "Inveris Solutions LLP serves manufacturing, healthcare, technology, financial services, and more with integrated industry expertise.",
+      "Discover Inveris Solutions' cross-industry expertise across manufacturing, technology, healthcare, retail, financial services, real estate, hospitality, education, and more.",
   },
   hero: {
     tag: "INDUSTRIES",

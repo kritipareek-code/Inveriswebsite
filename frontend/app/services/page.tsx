@@ -3,12 +3,9 @@ import { PageCtaBanner } from "@/components/shared/PageCtaBanner";
 import { ConsultingCallSection } from "@/components/services/ConsultingCallSection";
 import { ServicesOfferSection } from "@/components/services/ServicesOfferSection";
 import { fetchServicesContent } from "@/lib/services-content";
+import { getPageMetadata } from "@/lib/seo";
 
-export const metadata = {
-  title: "Services",
-  description:
-    "Explore Inveris Solutions LLP integrated service lines — management consulting, recruitment, compliance & financial services, and internal audit.",
-};
+export const metadata = getPageMetadata("services", { canonicalPath: "/services" });
 
 export const dynamic = "force-dynamic";
 

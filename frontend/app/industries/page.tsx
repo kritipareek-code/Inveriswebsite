@@ -3,13 +3,17 @@ import { IndustryValueBar } from "@/components/industries/IndustryValueBar";
 import { OverlayHero } from "@/components/shared/OverlayHero";
 import { PageCtaBanner } from "@/components/shared/PageCtaBanner";
 import { fetchIndustriesContent } from "@/lib/industries-content";
+import { getPageMetadata } from "@/lib/seo";
 import type { Metadata } from "next";
 
 export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
   const industries = await fetchIndustriesContent();
+  const base = getPageMetadata("industries", { canonicalPath: "/industries" });
+
   return {
+    ...base,
     title: industries.seo.title,
     description: industries.seo.description,
   };

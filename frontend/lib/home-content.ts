@@ -7,6 +7,7 @@ import {
   siteConfig,
   valuePropositions,
 } from "@/lib/content";
+import { seoConfig } from "@/lib/seo";
 
 export type CtaLink = {
   label: string;
@@ -111,8 +112,8 @@ const VALUE_BAR_TITLE = "Why businesses choose Inveris";
 export function getFallbackHomeContent(): HomeContent {
   return {
     seo: {
-      title: siteConfig.name,
-      description: siteConfig.description,
+      title: seoConfig.home.title,
+      description: seoConfig.home.description,
     },
     hero: {
       ...heroContent,

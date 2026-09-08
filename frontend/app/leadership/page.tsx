@@ -4,12 +4,9 @@ import { LeadershipPhilosophySection } from "@/components/leadership/LeadershipP
 import { LeadershipTeamSection } from "@/components/leadership/LeadershipTeamSection";
 import { PageCtaBanner } from "@/components/shared/PageCtaBanner";
 import { fetchLeadershipContent } from "@/lib/leadership-content";
+import { getPageMetadata } from "@/lib/seo";
 
-export const metadata = {
-  title: "Leadership",
-  description:
-    "Meet the leadership team at Inveris Solutions LLP — visionaries committed to integrated business partnerships.",
-};
+export const metadata = getPageMetadata("leadership", { canonicalPath: "/leadership" });
 
 export const dynamic = "force-dynamic";
 
