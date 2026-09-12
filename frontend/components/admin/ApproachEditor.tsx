@@ -94,7 +94,7 @@ export function ApproachEditor({
         <div>
           <h1 className="text-2xl font-bold text-navy">Approach page</h1>
           <p className="mt-1 text-sm text-text-body">
-            Edit every section on Approach, including images, labels, and SEO.
+            Edit every section on Approach, including images and labels.
           </p>
         </div>
         <button
@@ -115,27 +115,6 @@ export function ApproachEditor({
       {error ? (
         <p className="rounded-md bg-red-50 px-4 py-3 text-sm text-red-700">{error}</p>
       ) : null}
-
-      <AdminSection title="Page SEO">
-        <TextField
-          label="Browser title"
-          value={content.seo.title}
-          onChange={(v) =>
-            setContent((prev) => ({ ...prev, seo: { ...prev.seo, title: v } }))
-          }
-        />
-        <TextField
-          label="Meta description"
-          multiline
-          value={content.seo.description}
-          onChange={(v) =>
-            setContent((prev) => ({
-              ...prev,
-              seo: { ...prev.seo, description: v },
-            }))
-          }
-        />
-      </AdminSection>
 
       <AdminSection title="Hero">
         <TextField
@@ -571,16 +550,6 @@ export function ApproachEditor({
             setContent((prev) => ({
               ...prev,
               cta: { ...prev.cta, cta: { ...prev.cta.cta, label: v } },
-            }))
-          }
-        />
-        <TextField
-          label="Button link"
-          value={content.cta.cta.href}
-          onChange={(v) =>
-            setContent((prev) => ({
-              ...prev,
-              cta: { ...prev.cta, cta: { ...prev.cta.cta, href: v } },
             }))
           }
         />

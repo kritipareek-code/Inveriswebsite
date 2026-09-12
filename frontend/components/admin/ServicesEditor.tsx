@@ -379,16 +379,6 @@ export function ServicesEditor({ initialContent }: { initialContent: ServicesPag
             }))
           }
         />
-        <TextField
-          label="Button link"
-          value={content.cta.cta.href}
-          onChange={(v) =>
-            setContent((prev) => ({
-              ...prev,
-              cta: { ...prev.cta, cta: { ...prev.cta.cta, href: v } },
-            }))
-          }
-        />
       </AdminSection>
 
       <div className="fixed bottom-0 left-0 right-0 border-t border-border bg-white/95 px-4 py-3 lg:left-64">

@@ -119,6 +119,36 @@ export function getFallbackContactContent(): ContactPageContent {
   };
 }
 
+export function normalizeContactContent(
+  content: Partial<ContactPageContent> | null | undefined
+): ContactPageContent {
+  const fallback = getFallbackContactContent();
+  return {
+    ...fallback,
+    ...content,
+    hero: { ...fallback.hero, ...content?.hero },
+    form: {
+      ...fallback.form,
+      ...content?.form,
+      enquiryTypes: content?.form?.enquiryTypes ?? fallback.form.enquiryTypes,
+    },
+    contactInfo: {
+      ...fallback.contactInfo,
+      ...content?.contactInfo,
+      emails: content?.contactInfo?.emails ?? fallback.contactInfo.emails,
+      phones: content?.contactInfo?.phones ?? fallback.contactInfo.phones,
+      addresses: content?.contactInfo?.addresses ?? fallback.contactInfo.addresses,
+    },
+    office: { ...fallback.office, ...content?.office },
+    faq: {
+      ...fallback.faq,
+      ...content?.faq,
+      avatars: content?.faq?.avatars ?? fallback.faq.avatars,
+      items: content?.faq?.items ?? fallback.faq.items,
+    },
+  };
+}
+
 export async function fetchContactContent(): Promise<ContactPageContent> {
   try {
     const res = await fetch(`${getApiBaseUrl()}/api/content/contact`, {
@@ -127,7 +157,7 @@ export async function fetchContactContent(): Promise<ContactPageContent> {
     if (!res.ok) throw new Error("Failed to load contact content");
     const data = await res.json();
     if (!data?.content) throw new Error("Missing contact content");
-    return data.content as ContactPageContent;
+    return normalizeContactContent(data.content as ContactPageContent);
   } catch {
     return getFallbackContactContent();
   }

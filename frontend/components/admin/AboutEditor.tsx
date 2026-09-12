@@ -166,16 +166,6 @@ export function AboutEditor({ initialContent }: { initialContent: AboutPageConte
             }))
           }
         />
-        <TextField
-          label="Button link"
-          value={content.whoWeAre.cta.href}
-          onChange={(v) =>
-            setContent((prev) => ({
-              ...prev,
-              whoWeAre: { ...prev.whoWeAre, cta: { ...prev.whoWeAre.cta, href: v } },
-            }))
-          }
-        />
         <ImageField
           label="Image"
           value={content.whoWeAre.image}
@@ -537,16 +527,6 @@ export function AboutEditor({ initialContent }: { initialContent: AboutPageConte
             setContent((prev) => ({
               ...prev,
               cta: { ...prev.cta, cta: { ...prev.cta.cta, label: v } },
-            }))
-          }
-        />
-        <TextField
-          label="Button link"
-          value={content.cta.cta.href}
-          onChange={(v) =>
-            setContent((prev) => ({
-              ...prev,
-              cta: { ...prev.cta, cta: { ...prev.cta.cta, href: v } },
             }))
           }
         />

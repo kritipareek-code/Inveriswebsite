@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const validateContact = require("../middleware/validateContact");
+const { formLimiter } = require("../middleware/rateLimits");
 const requireAuth = require("../middleware/requireAuth");
 const { sendContactNotification } = require("../lib/mailer");
 const {
@@ -18,7 +19,7 @@ function isValidId(id) {
   return mongoose.Types.ObjectId.isValid(id);
 }
 
-router.post("/", validateContact, async (req, res) => {
+router.post("/", formLimiter, validateContact, async (req, res) => {
   try {
     const { name, email, company, phone, enquiryType, subject, source, message } = req.body;
 

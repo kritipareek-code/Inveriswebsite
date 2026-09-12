@@ -1,13 +1,25 @@
 const express = require("express");
 const cors = require("cors");
+const helmet = require("helmet");
 const contactRouter = require("./routes/contact");
 const careersRouter = require("./routes/careers");
 const newsletterRouter = require("./routes/newsletter");
 const authRouter = require("./routes/auth");
 const contentRouter = require("./routes/content");
 const uploadRouter = require("./routes/upload");
+const { apiLimiter } = require("./middleware/rateLimits");
 
 const app = express();
+
+app.set("trust proxy", 1);
+
+app.use(
+  helmet({
+    contentSecurityPolicy: false,
+    crossOriginResourcePolicy: { policy: "cross-origin" },
+    crossOriginEmbedderPolicy: false,
+  })
+);
 
 function parseOrigins(value) {
   if (!value) return [];
@@ -65,6 +77,8 @@ app.use(express.json({ limit: "2mb" }));
 app.get("/health", (_req, res) => {
   res.json({ status: "ok" });
 });
+
+app.use(apiLimiter);
 
 app.use("/api/contact", contactRouter);
 app.use("/api/careers", careersRouter);

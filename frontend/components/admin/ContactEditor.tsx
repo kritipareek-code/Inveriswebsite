@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import {
+  normalizeContactContent,
   type ContactAddressEntry,
   type ContactFaqItem,
   type ContactInfoEntry,
@@ -20,7 +21,9 @@ export function ContactEditor({
 }: {
   initialContent: ContactPageContent;
 }) {
-  const [content, setContent] = useState(initialContent);
+  const [content, setContent] = useState(() =>
+    normalizeContactContent(initialContent)
+  );
   const [status, setStatus] = useState("");
   const [error, setError] = useState("");
   const [saving, setSaving] = useState(false);
@@ -31,7 +34,7 @@ export function ContactEditor({
     setStatus("");
     try {
       const saved = await saveContactContent(content);
-      setContent(saved);
+      setContent(normalizeContactContent(saved));
       setStatus("Contact page saved. Refresh the public Contact page to see changes.");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Save failed");
@@ -519,14 +522,14 @@ export function ContactEditor({
         <span className="text-xs font-semibold tracking-wide text-navy uppercase">
           Team avatars
         </span>
-        {content.faq.avatars.map((avatar, index) => (
+        {(content.faq.avatars ?? []).map((avatar, index) => (
           <ImageField
             key={`avatar-${index}`}
             label={`Avatar ${index + 1}`}
             value={avatar}
             onChange={(v) =>
               setContent((prev) => {
-                const avatars = [...prev.faq.avatars];
+                const avatars = [...(prev.faq.avatars ?? [])];
                 avatars[index] = v;
                 return {
                   ...prev,
@@ -536,7 +539,7 @@ export function ContactEditor({
             }
           />
         ))}
-        {content.faq.items.map((item, index) => (
+        {(content.faq.items ?? []).map((item, index) => (
           <div
             key={item.id}
             className="space-y-3 rounded-lg border border-border bg-surface-alt p-4"

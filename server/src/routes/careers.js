@@ -4,6 +4,7 @@ const multer = require("multer");
 const { toFile } = require("@imagekit/nodejs");
 const requireAuth = require("../middleware/requireAuth");
 const validateCareer = require("../middleware/validateCareer");
+const { formLimiter } = require("../middleware/rateLimits");
 const { sendCareerNotification } = require("../lib/mailer");
 const { getImageKit } = require("../lib/imagekit");
 const {
@@ -69,7 +70,7 @@ async function uploadResume(file) {
   }
 }
 
-router.post("/", handleUpload, validateCareer, async (req, res) => {
+router.post("/", formLimiter, handleUpload, validateCareer, async (req, res) => {
   try {
     const {
       name,

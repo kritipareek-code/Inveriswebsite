@@ -46,14 +46,14 @@ Port 5000 is often used by AirPlay Receiver on macOS. The API defaults to **5001
 | ------------ | --------------------- | ------------------ |
 | `PORT`                  | `5001`                    | API port           |
 | `CLIENT_URL`            | `http://localhost:3000`   | Allowed CORS origin |
-| `ADMIN_EMAIL`           | `admin@inveris.com`       | Admin login email |
-| `ADMIN_PASSWORD`        | `admin123`                | Admin login password |
-| `JWT_SECRET`            | —                         | JWT signing secret |
+| `ADMIN_EMAIL`           | —                         | Admin login email (required, no default) |
+| `ADMIN_PASSWORD`        | —                         | Admin login password (required, no default) |
+| `JWT_SECRET`            | —                         | JWT signing secret (required) |
 | `MONGODB_URI`           | —                         | MongoDB Atlas connection string |
 | `IMAGEKIT_PRIVATE_KEY`  | —                         | ImageKit private API key |
 | `CONTACT_NOTIFY_EMAIL`  | `vanshagarwal0144@gmail.com` | Inbox for contact form emails |
 | `RESEND_API_KEY`        | —                         | Resend API key (`re_...`) |
-| `RESEND_FROM_EMAIL`     | `Inveris Website <onboarding@resend.dev>` | From address (use a verified domain in production) |
+| `RESEND_FROM_EMAIL`     | `Inveris Solutions <noreply@inverissolutions.com>` | From address (must be on a Resend-verified domain) |
 
 **frontend/.env.local**
 
@@ -126,7 +126,7 @@ git push -u origin main
    | `IMAGEKIT_PRIVATE_KEY` | ImageKit private API key (`private_...`) |
    | `CONTACT_NOTIFY_EMAIL` | `vanshagarwal0144@gmail.com` |
    | `RESEND_API_KEY` | Resend API key (`re_...`) |
-   | `RESEND_FROM_EMAIL` | `Inveris Website <onboarding@resend.dev>` (verified domain in production) |
+   | `RESEND_FROM_EMAIL` | `Inveris Solutions <noreply@inverissolutions.com>` |
 
    > Render sets `PORT` automatically — do not override it.
 
@@ -219,14 +219,14 @@ git push
 | ------------ | --------------------- | ------------------ |
 | `PORT`                  | `5001`                    | API port (local only; Render sets this in production) |
 | `CLIENT_URL`            | `http://localhost:3000`   | Allowed CORS origin(s), comma-separated |
-| `ADMIN_EMAIL`           | `admin@inveris.com`       | Admin login email |
-| `ADMIN_PASSWORD`        | `admin123`                | Admin login password |
-| `JWT_SECRET`            | —                         | JWT signing secret |
+| `ADMIN_EMAIL`           | —                         | Admin login email (required, no default) |
+| `ADMIN_PASSWORD`        | —                         | Admin login password (required, no default) |
+| `JWT_SECRET`            | —                         | JWT signing secret (required) |
 | `MONGODB_URI`           | —                         | MongoDB Atlas connection string |
 | `IMAGEKIT_PRIVATE_KEY`  | —                         | ImageKit private API key |
 | `CONTACT_NOTIFY_EMAIL`  | `vanshagarwal0144@gmail.com` | Inbox for contact form emails |
 | `RESEND_API_KEY`        | —                         | Resend API key (`re_...`) |
-| `RESEND_FROM_EMAIL`     | `Inveris Website <onboarding@resend.dev>` | From address (use a verified domain in production) |
+| `RESEND_FROM_EMAIL`     | `Inveris Solutions <noreply@inverissolutions.com>` | From address (must be on a Resend-verified domain) |
 
 **frontend/.env.local**
 

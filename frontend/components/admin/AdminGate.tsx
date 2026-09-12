@@ -13,7 +13,7 @@ import { AdminShell } from "./AdminShell";
 export function AdminGate({ children }: { children: ReactNode }) {
   const [email, setEmail] = useState("");
   const [checking, setChecking] = useState(true);
-  const [formEmail, setFormEmail] = useState("admin@inveris.com");
+  const [formEmail, setFormEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
@@ -77,6 +77,8 @@ export function AdminGate({ children }: { children: ReactNode }) {
             <input
               type="email"
               required
+              autoComplete="username"
+              placeholder="Email"
               className="w-full rounded-md border border-border px-3 py-2 text-sm"
               value={formEmail}
               onChange={(e) => setFormEmail(e.target.value)}
@@ -87,6 +89,8 @@ export function AdminGate({ children }: { children: ReactNode }) {
             <input
               type="password"
               required
+              autoComplete="current-password"
+              placeholder="Password"
               className="w-full rounded-md border border-border px-3 py-2 text-sm"
               value={password}
               onChange={(e) => setPassword(e.target.value)}

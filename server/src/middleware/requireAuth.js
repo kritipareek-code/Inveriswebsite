@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+const { getJwtSecret } = require("../lib/adminCredentials");
 
 function requireAuth(req, res, next) {
   const header = req.headers.authorization || "";
@@ -9,7 +10,7 @@ function requireAuth(req, res, next) {
   }
 
   try {
-    const payload = jwt.verify(token, process.env.JWT_SECRET || "inveris-admin-secret");
+    const payload = jwt.verify(token, getJwtSecret());
     req.admin = payload;
     return next();
   } catch {

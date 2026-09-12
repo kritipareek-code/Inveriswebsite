@@ -1,7 +1,10 @@
 import type { AboutPageContent } from "@/lib/about-content";
 import type { ApproachPageContent } from "@/lib/approach-content";
 import type { CareersPageContent } from "@/lib/careers-content";
-import type { ContactPageContent } from "@/lib/contact-content";
+import {
+  normalizeContactContent,
+  type ContactPageContent,
+} from "@/lib/contact-content";
 import type { LeadershipPageContent } from "@/lib/leadership-content";
 import type { ServicesPageContent } from "@/lib/services-content";
 import type { IndustriesPageContent } from "@/lib/industries-content";
@@ -110,7 +113,7 @@ export async function saveContactContent(content: ContactPageContent) {
     method: "PUT",
     body: JSON.stringify(content),
   });
-  return data.content as ContactPageContent;
+  return normalizeContactContent(data.content);
 }
 
 export async function saveCareersContent(content: CareersPageContent) {

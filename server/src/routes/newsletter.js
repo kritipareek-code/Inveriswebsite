@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const requireAuth = require("../middleware/requireAuth");
+const { formLimiter } = require("../middleware/rateLimits");
 const { sendNewsletterNotification } = require("../lib/mailer");
 const {
   subscribe,
@@ -16,7 +17,7 @@ function isValidId(id) {
   return mongoose.Types.ObjectId.isValid(id);
 }
 
-router.post("/", async (req, res) => {
+router.post("/", formLimiter, async (req, res) => {
   try {
     const email = String(req.body?.email || "").trim().toLowerCase();
 

@@ -1,7 +1,7 @@
 const { Resend } = require("resend");
 
 const DEFAULT_NOTIFY_EMAIL = "vanshagarwal0144@gmail.com";
-const DEFAULT_FROM = "Inveris Website <onboarding@resend.dev>";
+const DEFAULT_FROM = "Inveris Solutions <noreply@inverissolutions.com>";
 
 function escapeHtml(value) {
   return String(value || "")

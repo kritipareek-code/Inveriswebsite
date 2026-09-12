@@ -50,7 +50,7 @@ export function HomeEditor({ initialContent }: { initialContent: HomeContent }) 
         <div>
           <h1 className="text-2xl font-bold text-navy">Home page</h1>
           <p className="mt-1 text-sm text-text-body">
-            Edit every section on Home, including images, links, icons, and SEO.
+            Edit every section on Home, including images, labels, and icons.
           </p>
         </div>
         <button
@@ -70,24 +70,6 @@ export function HomeEditor({ initialContent }: { initialContent: HomeContent }) 
         <p className="rounded-md bg-red-50 px-4 py-3 text-sm text-red-700">{error}</p>
       ) : null}
 
-      <AdminSection title="Page SEO">
-        <TextField
-          label="Browser title"
-          value={content.seo.title}
-          onChange={(v) =>
-            setContent((prev) => ({ ...prev, seo: { ...prev.seo, title: v } }))
-          }
-        />
-        <TextField
-          label="Meta description"
-          multiline
-          value={content.seo.description}
-          onChange={(v) =>
-            setContent((prev) => ({ ...prev, seo: { ...prev.seo, description: v } }))
-          }
-        />
-      </AdminSection>
-
       <AdminSection title="Hero">
         <TextField label="Tag" value={content.hero.tag} onChange={(v) => updateHero("tag", v)} />
         <TextField label="Title" value={content.hero.title} onChange={(v) => updateHero("title", v)} />
@@ -106,24 +88,10 @@ export function HomeEditor({ initialContent }: { initialContent: HomeContent }) 
             }
           />
           <TextField
-            label="Primary button link"
-            value={content.hero.primaryCta.href}
-            onChange={(v) =>
-              updateHero("primaryCta", { ...content.hero.primaryCta, href: v })
-            }
-          />
-          <TextField
             label="Secondary button"
             value={content.hero.secondaryCta.label}
             onChange={(v) =>
               updateHero("secondaryCta", { ...content.hero.secondaryCta, label: v })
-            }
-          />
-          <TextField
-            label="Secondary button link"
-            value={content.hero.secondaryCta.href}
-            onChange={(v) =>
-              updateHero("secondaryCta", { ...content.hero.secondaryCta, href: v })
             }
           />
         </div>
@@ -230,16 +198,6 @@ export function HomeEditor({ initialContent }: { initialContent: HomeContent }) 
             setContent((prev) => ({
               ...prev,
               about: { ...prev.about, cta: { ...prev.about.cta, label: v } },
-            }))
-          }
-        />
-        <TextField
-          label="Button link"
-          value={content.about.cta.href}
-          onChange={(v) =>
-            setContent((prev) => ({
-              ...prev,
-              about: { ...prev.about, cta: { ...prev.about.cta, href: v } },
             }))
           }
         />
@@ -561,16 +519,6 @@ export function HomeEditor({ initialContent }: { initialContent: HomeContent }) 
             setContent((prev) => ({
               ...prev,
               cta: { ...prev.cta, cta: { ...prev.cta.cta, label: v } },
-            }))
-          }
-        />
-        <TextField
-          label="Button link"
-          value={content.cta.cta.href}
-          onChange={(v) =>
-            setContent((prev) => ({
-              ...prev,
-              cta: { ...prev.cta, cta: { ...prev.cta.cta, href: v } },
             }))
           }
         />
