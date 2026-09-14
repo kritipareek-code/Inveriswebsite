@@ -1,6 +1,5 @@
 import { CoreValuesSection } from "@/components/leadership/CoreValuesSection";
 import { LeadershipHeroSection } from "@/components/leadership/LeadershipHeroSection";
-import { LeadershipPhilosophySection } from "@/components/leadership/LeadershipPhilosophySection";
 import { LeadershipTeamSection } from "@/components/leadership/LeadershipTeamSection";
 import { PageCtaBanner } from "@/components/shared/PageCtaBanner";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -19,7 +18,6 @@ export default async function LeadershipPage() {
     <>
       <JsonLd data={getPersonJsonLd(leadership.team.members)} />
       <LeadershipHeroSection content={leadership.hero} />
-      <LeadershipPhilosophySection content={leadership.philosophy} />
       <LeadershipTeamSection content={leadership.team} />
       <CoreValuesSection content={leadership.values} />
       <PageCtaBanner
