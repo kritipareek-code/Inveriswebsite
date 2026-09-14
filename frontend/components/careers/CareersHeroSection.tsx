@@ -10,15 +10,22 @@ import { PAGE_HERO_HEIGHT, PAGE_HERO_PADDING } from "@/components/shared/page-he
 import { Spotlight } from "@/components/magic/spotlight";
 import { GridPattern } from "@/components/magic/grid-pattern";
 import { TextGenerate } from "@/components/magic/text-generate";
-import { useCareersForm } from "@/components/careers/CareersFormProvider";
 import type { CareersHeroContent } from "@/lib/careers-content";
 import { cn } from "@/lib/cn";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
-export function CareersHeroSection({ content }: { content: CareersHeroContent }) {
+export function CareersHeroSection({
+  content,
+  ctaHref,
+  ctaTarget,
+}: {
+  content: CareersHeroContent;
+  ctaHref?: string;
+  ctaTarget?: string;
+}) {
   const hero = content;
-  const { openForm } = useCareersForm();
+  const href = ctaHref ?? hero.cta.href;
 
   return (
     <section className="relative overflow-hidden bg-navy">
@@ -73,7 +80,12 @@ export function CareersHeroSection({ content }: { content: CareersHeroContent })
                 transition={{ duration: 0.75, delay: 0.7, ease }}
                 className="w-fit overflow-hidden"
               >
-                <Button type="button" variant="gold" onClick={openForm}>
+                <Button
+                  variant="gold"
+                  href={href}
+                  target={ctaTarget}
+                  rel={ctaTarget === "_blank" ? "noopener noreferrer" : undefined}
+                >
                   {hero.cta.label}
                   <ArrowRight size={18} />
                 </Button>

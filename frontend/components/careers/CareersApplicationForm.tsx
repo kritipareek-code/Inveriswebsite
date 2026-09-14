@@ -1,11 +1,11 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Upload } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/cn";
 import { Reveal } from "@/components/magic/reveal";
-import type { CareersNetworkContent } from "@/lib/careers-content";
+import type { CareersNetworkContent, CareersOpportunity } from "@/lib/careers-content";
 
 interface FormDataState {
   name: string;
@@ -32,24 +32,45 @@ const initialForm: FormDataState = {
   about: "",
 };
 
+const MAX_RESUME_BYTES = 5 * 1024 * 1024;
+const RESUME_ACCEPT = ".pdf,.doc,.docx,application/pdf";
+
+function isAllowedResume(file: File) {
+  const name = file.name.toLowerCase();
+  return (
+    name.endsWith(".pdf") ||
+    name.endsWith(".doc") ||
+    name.endsWith(".docx") ||
+    file.type === "application/pdf" ||
+    file.type === "application/msword" ||
+    file.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+  );
+}
+
 export function CareersApplicationForm({
   network,
+  job = null,
   className,
   idPrefix = "",
   animated = true,
   compact = false,
+  includeResume = false,
 }: {
   network: CareersNetworkContent;
+  job?: CareersOpportunity | null;
   className?: string;
   idPrefix?: string;
   animated?: boolean;
   compact?: boolean;
+  includeResume?: boolean;
 }) {
   const [formState, setFormState] = useState<FormDataState>(initialForm);
+  const [resumeFile, setResumeFile] = useState<File | null>(null);
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errors, setErrors] = useState<string[]>([]);
   const [successMessage, setSuccessMessage] = useState("");
   const successTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const resumeInputRef = useRef<HTMLInputElement>(null);
   const id = (name: string) => `${idPrefix}${name}`;
   const fieldClass = cn(inputClass, compact && "px-3 py-2 text-[13px]");
   const selectFieldClass = cn(selectClass, compact && "px-3 py-2 pr-9 text-[13px]");
@@ -67,18 +88,64 @@ export function CareersApplicationForm({
     setFormState((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
+  const handleResumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0] ?? null;
+    if (!file) {
+      setResumeFile(null);
+      return;
+    }
+    if (!isAllowedResume(file)) {
+      setResumeFile(null);
+      e.target.value = "";
+      setErrors(["Resume must be a PDF or Word document."]);
+      setStatus("error");
+      return;
+    }
+    if (file.size > MAX_RESUME_BYTES) {
+      setResumeFile(null);
+      e.target.value = "";
+      setErrors(["Resume must be 5MB or smaller."]);
+      setStatus("error");
+      return;
+    }
+    setErrors([]);
+    setStatus("idle");
+    setResumeFile(file);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus("loading");
     setErrors([]);
     setSuccessMessage("");
 
+    if (includeResume && !resumeFile) {
+      setErrors(["Please upload your resume."]);
+      setStatus("error");
+      return;
+    }
+
     try {
+      const payload = new FormData();
+      payload.append("name", formState.name);
+      payload.append("email", formState.email);
+      payload.append("phone", formState.phone);
+      payload.append("location", formState.location);
+      payload.append("interest", formState.interest);
+      payload.append("experience", formState.experience);
+      payload.append("about", formState.about);
+      if (job) {
+        payload.append("jobId", job.id);
+        payload.append("jobTitle", job.title);
+        payload.append("jobLocation", job.location);
+        payload.append("jobLineOfService", job.lineOfService);
+      }
+      if (resumeFile) payload.append("resume", resumeFile);
+
       const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5001";
       const res = await fetch(`${apiUrl}/api/careers`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formState),
+        body: payload,
       });
 
       const data = await res.json();
@@ -91,6 +158,8 @@ export function CareersApplicationForm({
 
       setSuccessMessage(data.message);
       setFormState(initialForm);
+      setResumeFile(null);
+      if (resumeInputRef.current) resumeInputRef.current.value = "";
       setStatus("success");
       if (successTimer.current) clearTimeout(successTimer.current);
       successTimer.current = setTimeout(() => {
@@ -198,6 +267,38 @@ export function CareersApplicationForm({
           </select>
         </Field>
       </div>
+
+      {includeResume ? (
+        <Field label="Resume" htmlFor={id("resume")} required compact={compact}>
+          <label
+            htmlFor={id("resume")}
+            className={cn(
+              fieldClass,
+              "flex cursor-pointer items-center gap-3",
+              resumeFile ? "text-heading" : "text-paragraph-muted"
+            )}
+          >
+            <Upload size={compact ? 15 : 16} className="shrink-0 text-gold" />
+            <span className="min-w-0 truncate">
+              {resumeFile
+                ? resumeFile.name
+                : compact
+                  ? "PDF or Word, up to 5MB"
+                  : "Upload your resume (PDF or Word, up to 5MB)"}
+            </span>
+          </label>
+          <input
+            ref={resumeInputRef}
+            id={id("resume")}
+            name="resume"
+            type="file"
+            accept={RESUME_ACCEPT}
+            required={includeResume}
+            onChange={handleResumeChange}
+            className="sr-only"
+          />
+        </Field>
+      ) : null}
 
       <Field
         label="Tell Us About Yourself"

@@ -6,6 +6,10 @@ const LIMITS = {
   interest: 80,
   experience: 40,
   about: 5000,
+  jobId: 80,
+  jobTitle: 160,
+  jobLocation: 120,
+  jobLineOfService: 120,
 };
 
 function tooLong(value, max) {
@@ -60,6 +64,14 @@ function validateCareer(req, res, next) {
   }
 
   if (tooLong(about, LIMITS.about)) errors.push("About section is too long.");
+
+  const { jobId, jobTitle, jobLocation, jobLineOfService } = req.body;
+  if (tooLong(jobId, LIMITS.jobId)) errors.push("Job reference is too long.");
+  if (tooLong(jobTitle, LIMITS.jobTitle)) errors.push("Job title is too long.");
+  if (tooLong(jobLocation, LIMITS.jobLocation)) errors.push("Job location is too long.");
+  if (tooLong(jobLineOfService, LIMITS.jobLineOfService)) {
+    errors.push("Line of service is too long.");
+  }
 
   if (errors.length > 0) {
     return res.status(400).json({ success: false, errors });

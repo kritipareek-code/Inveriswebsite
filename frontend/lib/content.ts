@@ -886,7 +886,7 @@ export const careersPageContent = {
       "At Inveris, we believe great work comes from people who think differently, take ownership, and turn ideas into action.",
     image: "/images/service-recruitment.jpg",
     imageAlt: "Professionals collaborating in a modern workspace",
-    cta: { label: "Join Our Talent Network", href: "#talent-network" },
+    cta: { label: "Join Our Talent Network", href: "/careers/opportunities" },
   },
   intro: {
     statement:
@@ -1010,7 +1010,22 @@ export const careersPageContent = {
     title: "Build your career. Build with Inveris.",
     description:
       "If you're curious, driven, and excited by the idea of building something meaningful, we'd love to hear from you.",
-    cta: { label: "Join Our Talent Network", href: "#talent-network" },
+    cta: { label: "Join Our Talent Network", href: "/careers/opportunities" },
+  },
+  opportunities: {
+    title: "Current opportunities",
+    emptyMessage: "No job openings for now.",
+    hero: {
+      tag: "CAREERS",
+      titleWhite: "Talent That Thinks.",
+      titleAccent: "People Who Execute.",
+      description:
+        "At Inveris, we believe great work comes from people who think differently, take ownership, and turn ideas into action.",
+      image: "/images/service-recruitment.jpg",
+      imageAlt: "Professionals collaborating in a modern workspace",
+      cta: { label: "Join Our Talent Network", href: "#current-opportunities" },
+    },
+    items: [],
   },
 };
 

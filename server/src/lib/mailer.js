@@ -201,6 +201,9 @@ async function sendCareerNotification(application, resumeFile) {
     `Location: ${application.location}`,
     `Area of interest: ${application.interest}`,
     `Experience: ${application.experience}`,
+    application.jobTitle ? `Role: ${application.jobTitle}` : null,
+    application.jobLocation ? `Job location: ${application.jobLocation}` : null,
+    application.jobLineOfService ? `Line of service: ${application.jobLineOfService}` : null,
     application.organization ? `Organization: ${application.organization}` : null,
     application.designation ? `Designation: ${application.designation}` : null,
     application.linkedin ? `LinkedIn: ${application.linkedin}` : null,
@@ -224,6 +227,9 @@ async function sendCareerNotification(application, resumeFile) {
           ${row("Location", application.location)}
           ${row("Interest", application.interest)}
           ${row("Experience", application.experience)}
+          ${row("Job title", application.jobTitle)}
+          ${row("Job location", application.jobLocation)}
+          ${row("Line of service", application.jobLineOfService)}
           ${row("Organization", application.organization)}
           ${row("Designation", application.designation)}
           ${row("LinkedIn", application.linkedin)}
@@ -238,7 +244,9 @@ async function sendCareerNotification(application, resumeFile) {
     from,
     to,
     replyTo: application.email,
-    subject: `New career application from ${application.name}`,
+    subject: application.jobTitle
+      ? `New career application from ${application.name} — ${application.jobTitle}`
+      : `New career application from ${application.name}`,
     text,
     html,
   };

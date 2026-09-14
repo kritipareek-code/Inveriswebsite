@@ -210,6 +210,10 @@ export type CareerApplication = {
   designation: string;
   linkedin: string;
   about: string;
+  jobId: string;
+  jobTitle: string;
+  jobLocation: string;
+  jobLineOfService: string;
   resumeUrl: string;
   resumeName: string;
   read: boolean;

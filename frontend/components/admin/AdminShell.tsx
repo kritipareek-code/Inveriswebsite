@@ -17,6 +17,7 @@ const links = [
   { href: "/admin/approach", label: "Approach page" },
   { href: "/admin/leadership", label: "Leadership page" },
   { href: "/admin/careers", label: "Careers page" },
+  { href: "/admin/jobs", label: "Jobs" },
   { href: "/admin/contact", label: "Contact page" },
   { href: "/admin/footer", label: "Footer" },
 ];

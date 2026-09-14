@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import {
   type CareersExpectItem,
   type CareersNextStep,
@@ -568,6 +569,16 @@ export function CareersEditor({
             }))
           }
         />
+      </AdminSection>
+
+      <AdminSection title="Current opportunities">
+        <p className="text-sm text-text-body">
+          Open roles are managed separately so you can add a job title, location, and
+          line of service without editing the rest of the careers page.{" "}
+          <Link href="/admin/jobs" className="font-semibold text-navy underline underline-offset-4">
+            Manage jobs
+          </Link>
+        </p>
       </AdminSection>
 
       <AdminSection title="Call to action">

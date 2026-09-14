@@ -175,6 +175,12 @@ export function AdminOverview() {
           Edit careers page
         </Link>
         <Link
+          href="/admin/jobs"
+          className="inline-flex rounded-md border border-border px-4 py-2 text-sm font-semibold text-navy"
+        >
+          Manage jobs
+        </Link>
+        <Link
           href="/admin/contact"
           className="inline-flex rounded-md border border-border px-4 py-2 text-sm font-semibold text-navy"
         >

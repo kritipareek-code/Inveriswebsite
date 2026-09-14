@@ -70,7 +70,10 @@ export function Header() {
 
           <nav className="hidden lg:flex items-center gap-0.5">
             {navLinks.map((link) => {
-              const isActive = pathname === link.href;
+              const isActive =
+                link.href === "/"
+                  ? pathname === "/"
+                  : pathname === link.href || pathname.startsWith(`${link.href}/`);
               return (
                 <Link
                   key={link.href}
@@ -123,7 +126,10 @@ export function Header() {
           <nav className="lg:hidden mt-2 rounded-2xl border border-border bg-white/95 backdrop-blur-xl p-3 shadow-[0_18px_50px_rgba(7,16,31,0.12)]">
             <div className="flex flex-col">
               {navLinks.map((link) => {
-                const isActive = pathname === link.href;
+                const isActive =
+                  link.href === "/"
+                    ? pathname === "/"
+                    : pathname === link.href || pathname.startsWith(`${link.href}/`);
                 return (
                   <Link
                     key={link.href}

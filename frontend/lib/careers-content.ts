@@ -62,6 +62,21 @@ export type CareersCtaContent = {
   cta: CareersCtaLink;
 };
 
+export type CareersOpportunity = {
+  id: string;
+  title: string;
+  location: string;
+  lineOfService: string;
+  applyHref: string;
+};
+
+export type CareersOpportunitiesContent = {
+  title: string;
+  emptyMessage: string;
+  hero: CareersHeroContent;
+  items: CareersOpportunity[];
+};
+
 export type CareersFaqContent = {
   tag?: string;
   title: string;
@@ -74,13 +89,27 @@ export type CareersPageContent = {
   expect: CareersExpectContent;
   network: CareersNetworkContent;
   next: CareersNextContent;
+  opportunities: CareersOpportunitiesContent;
   faq: CareersFaqContent;
   cta: CareersCtaContent;
 };
 
+export const CAREERS_OPPORTUNITIES_PATH = "/careers/opportunities";
+
+function careersCtaHref(href?: string) {
+  if (!href || href === "#talent-network") return CAREERS_OPPORTUNITIES_PATH;
+  return href;
+}
+
 export function getFallbackCareersContent(): CareersPageContent {
   return {
-    hero: { ...careersPageContent.hero, cta: { ...careersPageContent.hero.cta } },
+    hero: {
+      ...careersPageContent.hero,
+      cta: {
+        ...careersPageContent.hero.cta,
+        href: careersCtaHref(careersPageContent.hero.cta.href),
+      },
+    },
     intro: { ...careersPageContent.intro },
     expect: {
       tag: careersPageContent.expect.tag,
@@ -103,6 +132,18 @@ export function getFallbackCareersContent(): CareersPageContent {
         id: `next-${index + 1}`,
       })),
     },
+    opportunities: {
+      title: careersPageContent.opportunities.title,
+      emptyMessage: careersPageContent.opportunities.emptyMessage,
+      hero: {
+        ...careersPageContent.opportunities.hero,
+        cta: { ...careersPageContent.opportunities.hero.cta },
+      },
+      items: careersPageContent.opportunities.items.map((item, index) => ({
+        ...item,
+        id: `opportunity-${index + 1}`,
+      })),
+    },
     faq: {
       tag: careersPageContent.faq.tag,
       title: careersPageContent.faq.title,
@@ -113,7 +154,10 @@ export function getFallbackCareersContent(): CareersPageContent {
     },
     cta: {
       ...careersPageContent.cta,
-      cta: { ...careersPageContent.cta.cta },
+      cta: {
+        ...careersPageContent.cta.cta,
+        href: careersCtaHref(careersPageContent.cta.cta.href),
+      },
     },
   };
 }
@@ -141,7 +185,15 @@ export function normalizeCareersContent(content: CareersPageContent): CareersPag
   return {
     ...fallback,
     ...rest,
-    hero: { ...fallback.hero, ...content.hero, cta: { ...fallback.hero.cta, ...content.hero?.cta } },
+    hero: {
+      ...fallback.hero,
+      ...content.hero,
+      cta: {
+        ...fallback.hero.cta,
+        ...content.hero?.cta,
+        href: careersCtaHref(content.hero?.cta?.href ?? fallback.hero.cta.href),
+      },
+    },
     intro: { ...fallback.intro, ...content.intro },
     expect: {
       ...fallback.expect,
@@ -159,6 +211,30 @@ export function normalizeCareersContent(content: CareersPageContent): CareersPag
       ...content.next,
       steps: withIds(content.next?.steps ?? fallback.next.steps, "next"),
     },
+    opportunities: {
+      ...fallback.opportunities,
+      ...content.opportunities,
+      emptyMessage:
+        content.opportunities?.emptyMessage ?? fallback.opportunities.emptyMessage,
+      hero: {
+        ...fallback.opportunities.hero,
+        ...content.opportunities?.hero,
+        cta: {
+          ...fallback.opportunities.hero.cta,
+          ...content.opportunities?.hero?.cta,
+        },
+      },
+      items: withIds(
+        content.opportunities?.items ?? fallback.opportunities.items,
+        "opportunity"
+      ).map((item) => ({
+        ...item,
+        title: item.title ?? "",
+        location: item.location ?? "",
+        lineOfService: item.lineOfService ?? "",
+        applyHref: item.applyHref ?? "",
+      })),
+    },
     faq: {
       tag: content.faq?.tag ?? fallback.faq.tag,
       title: content.faq?.title ?? fallback.faq.title,
@@ -167,7 +243,11 @@ export function normalizeCareersContent(content: CareersPageContent): CareersPag
     cta: {
       ...fallback.cta,
       ...content.cta,
-      cta: { ...fallback.cta.cta, ...content.cta?.cta },
+      cta: {
+        ...fallback.cta.cta,
+        ...content.cta?.cta,
+        href: careersCtaHref(content.cta?.cta?.href ?? fallback.cta.cta.href),
+      },
     },
   };
 }

@@ -20,7 +20,7 @@ export default async function CareersPage() {
     <>
       <JsonLd data={getFaqPageJsonLd(careers.faq.items)} />
       <CareersFormProvider network={careers.network}>
-        <CareersHeroSection content={careers.hero} />
+        <CareersHeroSection content={careers.hero} ctaTarget="_blank" />
         <CareersIntroSection content={careers.intro} />
         <CareersExpectSection content={careers.expect} />
         <CareersNetworkSection network={careers.network} next={careers.next} />

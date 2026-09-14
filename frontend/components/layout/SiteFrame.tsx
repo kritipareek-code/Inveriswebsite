@@ -25,6 +25,8 @@ export function SiteFrame({
 }) {
   const pathname = usePathname();
   const isAdmin = pathname.startsWith("/admin");
+  const hideFooterCta =
+    PAGES_WITH_OWN_CTA.has(pathname) || pathname.startsWith("/careers/");
 
   if (isAdmin) {
     return <>{children}</>;
@@ -34,7 +36,7 @@ export function SiteFrame({
     <NavProvider>
       <Header />
       <main className="flex-1">{children}</main>
-      <Footer content={footer} showCta={!PAGES_WITH_OWN_CTA.has(pathname)} />
+      <Footer content={footer} showCta={!hideFooterCta} />
     </NavProvider>
   );
 }

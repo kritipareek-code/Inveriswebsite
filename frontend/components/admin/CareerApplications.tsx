@@ -92,7 +92,7 @@ export function CareerApplications() {
         <div>
           <h2 className="text-2xl font-bold text-navy">Career applications</h2>
           <p className="mt-1 text-sm text-text-body">
-            Profiles submitted through the careers page form. Each one is saved here and emailed to the notification inbox.
+            Profiles submitted through the careers form and job applications. Each one is saved here and emailed to the notification inbox.
           </p>
         </div>
         <div className="flex items-center gap-3">
@@ -150,7 +150,12 @@ export function CareerApplications() {
                         <span className="h-2 w-2 rounded-full bg-gold" aria-label="Unread" />
                       ) : null}
                       <h3 className="truncate text-base font-bold text-navy">{item.name}</h3>
-                      {item.interest ? (
+                      {item.jobTitle ? (
+                        <span className="rounded-full bg-gold/15 px-2 py-0.5 text-[11px] font-semibold text-navy">
+                          {item.jobTitle}
+                        </span>
+                      ) : null}
+                      {item.interest && !item.jobTitle ? (
                         <span className="rounded-full bg-surface-muted px-2 py-0.5 text-[11px] font-semibold text-navy">
                           {item.interest}
                         </span>
@@ -158,6 +163,7 @@ export function CareerApplications() {
                     </div>
                     <p className="mt-1 truncate text-sm text-text-body">
                       {item.email}
+                      {item.jobLocation ? ` · ${item.jobLocation}` : ""}
                       {item.experience ? ` · ${item.experience}` : ""}
                     </p>
                     <p className="mt-1 line-clamp-2 text-sm text-paragraph-muted">
@@ -179,6 +185,9 @@ export function CareerApplications() {
                       <Detail label="Organization" value={item.organization} />
                       <Detail label="Designation" value={item.designation} />
                       <Detail label="LinkedIn" value={item.linkedin} />
+                      <Detail label="Job title" value={item.jobTitle} />
+                      <Detail label="Job location" value={item.jobLocation} />
+                      <Detail label="Line of service" value={item.jobLineOfService} />
                     </div>
                     <Detail label="About" value={item.about} />
                     {item.resumeUrl ? (

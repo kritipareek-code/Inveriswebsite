@@ -4,9 +4,17 @@ import { createContext, useContext, useEffect, useId, useRef, useState, type Rea
 import { X } from "lucide-react";
 import { CareersApplicationForm } from "@/components/careers/CareersApplicationForm";
 import { PageCtaBanner } from "@/components/shared/PageCtaBanner";
-import type { CareersCtaContent, CareersNetworkContent } from "@/lib/careers-content";
+import type {
+  CareersCtaContent,
+  CareersNetworkContent,
+  CareersOpportunity,
+} from "@/lib/careers-content";
 
-const CareersFormContext = createContext<{ openForm: () => void } | null>(null);
+type CareersFormContextValue = {
+  openForm: (job?: CareersOpportunity) => void;
+};
+
+const CareersFormContext = createContext<CareersFormContextValue | null>(null);
 
 export function useCareersForm() {
   const ctx = useContext(CareersFormContext);
@@ -24,21 +32,39 @@ export function CareersFormProvider({
   children: ReactNode;
 }) {
   const [open, setOpen] = useState(false);
+  const [job, setJob] = useState<CareersOpportunity | null>(null);
+
+  function openForm(nextJob?: CareersOpportunity) {
+    setJob(nextJob ?? null);
+    setOpen(true);
+  }
+
+  function closeForm() {
+    setOpen(false);
+    setJob(null);
+  }
 
   return (
-    <CareersFormContext.Provider value={{ openForm: () => setOpen(true) }}>
+    <CareersFormContext.Provider value={{ openForm }}>
       {children}
-      <CareersApplicationModal network={network} open={open} onClose={() => setOpen(false)} />
+      <CareersApplicationModal
+        network={network}
+        job={job}
+        open={open}
+        onClose={closeForm}
+      />
     </CareersFormContext.Provider>
   );
 }
 
 function CareersApplicationModal({
   network,
+  job,
   open,
   onClose,
 }: {
   network: CareersNetworkContent;
+  job: CareersOpportunity | null;
   open: boolean;
   onClose: () => void;
 }) {
@@ -83,8 +109,14 @@ function CareersApplicationModal({
               {network.tag || "CAREERS"}
             </p>
             <h2 id={titleId} className="mt-1 text-xl font-bold text-navy md:text-2xl">
-              {network.formTitle}
+              {job ? `Apply for ${job.title}` : network.formTitle}
             </h2>
+            {job ? (
+              <p className="mt-1 text-sm text-text-body">
+                {job.location}
+                {job.lineOfService ? ` · ${job.lineOfService}` : ""}
+              </p>
+            ) : null}
           </div>
           <button
             type="button"
@@ -97,9 +129,11 @@ function CareersApplicationModal({
         </div>
         <CareersApplicationForm
           network={network}
+          job={job}
           idPrefix="modal-"
           animated={false}
           compact
+          includeResume
         />
       </div>
     </div>
@@ -107,13 +141,12 @@ function CareersApplicationModal({
 }
 
 export function CareersCtaBanner({ content }: { content: CareersCtaContent }) {
-  const { openForm } = useCareersForm();
   return (
     <PageCtaBanner
       title={content.title}
       description={content.description}
       cta={content.cta}
-      onCtaClick={openForm}
+      target="_blank"
     />
   );
 }

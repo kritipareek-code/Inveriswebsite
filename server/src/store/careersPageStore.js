@@ -18,12 +18,54 @@ function normalizeFaq(faq) {
   };
 }
 
+function normalizeHero(hero, fallback) {
+  const source = hero && typeof hero === "object" ? hero : {};
+  const cta = source.cta && typeof source.cta === "object" ? source.cta : {};
+  return {
+    tag: typeof source.tag === "string" ? source.tag : fallback.tag,
+    titleWhite: typeof source.titleWhite === "string" ? source.titleWhite : fallback.titleWhite,
+    titleAccent: typeof source.titleAccent === "string" ? source.titleAccent : fallback.titleAccent,
+    description:
+      typeof source.description === "string" ? source.description : fallback.description,
+    image: typeof source.image === "string" ? source.image : fallback.image,
+    imageAlt: typeof source.imageAlt === "string" ? source.imageAlt : fallback.imageAlt,
+    cta: {
+      label: typeof cta.label === "string" && cta.label ? cta.label : fallback.cta.label,
+      href: typeof cta.href === "string" && cta.href ? cta.href : fallback.cta.href,
+    },
+  };
+}
+
+function normalizeOpportunities(opportunities) {
+  if (!opportunities || typeof opportunities !== "object") return opportunities;
+  const fallbackHero =
+    defaultCareers.opportunities?.hero || defaultCareers.hero;
+  return {
+    title: opportunities.title || "Current opportunities",
+    emptyMessage:
+      typeof opportunities.emptyMessage === "string" && opportunities.emptyMessage.trim()
+        ? opportunities.emptyMessage
+        : "No job openings for now.",
+    hero: normalizeHero(opportunities.hero, fallbackHero),
+    items: Array.isArray(opportunities.items)
+      ? opportunities.items.map((item, index) => ({
+          id: item?.id || `opportunity-${index + 1}`,
+          title: typeof item?.title === "string" ? item.title : "",
+          location: typeof item?.location === "string" ? item.location : "",
+          lineOfService: typeof item?.lineOfService === "string" ? item.lineOfService : "",
+          applyHref: typeof item?.applyHref === "string" ? item.applyHref : "",
+        }))
+      : [],
+  };
+}
+
 function normalizeCareersContent(content) {
   const cleaned = withoutOpportunity(content);
   if (!cleaned || typeof cleaned !== "object") return cleaned;
   return {
     ...cleaned,
     faq: normalizeFaq(cleaned.faq),
+    opportunities: normalizeOpportunities(cleaned.opportunities) ?? defaultCareers.opportunities,
   };
 }
 

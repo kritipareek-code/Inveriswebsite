@@ -11,9 +11,16 @@ interface PageCtaBannerProps {
   description: string;
   cta: { label: string; href: string };
   onCtaClick?: () => void;
+  target?: string;
 }
 
-export function PageCtaBanner({ title, description, cta, onCtaClick }: PageCtaBannerProps) {
+export function PageCtaBanner({
+  title,
+  description,
+  cta,
+  onCtaClick,
+  target,
+}: PageCtaBannerProps) {
   return (
     <section className="relative overflow-hidden bg-navy">
       <GridPattern />
@@ -45,6 +52,8 @@ export function PageCtaBanner({ title, description, cta, onCtaClick }: PageCtaBa
                 variant="gold"
                 size="lg"
                 href={onCtaClick ? undefined : cta.href}
+                target={onCtaClick ? undefined : target}
+                rel={target === "_blank" ? "noopener noreferrer" : undefined}
                 onClick={onCtaClick}
               >
                 {cta.label}
