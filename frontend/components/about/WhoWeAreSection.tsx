@@ -22,7 +22,7 @@ export function WhoWeAreSection({ content }: { content: AboutWhoWeAreContent }) 
                 {content.title}
               </h2>
             </Reveal>
-            <div className="space-y-4 text-paragraph leading-relaxed">
+            <div className="space-y-4 text-heading leading-relaxed">
               {content.paragraphs.map((paragraph, index) => {
                 const isLast = index === content.paragraphs.length - 1;
                 if (isLast && content.highlightPhrase) {

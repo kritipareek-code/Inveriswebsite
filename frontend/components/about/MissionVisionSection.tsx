@@ -43,26 +43,24 @@ export function MissionVisionSection({
         </div>
 
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:gap-8">
-          <Reveal direction="left" delay={0.12} className="h-full">
-            <MissionVisionCard
-              tag={content.mission.tag}
-              title={content.mission.title}
-              icon={content.mission.icon}
-              items={content.mission.items}
-              footer={content.mission.footer}
-              index={1}
-            />
-          </Reveal>
-          <Reveal direction="right" delay={0.2} className="h-full">
-            <MissionVisionCard
-              tag={content.vision.tag}
-              title={content.vision.title}
-              icon={content.vision.icon}
-              items={content.vision.items}
-              footer={content.vision.footer}
-              index={2}
-            />
-          </Reveal>
+          <MissionVisionCard
+            tag={content.mission.tag}
+            title={content.mission.title}
+            icon={content.mission.icon}
+            items={content.mission.items}
+            footer={content.mission.footer}
+            index={1}
+            className="h-full"
+          />
+          <MissionVisionCard
+            tag={content.vision.tag}
+            title={content.vision.title}
+            icon={content.vision.icon}
+            items={content.vision.items}
+            footer={content.vision.footer}
+            index={2}
+            className="h-full"
+          />
         </div>
       </Container>
     </section>

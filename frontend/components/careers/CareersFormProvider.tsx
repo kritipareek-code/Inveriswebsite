@@ -3,10 +3,8 @@
 import { createContext, useContext, useEffect, useId, useRef, useState, type ReactNode } from "react";
 import { X } from "lucide-react";
 import { CareersApplicationForm } from "@/components/careers/CareersApplicationForm";
-import { FaqSection } from "@/components/contact/FaqSection";
 import { PageCtaBanner } from "@/components/shared/PageCtaBanner";
 import type { CareersCtaContent, CareersNetworkContent } from "@/lib/careers-content";
-import type { ContactFaqContent } from "@/lib/contact-content";
 
 const CareersFormContext = createContext<{ openForm: () => void } | null>(null);
 
@@ -69,17 +67,17 @@ function CareersApplicationModal({
 
   return (
     <div
-      className="fixed inset-0 z-[100] flex items-center justify-center bg-navy/60 p-4"
+      className="fixed inset-0 z-[100] flex items-center justify-center bg-navy/60 p-3 sm:p-6"
       onClick={onClose}
     >
       <div
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
-        className="flex max-h-[min(100dvh-2rem,52rem)] min-h-0 w-full max-w-3xl flex-col overflow-hidden rounded-2xl bg-white p-5 shadow-[var(--shadow-card)] sm:p-6"
+        className="flex h-[calc(100dvh-1.5rem)] max-h-[calc(100dvh-1.5rem)] min-h-0 w-full max-w-3xl flex-col overflow-hidden rounded-2xl bg-white p-5 shadow-[var(--shadow-card)] sm:h-[calc(100dvh-3rem)] sm:max-h-[calc(100dvh-3rem)] sm:p-6"
         onClick={(event) => event.stopPropagation()}
       >
-        <div className="mb-4 flex shrink-0 items-start justify-between gap-4">
+        <div className="mb-5 flex shrink-0 items-start justify-between gap-4 sm:mb-6">
           <div>
             <p className="text-xs font-semibold tracking-[0.2em] text-gold">
               {network.tag || "CAREERS"}
@@ -106,11 +104,6 @@ function CareersApplicationModal({
       </div>
     </div>
   );
-}
-
-export function CareersFaqSection({ content }: { content: ContactFaqContent }) {
-  const { openForm } = useCareersForm();
-  return <FaqSection content={content} onCtaClick={openForm} />;
 }
 
 export function CareersCtaBanner({ content }: { content: CareersCtaContent }) {

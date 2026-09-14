@@ -963,13 +963,6 @@ export const careersPageContent = {
   faq: {
     tag: "FREQUENTLY ASKED QUESTIONS",
     title: "Have Questions? We Have Answers.",
-    stillHaveQuestions: "Still have questions?",
-    ctaLabel: "Share Your Profile",
-    avatars: [
-      "https://i.pravatar.cc/120?img=12",
-      "https://i.pravatar.cc/120?img=25",
-      "https://i.pravatar.cc/120?img=47",
-    ],
     items: [
       {
         question: "What does Inveris Solutions do?",

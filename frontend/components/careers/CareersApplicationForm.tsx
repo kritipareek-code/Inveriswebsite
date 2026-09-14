@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { ArrowRight, Upload, FileText, X } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/cn";
 import { Reveal } from "@/components/magic/reveal";
@@ -14,9 +14,6 @@ interface FormDataState {
   location: string;
   interest: string;
   experience: string;
-  organization: string;
-  designation: string;
-  linkedin: string;
   about: string;
 }
 
@@ -32,9 +29,6 @@ const initialForm: FormDataState = {
   location: "",
   interest: "",
   experience: "",
-  organization: "",
-  designation: "",
-  linkedin: "",
   about: "",
 };
 
@@ -52,17 +46,14 @@ export function CareersApplicationForm({
   compact?: boolean;
 }) {
   const [formState, setFormState] = useState<FormDataState>(initialForm);
-  const [resume, setResume] = useState<File | null>(null);
-  const [dragging, setDragging] = useState(false);
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errors, setErrors] = useState<string[]>([]);
   const [successMessage, setSuccessMessage] = useState("");
   const successTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
   const id = (name: string) => `${idPrefix}${name}`;
   const fieldClass = cn(inputClass, compact && "px-3 py-2 text-[13px]");
   const selectFieldClass = cn(selectClass, compact && "px-3 py-2 pr-9 text-[13px]");
-  const compactGap = compact ? "gap-2.5" : "gap-5";
+  const compactGap = compact ? "gap-4" : "gap-5";
 
   useEffect(() => {
     return () => {
@@ -76,34 +67,18 @@ export function CareersApplicationForm({
     setFormState((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleFile = (file: File | undefined) => {
-    if (!file) return;
-    setResume(file);
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus("loading");
     setErrors([]);
     setSuccessMessage("");
 
-    if (!resume) {
-      setErrors(["Please upload your latest resume."]);
-      setStatus("error");
-      return;
-    }
-
     try {
-      const payload = new FormData();
-      Object.entries(formState).forEach(([key, value]) => {
-        payload.append(key, value);
-      });
-      payload.append("resume", resume);
-
       const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5001";
       const res = await fetch(`${apiUrl}/api/careers`, {
         method: "POST",
-        body: payload,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formState),
       });
 
       const data = await res.json();
@@ -116,8 +91,6 @@ export function CareersApplicationForm({
 
       setSuccessMessage(data.message);
       setFormState(initialForm);
-      setResume(null);
-      if (fileInputRef.current) fileInputRef.current.value = "";
       setStatus("success");
       if (successTimer.current) clearTimeout(successTimer.current);
       successTimer.current = setTimeout(() => {
@@ -226,133 +199,6 @@ export function CareersApplicationForm({
         </Field>
       </div>
 
-      <div className={cn("grid grid-cols-1 sm:grid-cols-2", compactGap)}>
-        <Field label="Current / Most Recent Organization" htmlFor={id("organization")} compact={compact}>
-          <input
-            id={id("organization")}
-            name="organization"
-            type="text"
-            value={formState.organization}
-            onChange={handleChange}
-            className={fieldClass}
-            placeholder={compact ? "Organization name" : "Enter your current or most recent organization"}
-          />
-        </Field>
-        <Field label="Current / Most Recent Designation" htmlFor={id("designation")} compact={compact}>
-          <input
-            id={id("designation")}
-            name="designation"
-            type="text"
-            value={formState.designation}
-            onChange={handleChange}
-            className={fieldClass}
-            placeholder={compact ? "Designation" : "Enter your designation"}
-          />
-        </Field>
-      </div>
-
-      <Field label="LinkedIn Profile" htmlFor={id("linkedin")} compact={compact}>
-        <input
-          id={id("linkedin")}
-          name="linkedin"
-          type="url"
-          inputMode="url"
-          value={formState.linkedin}
-          onChange={handleChange}
-          className={fieldClass}
-          placeholder={compact ? "LinkedIn profile URL" : "Paste your LinkedIn profile URL"}
-        />
-      </Field>
-
-      <div className="min-w-0">
-        <label
-          htmlFor={id("resume")}
-          className={cn("mb-1 block font-medium text-heading", compact ? "text-xs" : "text-sm")}
-        >
-          Upload Your Resume <span className="text-gold">*</span>
-        </label>
-        <input
-          ref={fileInputRef}
-          id={id("resume")}
-          name="resume"
-          type="file"
-          accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-          className="sr-only"
-          onChange={(e) => handleFile(e.target.files?.[0])}
-        />
-        {resume ? (
-          <div
-            className={cn(
-              "flex items-center justify-between gap-3 rounded-xl border border-border bg-white px-3",
-              compact ? "py-1.5" : "py-2"
-            )}
-          >
-            <div className="flex min-w-0 items-center gap-3">
-              <span
-                className={cn(
-                  "flex shrink-0 items-center justify-center rounded-lg bg-gold/12 text-gold",
-                  compact ? "h-7 w-7" : "h-8 w-8"
-                )}
-              >
-                <FileText size={compact ? 14 : 16} />
-              </span>
-              <div className="min-w-0">
-                <p className={cn("truncate font-medium text-heading", compact ? "text-[13px]" : "text-sm")}>
-                  {resume.name}
-                </p>
-                <p className="text-xs text-paragraph-muted">{formatFileSize(resume.size)}</p>
-              </div>
-            </div>
-            <button
-              type="button"
-              onClick={() => {
-                setResume(null);
-                if (fileInputRef.current) fileInputRef.current.value = "";
-              }}
-              className="rounded-full p-1.5 text-paragraph hover:bg-surface-muted hover:text-heading"
-              aria-label="Remove resume"
-            >
-              <X size={16} />
-            </button>
-          </div>
-        ) : (
-          <button
-            type="button"
-            onClick={() => fileInputRef.current?.click()}
-            onDragOver={(e) => {
-              e.preventDefault();
-              setDragging(true);
-            }}
-            onDragLeave={() => setDragging(false)}
-            onDrop={(e) => {
-              e.preventDefault();
-              setDragging(false);
-              handleFile(e.dataTransfer.files?.[0]);
-            }}
-            className={cn(
-              "flex w-full items-center justify-center rounded-xl border border-dashed bg-white text-left transition-colors hover:border-gold/50 hover:bg-gold/4",
-              compact ? "gap-2 px-3 py-1.5" : "gap-3 px-4 py-3",
-              dragging ? "border-gold bg-gold/6" : "border-border"
-            )}
-          >
-            <span
-              className={cn(
-                "flex shrink-0 items-center justify-center rounded-full bg-gold/12 text-gold",
-                compact ? "h-7 w-7" : "h-8 w-8"
-              )}
-            >
-              <Upload size={compact ? 14 : 16} />
-            </span>
-            <span className="min-w-0">
-              <span className={cn("block font-medium text-heading", compact ? "text-[13px]" : "text-sm")}>
-                Upload your latest resume
-              </span>
-              <span className="block text-xs text-paragraph-muted">PDF or Word · up to 5 MB</span>
-            </span>
-          </button>
-        )}
-      </div>
-
       <Field
         label="Tell Us About Yourself"
         htmlFor={id("about")}
@@ -364,7 +210,7 @@ export function CareersApplicationForm({
           name="about"
           value={formState.about}
           onChange={handleChange}
-          className={cn(fieldClass, "resize-none", compact ? "min-h-18 flex-1" : "min-h-30")}
+          className={cn(fieldClass, "resize-none", compact ? "min-h-32 flex-1" : "min-h-30")}
           placeholder={
             compact
               ? "Share your experience, skills, and how you could contribute to Inveris."
@@ -438,8 +284,3 @@ function Field({
   );
 }
 
-function formatFileSize(bytes: number) {
-  if (bytes < 1024) return `${bytes} B`;
-  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
-  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
-}

@@ -1,5 +1,5 @@
 import { careersPageContent } from "@/lib/content";
-import type { ContactFaqContent } from "@/lib/contact-content";
+import type { ContactFaqItem } from "@/lib/contact-content";
 import { getApiBaseUrl } from "@/lib/home-content";
 
 export type CareersCtaLink = {
@@ -62,13 +62,19 @@ export type CareersCtaContent = {
   cta: CareersCtaLink;
 };
 
+export type CareersFaqContent = {
+  tag?: string;
+  title: string;
+  items: ContactFaqItem[];
+};
+
 export type CareersPageContent = {
   hero: CareersHeroContent;
   intro: CareersIntroContent;
   expect: CareersExpectContent;
   network: CareersNetworkContent;
   next: CareersNextContent;
-  faq: ContactFaqContent;
+  faq: CareersFaqContent;
   cta: CareersCtaContent;
 };
 
@@ -100,9 +106,6 @@ export function getFallbackCareersContent(): CareersPageContent {
     faq: {
       tag: careersPageContent.faq.tag,
       title: careersPageContent.faq.title,
-      stillHaveQuestions: careersPageContent.faq.stillHaveQuestions,
-      ctaLabel: careersPageContent.faq.ctaLabel,
-      avatars: [...careersPageContent.faq.avatars],
       items: careersPageContent.faq.items.map((item, index) => ({
         ...item,
         id: `careers-faq-${index + 1}`,
@@ -157,9 +160,8 @@ export function normalizeCareersContent(content: CareersPageContent): CareersPag
       steps: withIds(content.next?.steps ?? fallback.next.steps, "next"),
     },
     faq: {
-      ...fallback.faq,
-      ...content.faq,
-      avatars: content.faq?.avatars ?? fallback.faq.avatars,
+      tag: content.faq?.tag ?? fallback.faq.tag,
+      title: content.faq?.title ?? fallback.faq.title,
       items: withIds(content.faq?.items ?? fallback.faq.items, "careers-faq"),
     },
     cta: {

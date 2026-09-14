@@ -2,11 +2,8 @@ import { CareersHeroSection } from "@/components/careers/CareersHeroSection";
 import { CareersIntroSection } from "@/components/careers/CareersIntroSection";
 import { CareersExpectSection } from "@/components/careers/CareersExpectSection";
 import { CareersNetworkSection } from "@/components/careers/CareersNetworkSection";
-import {
-  CareersCtaBanner,
-  CareersFaqSection,
-  CareersFormProvider,
-} from "@/components/careers/CareersFormProvider";
+import { CareersFaqSection } from "@/components/careers/CareersFaqSection";
+import { CareersCtaBanner, CareersFormProvider } from "@/components/careers/CareersFormProvider";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { fetchCareersContent } from "@/lib/careers-content";
 import { getFaqPageJsonLd } from "@/lib/json-ld";

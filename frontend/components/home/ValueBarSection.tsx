@@ -1,4 +1,5 @@
 import { Container } from "@/components/ui/Container";
+import { SectionTag } from "@/components/ui/SectionTag";
 import { Marquee } from "@/components/magic/marquee";
 import { Reveal } from "@/components/magic/reveal";
 import { HomeMediaIcon, type HomeIconName } from "@/lib/home-icons";
@@ -17,17 +18,17 @@ export function ValueBarSection({
   const second = items.slice(Math.ceil(items.length / 2));
 
   return (
-    <section className="relative overflow-hidden border-y border-border bg-surface py-10 lg:py-12">
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-gold to-transparent" />
-      <Container className="mb-6">
+    <div className="relative pb-8 pt-4 lg:pb-10 lg:pt-6">
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-gold/50 to-transparent" />
+
+      <Container className="relative z-10 mb-6">
         {title ? (
           <Reveal direction="down">
-            <p className="text-center text-xs font-semibold uppercase tracking-[0.22em] text-label">
-              {title}
-            </p>
+            <SectionTag light>{title}</SectionTag>
           </Reveal>
         ) : null}
       </Container>
+
       <Marquee pauseOnHover duration="36s">
         {first.map((item) => (
           <ValueChip key={item.id} item={item} />
@@ -40,14 +41,14 @@ export function ValueBarSection({
           ))}
         </Marquee>
       ) : null}
-    </section>
+    </div>
   );
 }
 
 function ValueChip({ item }: { item: HomeValueItem }) {
   return (
-    <div className="flex min-w-[280px] max-w-sm items-start gap-3 rounded-2xl border border-border/80 bg-white/80 px-4 py-4 shadow-[var(--shadow-card)] backdrop-blur-sm">
-      <div className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-full bg-gold/12">
+    <div className="flex min-w-[280px] max-w-sm items-start gap-3 rounded-2xl border border-white/12 bg-white/95 px-5 py-4 shadow-[0_16px_40px_rgba(0,0,0,0.22)] backdrop-blur-sm">
+      <div className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-full bg-gold/12 ring-1 ring-gold/25">
         <HomeMediaIcon
           name={item.icon as HomeIconName}
           image={item.image}
@@ -57,8 +58,8 @@ function ValueChip({ item }: { item: HomeValueItem }) {
         />
       </div>
       <div>
-        <h3 className="text-sm font-bold text-navy leading-snug">{item.title}</h3>
-        <p className="mt-1 text-xs text-text-body leading-relaxed">{item.description}</p>
+        <h3 className="text-sm font-bold leading-snug text-navy">{item.title}</h3>
+        <p className="mt-1 text-xs leading-relaxed text-text-body">{item.description}</p>
       </div>
     </div>
   );

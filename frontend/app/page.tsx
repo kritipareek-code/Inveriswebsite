@@ -1,5 +1,4 @@
 import { HeroSection } from "@/components/home/HeroSection";
-import { ValueBarSection } from "@/components/home/ValueBarSection";
 import { AboutSection } from "@/components/home/AboutSection";
 import { ServicesSection } from "@/components/home/ServicesSection";
 import { ApproachSection } from "@/components/home/ApproachSection";
@@ -25,8 +24,11 @@ export default async function HomePage() {
 
   return (
     <>
-      <HeroSection content={home.hero} />
-      <ValueBarSection title={home.valueBarTitle} items={home.valuePropositions} />
+      <HeroSection
+        content={home.hero}
+        valueBarTitle={home.valueBarTitle}
+        valuePropositions={home.valuePropositions}
+      />
       <AboutSection content={home.about} />
       <ServicesSection content={home.services} />
       <ApproachSection content={home.approach} />
