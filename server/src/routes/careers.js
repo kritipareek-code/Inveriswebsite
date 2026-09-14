@@ -1,12 +1,9 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const multer = require("multer");
-const { toFile } = require("@imagekit/nodejs");
 const requireAuth = require("../middleware/requireAuth");
 const validateCareer = require("../middleware/validateCareer");
 const { formLimiter } = require("../middleware/rateLimits");
 const { sendCareerNotification } = require("../lib/mailer");
-const { getImageKit } = require("../lib/imagekit");
 const {
   createApplication,
   listApplications,
@@ -18,74 +15,13 @@ const {
 
 const router = express.Router();
 
-const ALLOWED_TYPES = new Set([
-  "application/pdf",
-  "application/msword",
-  "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-]);
-
-const upload = multer({
-  storage: multer.memoryStorage(),
-  limits: { fileSize: 5 * 1024 * 1024 },
-  fileFilter: (_req, file, cb) => {
-    const name = file.originalname || "";
-    if (ALLOWED_TYPES.has(file.mimetype) || /\.(pdf|doc|docx)$/i.test(name)) {
-      return cb(null, true);
-    }
-    cb(new Error("Resume must be a PDF or Word document."));
-  },
-});
-
 function isValidId(id) {
   return mongoose.Types.ObjectId.isValid(id);
 }
 
-function handleUpload(req, res, next) {
-  upload.single("resume")(req, res, (err) => {
-    if (err) {
-      return res.status(400).json({
-        success: false,
-        errors: [err.message || "Unable to upload resume."],
-      });
-    }
-    next();
-  });
-}
-
-async function uploadResume(file) {
-  if (!file) return { url: "", name: "" };
-
+router.post("/", formLimiter, validateCareer, async (req, res) => {
   try {
-    const fileName = file.originalname || `resume-${Date.now()}.pdf`;
-    const result = await getImageKit().files.upload({
-      file: await toFile(file.buffer, fileName),
-      fileName,
-      folder: "/inveris/careers",
-      useUniqueFileName: true,
-    });
-    return { url: result.url || "", name: fileName };
-  } catch (error) {
-    console.error("[Career resume upload]", error);
-    return { url: "", name: file.originalname || "resume" };
-  }
-}
-
-router.post("/", formLimiter, handleUpload, validateCareer, async (req, res) => {
-  try {
-    const {
-      name,
-      email,
-      phone,
-      location,
-      interest,
-      experience,
-      organization,
-      designation,
-      linkedin,
-      about,
-    } = req.body;
-
-    const resume = await uploadResume(req.file);
+    const { name, email, phone, location, interest, experience, about } = req.body;
 
     const application = await createApplication({
       name: name.trim(),
@@ -94,16 +30,11 @@ router.post("/", formLimiter, handleUpload, validateCareer, async (req, res) => 
       location: location.trim(),
       interest: interest.trim(),
       experience: experience.trim(),
-      organization: typeof organization === "string" ? organization.trim() : "",
-      designation: typeof designation === "string" ? designation.trim() : "",
-      linkedin: typeof linkedin === "string" ? linkedin.trim() : "",
       about: typeof about === "string" ? about.trim() : "",
-      resumeUrl: resume.url,
-      resumeName: resume.name,
     });
 
     try {
-      const emailSent = await sendCareerNotification(application, req.file);
+      const emailSent = await sendCareerNotification(application);
       if (emailSent) {
         await setEmailSent(application.id, true);
       }

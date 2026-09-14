@@ -5,9 +5,6 @@ const LIMITS = {
   location: 120,
   interest: 80,
   experience: 40,
-  organization: 160,
-  designation: 120,
-  linkedin: 300,
   about: 5000,
 };
 
@@ -20,18 +17,7 @@ function trim(value) {
 }
 
 function validateCareer(req, res, next) {
-  const {
-    name,
-    email,
-    phone,
-    location,
-    interest,
-    experience,
-    organization,
-    designation,
-    linkedin,
-    about,
-  } = req.body;
+  const { name, email, phone, location, interest, experience, about } = req.body;
 
   const errors = [];
 
@@ -73,22 +59,7 @@ function validateCareer(req, res, next) {
     errors.push("Experience option is too long.");
   }
 
-  if (tooLong(organization, LIMITS.organization)) errors.push("Organization name is too long.");
-  if (tooLong(designation, LIMITS.designation)) errors.push("Designation is too long.");
   if (tooLong(about, LIMITS.about)) errors.push("About section is too long.");
-
-  const linkedinValue = trim(linkedin);
-  if (linkedinValue) {
-    if (tooLong(linkedinValue, LIMITS.linkedin)) {
-      errors.push("LinkedIn URL is too long.");
-    } else if (!/^https?:\/\/.+/i.test(linkedinValue)) {
-      errors.push("LinkedIn profile must be a valid URL.");
-    }
-  }
-
-  if (!req.file) {
-    errors.push("Please upload your latest resume.");
-  }
 
   if (errors.length > 0) {
     return res.status(400).json({ success: false, errors });

@@ -9,22 +9,40 @@ function withoutOpportunity(content) {
   return rest;
 }
 
+function normalizeFaq(faq) {
+  if (!faq || typeof faq !== "object") return faq;
+  return {
+    tag: faq.tag,
+    title: faq.title,
+    items: Array.isArray(faq.items) ? faq.items : [],
+  };
+}
+
+function normalizeCareersContent(content) {
+  const cleaned = withoutOpportunity(content);
+  if (!cleaned || typeof cleaned !== "object") return cleaned;
+  return {
+    ...cleaned,
+    faq: normalizeFaq(cleaned.faq),
+  };
+}
+
 async function readCareersPage() {
   const doc = await SiteContent.findOneAndUpdate(
     { key: KEY },
     { $setOnInsert: { content: defaultCareers } },
     { new: true, upsert: true }
   ).lean();
-  return withoutOpportunity(doc.content);
+  return normalizeCareersContent(doc.content);
 }
 
 async function writeCareersPage(content) {
   const doc = await SiteContent.findOneAndUpdate(
     { key: KEY },
-    { content: withoutOpportunity(content) },
+    { content: normalizeCareersContent(content) },
     { new: true, upsert: true }
   ).lean();
-  return withoutOpportunity(doc.content);
+  return normalizeCareersContent(doc.content);
 }
 
 async function resetCareersPage() {
