@@ -166,7 +166,6 @@ function isCareersContent(body) {
     typeof body.intro.statement === "string" &&
     body.expect &&
     Array.isArray(body.expect.items) &&
-    body.opportunity &&
     body.network &&
     Array.isArray(body.network.interestOptions) &&
     Array.isArray(body.network.experienceOptions) &&

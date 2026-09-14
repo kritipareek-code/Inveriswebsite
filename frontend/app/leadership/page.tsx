@@ -3,6 +3,8 @@ import { LeadershipHeroSection } from "@/components/leadership/LeadershipHeroSec
 import { LeadershipPhilosophySection } from "@/components/leadership/LeadershipPhilosophySection";
 import { LeadershipTeamSection } from "@/components/leadership/LeadershipTeamSection";
 import { PageCtaBanner } from "@/components/shared/PageCtaBanner";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { getPersonJsonLd } from "@/lib/json-ld";
 import { fetchLeadershipContent } from "@/lib/leadership-content";
 import { getPageMetadata } from "@/lib/seo";
 
@@ -15,6 +17,7 @@ export default async function LeadershipPage() {
 
   return (
     <>
+      <JsonLd data={getPersonJsonLd(leadership.team.members)} />
       <LeadershipHeroSection content={leadership.hero} />
       <LeadershipPhilosophySection content={leadership.philosophy} />
       <LeadershipTeamSection content={leadership.team} />

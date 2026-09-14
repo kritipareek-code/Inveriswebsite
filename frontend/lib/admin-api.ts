@@ -1,6 +1,9 @@
 import type { AboutPageContent } from "@/lib/about-content";
 import type { ApproachPageContent } from "@/lib/approach-content";
-import type { CareersPageContent } from "@/lib/careers-content";
+import {
+  normalizeCareersContent,
+  type CareersPageContent,
+} from "@/lib/careers-content";
 import {
   normalizeContactContent,
   type ContactPageContent,
@@ -121,7 +124,7 @@ export async function saveCareersContent(content: CareersPageContent) {
     method: "PUT",
     body: JSON.stringify(content),
   });
-  return data.content as CareersPageContent;
+  return normalizeCareersContent(data.content);
 }
 
 export async function saveFooterContent(content: FooterContent) {

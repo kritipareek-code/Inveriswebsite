@@ -34,14 +34,6 @@ export type CareersExpectContent = {
   items: CareersExpectItem[];
 };
 
-export type CareersOpportunityContent = {
-  title: string;
-  description: string;
-  emailLabel: string;
-  email: string;
-  cta: CareersCtaLink;
-};
-
 export type CareersNetworkContent = {
   tag: string;
   title: string;
@@ -74,7 +66,6 @@ export type CareersPageContent = {
   hero: CareersHeroContent;
   intro: CareersIntroContent;
   expect: CareersExpectContent;
-  opportunity: CareersOpportunityContent;
   network: CareersNetworkContent;
   next: CareersNextContent;
   faq: ContactFaqContent;
@@ -92,10 +83,6 @@ export function getFallbackCareersContent(): CareersPageContent {
         ...item,
         id: `expect-${index + 1}`,
       })),
-    },
-    opportunity: {
-      ...careersPageContent.opportunity,
-      cta: { ...careersPageContent.opportunity.cta },
     },
     network: {
       ...careersPageContent.network,
@@ -142,22 +129,21 @@ function withIds<T extends { id?: string }>(
   }));
 }
 
-function normalizeCareersContent(content: CareersPageContent): CareersPageContent {
+export function normalizeCareersContent(content: CareersPageContent): CareersPageContent {
   const fallback = getFallbackCareersContent();
+  const { opportunity: _removed, ...rest } = content as CareersPageContent & {
+    opportunity?: unknown;
+  };
+
   return {
     ...fallback,
-    ...content,
+    ...rest,
     hero: { ...fallback.hero, ...content.hero, cta: { ...fallback.hero.cta, ...content.hero?.cta } },
     intro: { ...fallback.intro, ...content.intro },
     expect: {
       ...fallback.expect,
       ...content.expect,
       items: withIds(content.expect?.items ?? fallback.expect.items, "expect"),
-    },
-    opportunity: {
-      ...fallback.opportunity,
-      ...content.opportunity,
-      cta: { ...fallback.opportunity.cta, ...content.opportunity?.cta },
     },
     network: {
       ...fallback.network,

@@ -288,63 +288,6 @@ export function CareersEditor({
         />
       </AdminSection>
 
-      <AdminSection title="Opportunity banner">
-        <TextField
-          label="Title"
-          value={content.opportunity.title}
-          onChange={(v) =>
-            setContent((prev) => ({
-              ...prev,
-              opportunity: { ...prev.opportunity, title: v },
-            }))
-          }
-        />
-        <TextField
-          label="Description"
-          multiline
-          value={content.opportunity.description}
-          onChange={(v) =>
-            setContent((prev) => ({
-              ...prev,
-              opportunity: { ...prev.opportunity, description: v },
-            }))
-          }
-        />
-        <TextField
-          label="Email label"
-          value={content.opportunity.emailLabel}
-          onChange={(v) =>
-            setContent((prev) => ({
-              ...prev,
-              opportunity: { ...prev.opportunity, emailLabel: v },
-            }))
-          }
-        />
-        <TextField
-          label="Email"
-          value={content.opportunity.email}
-          onChange={(v) =>
-            setContent((prev) => ({
-              ...prev,
-              opportunity: { ...prev.opportunity, email: v },
-            }))
-          }
-        />
-        <TextField
-          label="Button"
-          value={content.opportunity.cta.label}
-          onChange={(v) =>
-            setContent((prev) => ({
-              ...prev,
-              opportunity: {
-                ...prev.opportunity,
-                cta: { ...prev.opportunity.cta, label: v },
-              },
-            }))
-          }
-        />
-      </AdminSection>
-
       <AdminSection title="Talent network">
         <TextField
           label="Tag"

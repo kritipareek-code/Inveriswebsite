@@ -1,14 +1,15 @@
 import { CareersHeroSection } from "@/components/careers/CareersHeroSection";
 import { CareersIntroSection } from "@/components/careers/CareersIntroSection";
 import { CareersExpectSection } from "@/components/careers/CareersExpectSection";
-import { CareersOpportunitySection } from "@/components/careers/CareersOpportunitySection";
 import { CareersNetworkSection } from "@/components/careers/CareersNetworkSection";
 import {
   CareersCtaBanner,
   CareersFaqSection,
   CareersFormProvider,
 } from "@/components/careers/CareersFormProvider";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { fetchCareersContent } from "@/lib/careers-content";
+import { getFaqPageJsonLd } from "@/lib/json-ld";
 import { getPageMetadata } from "@/lib/seo";
 
 export const metadata = getPageMetadata("careers", { canonicalPath: "/careers" });
@@ -19,14 +20,16 @@ export default async function CareersPage() {
   const careers = await fetchCareersContent();
 
   return (
-    <CareersFormProvider network={careers.network}>
-      <CareersHeroSection content={careers.hero} />
-      <CareersIntroSection content={careers.intro} />
-      <CareersExpectSection content={careers.expect} />
-      <CareersOpportunitySection content={careers.opportunity} />
-      <CareersNetworkSection network={careers.network} next={careers.next} />
-      <CareersFaqSection content={careers.faq} />
-      <CareersCtaBanner content={careers.cta} />
-    </CareersFormProvider>
+    <>
+      <JsonLd data={getFaqPageJsonLd(careers.faq.items)} />
+      <CareersFormProvider network={careers.network}>
+        <CareersHeroSection content={careers.hero} />
+        <CareersIntroSection content={careers.intro} />
+        <CareersExpectSection content={careers.expect} />
+        <CareersNetworkSection network={careers.network} next={careers.next} />
+        <CareersFaqSection content={careers.faq} />
+        <CareersCtaBanner content={careers.cta} />
+      </CareersFormProvider>
+    </>
   );
 }

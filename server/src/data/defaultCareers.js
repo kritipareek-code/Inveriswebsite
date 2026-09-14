@@ -47,14 +47,6 @@ const defaultCareers = {
       },
     ],
   },
-  opportunity: {
-    title: "Your Next Opportunity Could Start From Here.",
-    description:
-      "If you're curious, driven, and excited by the idea of building something meaningful, we'd love to hear from you.",
-    emailLabel: "Send us your profile",
-    email: "hr@inverissolutions.com",
-    cta: { label: "Fill out the form", href: "#talent-network" },
-  },
   network: {
     tag: "JOIN OUR TALENT NETWORK",
     title: "Let's Stay Connected.",

@@ -2,6 +2,8 @@ import { PageHero } from "@/components/shared/PageHero";
 import { PageCtaBanner } from "@/components/shared/PageCtaBanner";
 import { ConsultingCallSection } from "@/components/services/ConsultingCallSection";
 import { ServicesOfferSection } from "@/components/services/ServicesOfferSection";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { getServiceJsonLd } from "@/lib/json-ld";
 import { fetchServicesContent } from "@/lib/services-content";
 import { getPageMetadata } from "@/lib/seo";
 
@@ -14,6 +16,7 @@ export default async function ServicesPage() {
 
   return (
     <>
+      <JsonLd data={getServiceJsonLd(services.offer.serviceLines)} />
       <PageHero
         tag={services.hero.tag}
         title={services.hero.title}
