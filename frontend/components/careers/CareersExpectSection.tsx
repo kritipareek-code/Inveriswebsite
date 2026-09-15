@@ -41,7 +41,7 @@ export function CareersExpectSection({
               <motion.button
                 key={item.id}
                 type="button"
-                onClick={openForm}
+                onClick={() => openForm()}
                 initial={{ opacity: 0, x: -40 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true, amount: 0.35 }}

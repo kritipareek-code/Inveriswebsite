@@ -39,10 +39,8 @@ export function FaqSection({
 }) {
   const faq = content;
   const [openIndex, setOpenIndex] = useState(0);
-  const avatars =
-    faq.avatars?.filter(Boolean).length >= 3
-      ? faq.avatars.slice(0, 3)
-      : defaultAvatars;
+  const cmsAvatars = (faq.avatars ?? []).filter(Boolean);
+  const avatars = cmsAvatars.length >= 3 ? cmsAvatars.slice(0, 3) : defaultAvatars;
 
   return (
     <section className="overflow-hidden bg-surface py-20 lg:py-28">

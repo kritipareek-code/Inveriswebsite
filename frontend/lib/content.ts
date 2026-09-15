@@ -1025,7 +1025,13 @@ export const careersPageContent = {
       imageAlt: "Professionals collaborating in a modern workspace",
       cta: { label: "Join Our Talent Network", href: "#current-opportunities" },
     },
-    items: [],
+    items: [] as Array<{
+      id?: string;
+      title: string;
+      location: string;
+      lineOfService: string;
+      applyHref: string;
+    }>,
   },
 };
 
