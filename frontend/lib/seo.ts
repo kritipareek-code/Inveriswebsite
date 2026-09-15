@@ -105,6 +105,22 @@ export const seoConfig = {
 
 export type SeoPageKey = keyof typeof seoConfig.pages;
 
+export const sitelinkPages = [
+  { path: "/about", name: "About Us", key: "about" },
+  { path: "/services", name: "Services", key: "services" },
+  { path: "/industries", name: "Industries", key: "industries" },
+  { path: "/approach", name: "Our Approach", key: "approach" },
+  { path: "/leadership", name: "Leadership", key: "leadership" },
+  { path: "/careers", name: "Careers", key: "careers" },
+  { path: "/contact", name: "Contact Us", key: "contact" },
+] as const;
+
+export const publicRoutes = [
+  "/",
+  ...sitelinkPages.map((page) => page.path),
+  "/careers/opportunities",
+] as const;
+
 export const businessHoursLabel =
   "Monday – Friday, 11:00 AM – 7:00 PM IST\nSat–Sun closed.";
 
@@ -216,6 +232,7 @@ export function getOrganizationJsonLd() {
         alternateName: brand.name,
         url: brand.url,
         logo: `${brand.url}/images/Logo.jpeg`,
+        image: `${brand.url}/images/Logo.jpeg`,
         description: seoConfig.home.description,
         foundingDate: String(brand.founded),
         email: contact.email,
@@ -227,10 +244,11 @@ export function getOrganizationJsonLd() {
           addressCountry: "IN",
         },
         areaServed: gbp.serviceAreas,
+        knowsAbout: [...seoConfig.brand.keywords],
         sameAs: [social.linkedin, social.instagram],
       },
       {
-        "@type": "ProfessionalService",
+        "@type": ["ProfessionalService", "LocalBusiness"],
         "@id": `${brand.url}/#localbusiness`,
         name: brand.legalName,
         image: `${brand.url}/images/Logo.jpeg`,
@@ -238,6 +256,7 @@ export function getOrganizationJsonLd() {
         telephone: contact.phone,
         email: contact.email,
         description: gbp.description,
+        hasMap: contact.directionsUrl,
         address: {
           "@type": "PostalAddress",
           addressLocality: "Gurugram",
@@ -256,6 +275,7 @@ export function getOrganizationJsonLd() {
         })),
         priceRange: "$$",
         sameAs: [social.linkedin, social.instagram],
+        parentOrganization: { "@id": `${brand.url}/#organization` },
       },
       {
         "@type": "WebSite",
@@ -265,7 +285,59 @@ export function getOrganizationJsonLd() {
         description: seoConfig.home.description,
         publisher: { "@id": `${brand.url}/#organization` },
         inLanguage: "en-IN",
+        hasPart: sitelinkPages.map((page) => ({
+          "@type": "WebPage",
+          "@id": `${brand.url}${page.path}#webpage`,
+          url: `${brand.url}${page.path}`,
+          name: page.name,
+          description: seoConfig.pages[page.key].description,
+          isPartOf: { "@id": `${brand.url}/#website` },
+        })),
+      },
+      {
+        "@type": "ItemList",
+        "@id": `${brand.url}/#sitelinks`,
+        name: `${brand.name} pages`,
+        itemListOrder: "https://schema.org/ItemListOrderAscending",
+        numberOfItems: sitelinkPages.length,
+        itemListElement: sitelinkPages.map((page, index) => ({
+          "@type": "SiteNavigationElement",
+          position: index + 1,
+          name: page.name,
+          description: seoConfig.pages[page.key].description,
+          url: `${brand.url}${page.path}`,
+        })),
       },
     ],
+  };
+}
+
+export function getBreadcrumbJsonLd(pathname: string) {
+  const { brand } = seoConfig;
+  if (!pathname || pathname === "/") return null;
+
+  const crumbs: { name: string; path: string }[] = [{ name: "Home", path: "/" }];
+
+  const exact = sitelinkPages.find((page) => page.path === pathname);
+  if (exact) {
+    crumbs.push({ name: exact.name, path: exact.path });
+  } else if (pathname.startsWith("/careers/")) {
+    crumbs.push({ name: "Careers", path: "/careers" });
+    if (pathname === "/careers/opportunities") {
+      crumbs.push({ name: "Current Opportunities", path: "/careers/opportunities" });
+    }
+  } else {
+    return null;
+  }
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: crumbs.map((crumb, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: crumb.name,
+      item: crumb.path === "/" ? brand.url : `${brand.url}${crumb.path}`,
+    })),
   };
 }

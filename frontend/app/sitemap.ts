@@ -1,16 +1,5 @@
 import type { MetadataRoute } from "next";
-import { seoConfig } from "@/lib/seo";
-
-const publicRoutes = [
-  "/",
-  "/about",
-  "/services",
-  "/industries",
-  "/approach",
-  "/leadership",
-  "/careers",
-  "/contact",
-] as const;
+import { publicRoutes, seoConfig } from "@/lib/seo";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const { url } = seoConfig.brand;
@@ -20,6 +9,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     url: path === "/" ? url : `${url}${path}`,
     lastModified,
     changeFrequency: path === "/" ? "weekly" : "monthly",
-    priority: path === "/" ? 1 : 0.8,
+    priority: path === "/" ? 1 : path === "/contact" || path === "/about" ? 0.9 : 0.8,
   }));
 }
