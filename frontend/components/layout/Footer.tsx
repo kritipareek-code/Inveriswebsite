@@ -2,7 +2,6 @@ import Link from "next/link";
 import { ArrowRight, Mail, MapPin, Phone } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
-import PixelDrift from "@/components/originkit/ui/pixeldrift";
 import { NewsletterForm } from "@/components/layout/NewsletterForm";
 import { GridPattern } from "@/components/magic/grid-pattern";
 import { Reveal } from "@/components/magic/reveal";
@@ -71,27 +70,11 @@ export function Footer({
             <Link
               href="/"
               aria-label="Inveris Solutions LLP"
-              className="relative block h-24 w-full max-w-sm"
+              className="inline-block"
             >
-              <span className="sr-only">Inveris</span>
-              <PixelDrift
-                text="Inveris"
-                colors={["#FFFFFF", "#FFFFFF"]}
-                mode="onEnter"
-                replay={false}
-                position="above"
-                particleSize={12}
-                particleCount={50}
-                mouseEnabled
-                mouseRadius={15}
-                mouseForce={30}
-                fontSize={120}
-                autoFit
-                fontFamily="var(--font-playfair)"
-                fontWeight={700}
-                transition={{ type: "tween", duration: 0.9, ease: "easeOut" }}
-                style={{ minWidth: 0, minHeight: 0 }}
-              />
+              <span className="font-display text-5xl sm:text-6xl font-bold leading-none text-heading-inverse">
+                Inveris
+              </span>
             </Link>
             {content.description ? (
               <Reveal as="p" direction="down" delay={0.08} className="text-sm leading-relaxed max-w-xs text-paragraph-inverse">

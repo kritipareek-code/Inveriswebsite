@@ -4,7 +4,7 @@
 **Website:** https://www.inverissolutions.com  
 **Admin:** https://www.inverissolutions.com/admin  
 
-This document lists the live brand system used on the website (fonts and colors) and the CMS login details.
+This document lists the live brand system used on the website (fonts and colors), the CMS login details, and how to manage the job portal.
 
 ---
 
@@ -97,6 +97,7 @@ The website includes a content admin for editing pages and viewing form submissi
 ### What you can manage after login
 
 - Home, About, Services, Industries, Approach, Leadership, Careers, Contact, Footer
+- **Jobs** (open roles on the public job portal)
 - Form responses (contact / service enquiries and career applications)
 - Newsletter subscriber list
 
@@ -106,7 +107,53 @@ Please change this password after handover. The login is environment-based (`ADM
 
 ---
 
-## 4. Quick reference
+## 4. Job portal
+
+Open roles are listed on a dedicated public page. Candidates apply from that listing; applications are emailed to the notification inbox and stored under **Form responses**.
+
+| Item | URL |
+| --- | --- |
+| Public job portal | `https://www.inverissolutions.com/careers/opportunities` |
+| Admin — manage jobs | `https://www.inverissolutions.com/admin/jobs` |
+
+The **Careers** page in the CMS is for the careers landing content (hero, culture, FAQs). Job listings are managed separately under **Jobs**.
+
+### How to add a job
+
+1. Sign in at `https://www.inverissolutions.com/admin`.
+2. Open **Jobs** in the left navigation (or go to `/admin/jobs`).
+3. Click **Add job**.
+4. Fill in:
+   - **Job title** (required)
+   - **Location** (required)
+   - **Line of service** (required)
+5. Click **Save jobs** (top of the page or the bar at the bottom).
+
+The role goes live on `/careers/opportunities`. Candidates can click the title or **Apply** to submit an application.
+
+You can also edit the opportunities page hero, the listing heading, and the empty-state message on the same Jobs screen. Those changes only go live after **Save jobs**.
+
+### How to remove a job when the opening is closed
+
+There is no “closed” status. To take a role off the site, delete it from the Jobs list and save:
+
+1. Sign in and open **Jobs**.
+2. Find the closed role in **Job listings**.
+3. Click the delete control on that job card.
+4. Click **Save jobs**.
+
+Until you save, the listing is only removed in the editor — it still appears on the public page. After a successful save, the role is gone from `/careers/opportunities` and candidates can no longer apply for it.
+
+If every opening is closed and you delete all jobs, the public page shows the empty-state message (default: “No job openings for now.”). You can change that copy on the Jobs screen before saving.
+
+### Applications
+
+- New applications appear under **Form responses** in the admin.
+- A notification email is also sent to the configured inbox, including the job title, location, and line of service.
+
+---
+
+## 5. Quick reference
 
 | Item | Value |
 | --- | --- |
@@ -117,3 +164,5 @@ Please change this password after handover. The login is environment-based (`ADM
 | Background | Cream `#FBFAF7` |
 | Body text | `#5B6576` |
 | Admin | `/admin` · `admin@inveris.com` · `admin123` |
+| Job portal | `/careers/opportunities` |
+| Manage jobs | `/admin/jobs` |

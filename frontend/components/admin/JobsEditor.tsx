@@ -31,25 +31,25 @@ export function JobsEditor({
   const [content, setContent] = useState(() => ({
     ...initialContent,
     opportunities: {
-      title: initialContent.opportunities?.title || "Current opportunities",
+      title: initialContent.opportunities?.title || "Open positions",
       emptyMessage:
-        initialContent.opportunities?.emptyMessage || "No job openings for now.",
+        initialContent.opportunities?.emptyMessage ||
+        "There are no open positions right now. Check back soon.",
       hero: {
-        tag: initialContent.opportunities?.hero?.tag || initialContent.hero.tag,
+        tag: initialContent.opportunities?.hero?.tag || "OPEN POSITIONS",
         titleWhite:
-          initialContent.opportunities?.hero?.titleWhite || initialContent.hero.titleWhite,
+          initialContent.opportunities?.hero?.titleWhite || "Explore Current Openings.",
         titleAccent:
-          initialContent.opportunities?.hero?.titleAccent || initialContent.hero.titleAccent,
+          initialContent.opportunities?.hero?.titleAccent || "Find the Role That Fits.",
         description:
-          initialContent.opportunities?.hero?.description || initialContent.hero.description,
+          initialContent.opportunities?.hero?.description ||
+          "Browse live job openings at Inveris and apply for roles that match your skills across consulting, recruitment, finance, compliance, and operations.",
         image: initialContent.opportunities?.hero?.image || initialContent.hero.image,
         imageAlt:
           initialContent.opportunities?.hero?.imageAlt || initialContent.hero.imageAlt,
         cta: {
-          label:
-            initialContent.opportunities?.hero?.cta?.label || initialContent.hero.cta.label,
-          href:
-            initialContent.opportunities?.hero?.cta?.href || "#current-opportunities",
+          label: "",
+          href: "#current-opportunities",
         },
       },
       items: initialContent.opportunities?.items ?? [],
@@ -167,19 +167,12 @@ export function JobsEditor({
           value={hero.imageAlt}
           onChange={(v) => updateHero({ imageAlt: v })}
         />
-        <TextField
-          label="Button"
-          value={hero.cta.label}
-          onChange={(v) =>
-            updateHero({ cta: { ...hero.cta, label: v } })
-          }
-        />
       </AdminSection>
 
       <AdminSection title="Job listings" defaultOpen>
       <TextField
         label="Section heading"
-        value={content.opportunities?.title ?? "Current opportunities"}
+        value={content.opportunities?.title ?? "Open positions"}
         onChange={(v) =>
           setContent((prev) => ({
             ...prev,
@@ -189,7 +182,10 @@ export function JobsEditor({
       />
       <TextField
         label="Empty state message"
-        value={content.opportunities?.emptyMessage ?? "No job openings for now."}
+        value={
+          content.opportunities?.emptyMessage ??
+          "There are no open positions right now. Check back soon."
+        }
         onChange={(v) =>
           setContent((prev) => ({
             ...prev,
@@ -255,7 +251,7 @@ export function JobsEditor({
             ...prev,
             opportunities: {
               ...prev.opportunities,
-              title: prev.opportunities?.title || "Current opportunities",
+              title: prev.opportunities?.title || "Open positions",
               items: [...(prev.opportunities?.items ?? []), emptyJob()],
             },
           }))

@@ -324,7 +324,7 @@ export function getBreadcrumbJsonLd(pathname: string) {
   } else if (pathname.startsWith("/careers/")) {
     crumbs.push({ name: "Careers", path: "/careers" });
     if (pathname === "/careers/opportunities") {
-      crumbs.push({ name: "Current Opportunities", path: "/careers/opportunities" });
+      crumbs.push({ name: "Open Positions", path: "/careers/opportunities" });
     }
   } else {
     return null;

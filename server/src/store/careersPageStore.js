@@ -30,23 +30,48 @@ function normalizeHero(hero, fallback) {
     image: typeof source.image === "string" ? source.image : fallback.image,
     imageAlt: typeof source.imageAlt === "string" ? source.imageAlt : fallback.imageAlt,
     cta: {
-      label: typeof cta.label === "string" && cta.label ? cta.label : fallback.cta.label,
+      label: typeof cta.label === "string" ? cta.label : fallback.cta.label,
       href: typeof cta.href === "string" && cta.href ? cta.href : fallback.cta.href,
     },
   };
 }
 
+function isLegacyOpportunitiesHero(hero) {
+  return (
+    hero?.titleWhite === "Talent That Thinks." &&
+    hero?.titleAccent === "People Who Execute."
+  );
+}
+
 function normalizeOpportunities(opportunities) {
   if (!opportunities || typeof opportunities !== "object") return opportunities;
-  const fallbackHero =
-    defaultCareers.opportunities?.hero || defaultCareers.hero;
+  const defaults = defaultCareers.opportunities;
+  const fallbackHero = defaults?.hero || defaultCareers.hero;
+  const hero = normalizeHero(opportunities.hero, fallbackHero);
+  const title =
+    !opportunities.title || opportunities.title === "Current opportunities"
+      ? defaults.title
+      : opportunities.title;
+  const emptyMessage =
+    typeof opportunities.emptyMessage === "string" &&
+    opportunities.emptyMessage.trim() &&
+    opportunities.emptyMessage !== "No job openings for now."
+      ? opportunities.emptyMessage
+      : defaults.emptyMessage;
+
   return {
-    title: opportunities.title || "Current opportunities",
-    emptyMessage:
-      typeof opportunities.emptyMessage === "string" && opportunities.emptyMessage.trim()
-        ? opportunities.emptyMessage
-        : "No job openings for now.",
-    hero: normalizeHero(opportunities.hero, fallbackHero),
+    title,
+    emptyMessage,
+    hero: isLegacyOpportunitiesHero(hero)
+      ? {
+          ...hero,
+          tag: fallbackHero.tag,
+          titleWhite: fallbackHero.titleWhite,
+          titleAccent: fallbackHero.titleAccent,
+          description: fallbackHero.description,
+          cta: { ...fallbackHero.cta },
+        }
+      : hero,
     items: Array.isArray(opportunities.items)
       ? opportunities.items.map((item, index) => ({
           id: item?.id || `opportunity-${index + 1}`,
@@ -69,13 +94,32 @@ function normalizeCareersContent(content) {
   };
 }
 
+function opportunitiesNeedPersist(stored, normalized) {
+  const storedOpp = stored?.opportunities;
+  const nextOpp = normalized?.opportunities;
+  if (!storedOpp || !nextOpp) return false;
+  return (
+    storedOpp.title !== nextOpp.title ||
+    storedOpp.emptyMessage !== nextOpp.emptyMessage ||
+    storedOpp.hero?.tag !== nextOpp.hero?.tag ||
+    storedOpp.hero?.titleWhite !== nextOpp.hero?.titleWhite ||
+    storedOpp.hero?.titleAccent !== nextOpp.hero?.titleAccent ||
+    storedOpp.hero?.description !== nextOpp.hero?.description ||
+    storedOpp.hero?.cta?.label !== nextOpp.hero?.cta?.label
+  );
+}
+
 async function readCareersPage() {
   const doc = await SiteContent.findOneAndUpdate(
     { key: KEY },
     { $setOnInsert: { content: defaultCareers } },
     { new: true, upsert: true }
   ).lean();
-  return normalizeCareersContent(doc.content);
+  const normalized = normalizeCareersContent(doc.content);
+  if (opportunitiesNeedPersist(doc.content, normalized)) {
+    return writeCareersPage(normalized);
+  }
+  return normalized;
 }
 
 async function writeCareersPage(content) {

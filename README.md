@@ -53,7 +53,7 @@ Port 5000 is often used by AirPlay Receiver on macOS. The API defaults to **5001
 | `IMAGEKIT_PRIVATE_KEY`  | —                         | ImageKit private API key |
 | `CONTACT_NOTIFY_EMAIL`  | `vanshagarwal0144@gmail.com` | Inbox for contact form emails |
 | `RESEND_API_KEY`        | —                         | Resend API key (`re_...`) |
-| `RESEND_FROM_EMAIL`     | `Inveris Solutions <noreply@inverissolutions.com>` | From address (must be on a Resend-verified domain) |
+| `RESEND_FROM_EMAIL`     | `Inveris Solutions <noreply@inverissolutions.com>` | From address (must be on a Resend-verified domain, same account as the API key) |
 
 **frontend/.env.local**
 
@@ -226,7 +226,7 @@ git push
 | `IMAGEKIT_PRIVATE_KEY`  | —                         | ImageKit private API key |
 | `CONTACT_NOTIFY_EMAIL`  | `vanshagarwal0144@gmail.com` | Inbox for contact form emails |
 | `RESEND_API_KEY`        | —                         | Resend API key (`re_...`) |
-| `RESEND_FROM_EMAIL`     | `Inveris Solutions <noreply@inverissolutions.com>` | From address (must be on a Resend-verified domain) |
+| `RESEND_FROM_EMAIL`     | `Inveris Solutions <noreply@inverissolutions.com>` | From address (must be on a Resend-verified domain, same account as the API key) |
 
 **frontend/.env.local**
 

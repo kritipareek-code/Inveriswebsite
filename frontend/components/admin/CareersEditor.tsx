@@ -571,7 +571,7 @@ export function CareersEditor({
         />
       </AdminSection>
 
-      <AdminSection title="Current opportunities">
+      <AdminSection title="Open positions">
         <p className="text-sm text-text-body">
           Open roles are managed separately so you can add a job title, location, and
           line of service without editing the rest of the careers page.{" "}

@@ -6,7 +6,7 @@ import { getPageMetadata } from "@/lib/seo";
 
 export const metadata = {
   ...getPageMetadata("careers", { canonicalPath: "/careers/opportunities" }),
-  title: "Current Opportunities — Inveris Solutions",
+  title: "Open Positions — Inveris Solutions",
 };
 
 export const dynamic = "force-dynamic";
@@ -16,7 +16,7 @@ export default async function CareersOpportunitiesPage() {
 
   return (
     <CareersFormProvider network={careers.network}>
-      <CareersHeroSection content={careers.opportunities.hero} />
+      <CareersHeroSection content={careers.opportunities.hero} showCta={false} />
       <CareersOpportunitiesSection content={careers.opportunities} />
     </CareersFormProvider>
   );

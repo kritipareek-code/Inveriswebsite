@@ -30,7 +30,7 @@ export function CareersOpportunitiesSection({
                   <th className="py-3 pr-6 text-sm font-bold text-heading">Job title</th>
                   <th className="py-3 pr-6 text-sm font-bold text-heading">Location</th>
                   <th className="py-3 pr-6 text-sm font-bold text-heading">
-                    Line of service
+                    Function
                   </th>
                   <th className="py-3 text-sm font-bold text-heading">
                     <span className="sr-only">Apply</span>

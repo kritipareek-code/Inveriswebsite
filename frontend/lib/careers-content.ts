@@ -176,6 +176,33 @@ function withIds<T extends { id?: string }>(
   }));
 }
 
+function migrateOpportunitiesHero(
+  hero: CareersHeroContent | undefined,
+  fallback: CareersHeroContent
+): CareersHeroContent {
+  const merged = {
+    ...fallback,
+    ...hero,
+    cta: { ...fallback.cta, ...hero?.cta },
+  };
+
+  if (
+    merged.titleWhite === "Talent That Thinks." &&
+    merged.titleAccent === "People Who Execute."
+  ) {
+    return {
+      ...merged,
+      tag: fallback.tag,
+      titleWhite: fallback.titleWhite,
+      titleAccent: fallback.titleAccent,
+      description: fallback.description,
+      cta: { ...fallback.cta },
+    };
+  }
+
+  return merged;
+}
+
 export function normalizeCareersContent(content: CareersPageContent): CareersPageContent {
   const fallback = getFallbackCareersContent();
   const { opportunity: _removed, ...rest } = content as CareersPageContent & {
@@ -214,16 +241,17 @@ export function normalizeCareersContent(content: CareersPageContent): CareersPag
     opportunities: {
       ...fallback.opportunities,
       ...content.opportunities,
+      title:
+        !content.opportunities?.title ||
+        content.opportunities.title === "Current opportunities"
+          ? fallback.opportunities.title
+          : content.opportunities.title,
       emptyMessage:
-        content.opportunities?.emptyMessage ?? fallback.opportunities.emptyMessage,
-      hero: {
-        ...fallback.opportunities.hero,
-        ...content.opportunities?.hero,
-        cta: {
-          ...fallback.opportunities.hero.cta,
-          ...content.opportunities?.hero?.cta,
-        },
-      },
+        content.opportunities?.emptyMessage &&
+        content.opportunities.emptyMessage !== "No job openings for now."
+          ? content.opportunities.emptyMessage
+          : fallback.opportunities.emptyMessage,
+      hero: migrateOpportunitiesHero(content.opportunities?.hero, fallback.opportunities.hero),
       items: withIds(
         content.opportunities?.items ?? fallback.opportunities.items,
         "opportunity"

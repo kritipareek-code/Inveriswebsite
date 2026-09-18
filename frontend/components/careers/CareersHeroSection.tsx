@@ -19,13 +19,17 @@ export function CareersHeroSection({
   content,
   ctaHref,
   ctaTarget,
+  showCta = true,
 }: {
   content: CareersHeroContent;
   ctaHref?: string;
   ctaTarget?: string;
+  showCta?: boolean;
 }) {
   const hero = content;
   const href = ctaHref ?? hero.cta.href;
+  const ctaLabel = hero.cta.label?.trim();
+  const shouldShowCta = showCta && Boolean(ctaLabel);
 
   return (
     <section className="relative overflow-hidden bg-navy">
@@ -74,22 +78,24 @@ export function CareersHeroSection({
               >
                 {hero.description}
               </motion.p>
-              <motion.div
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.75, delay: 0.7, ease }}
-                className="w-fit overflow-hidden"
-              >
-                <Button
-                  variant="gold"
-                  href={href}
-                  target={ctaTarget}
-                  rel={ctaTarget === "_blank" ? "noopener noreferrer" : undefined}
+              {shouldShowCta ? (
+                <motion.div
+                  initial={{ opacity: 0, y: 40 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.75, delay: 0.7, ease }}
+                  className="w-fit overflow-hidden"
                 >
-                  {hero.cta.label}
-                  <ArrowRight size={18} />
-                </Button>
-              </motion.div>
+                  <Button
+                    variant="gold"
+                    href={href}
+                    target={ctaTarget}
+                    rel={ctaTarget === "_blank" ? "noopener noreferrer" : undefined}
+                  >
+                    {ctaLabel}
+                    <ArrowRight size={18} />
+                  </Button>
+                </motion.div>
+              ) : null}
             </div>
           </div>
           <div className="relative h-72 min-h-[300px] lg:hidden">
